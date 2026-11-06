@@ -67,6 +67,44 @@
   .indice { display:flex; flex-wrap:wrap; gap:8px; }
   .indice button { border:1.5px solid var(--borda); background:#fff; border-radius:999px; padding:8px 12px; font:inherit; font-size:13px; font-weight:700; color:var(--verde-esc); cursor:pointer; }
   .btn-ico { border:1.5px solid var(--borda); background:#fff; width:40px; height:40px; border-radius:12px; font:inherit; font-weight:800; color:var(--verde-esc); cursor:pointer; }
+  main { padding-top:24px; }
+  header.topo { padding-top:0; }
+  .logo { width:38px; height:38px; border-radius:11px; background:var(--verde); display:flex; align-items:center; justify-content:center; color:#fff; flex:none; }
+  .circ { position:relative; width:44px; height:44px; border-radius:50%; background:#fff; border:1px solid var(--borda); color:var(--texto); display:flex; align-items:center; justify-content:center; cursor:pointer; font:inherit; font-weight:800; font-size:16px; padding:0; }
+  .circ.ambar { background:var(--ambar); border-color:var(--ambar); }
+  .badge2 { position:absolute; top:-2px; right:-2px; min-width:18px; height:18px; padding:0 4px; border-radius:999px; background:var(--erro); color:#fff; font-size:11px; font-weight:800; display:flex; align-items:center; justify-content:center; }
+  .lnk { border:0; background:none; padding:0; font:inherit; color:var(--verde-esc); font-weight:700; cursor:pointer; text-align:inherit; }
+  .duas { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; }
+  .tres { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:8px; }
+  .stat, .kpi { background:#fff; border:1px solid var(--borda); border-radius:18px; padding:14px 16px; display:flex; flex-direction:column; gap:2px; text-align:left; font:inherit; color:inherit; cursor:pointer; }
+  .kpi { border-radius:16px; padding:12px; cursor:default; } .kpi .k { font-size:16px; white-space:nowrap; font-weight:800; margin-top:2px; letter-spacing:-.01em; }
+  .stat .s1, .kpi .s1 { font-size:12px; font-weight:600; color:var(--suave); }
+  .stat .s2 { font-size:24px; font-weight:800; letter-spacing:-.02em; }
+  .av { width:36px; height:36px; border-radius:50%; flex:none; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:14px; background:var(--verde-cl); color:#0B4F4A; }
+  .mesnav { display:flex; align-items:center; justify-content:space-between; background:#fff; border:1px solid var(--borda); border-radius:16px; padding:6px; }
+  .seta { width:44px; height:44px; border:0; border-radius:12px; background:var(--creme2); color:var(--texto); cursor:pointer; display:flex; align-items:center; justify-content:center; padding:0; }
+  .barra-p { height:10px; border-radius:999px; background:var(--creme2); overflow:hidden; margin-top:6px; } .barra-p > div { height:100%; background:var(--verde); border-radius:999px; }
+  .rowf { display:flex; align-items:center; gap:12px; background:#fff; border:1px solid var(--borda); border-radius:14px; padding:8px 12px; min-height:44px; width:100%; font:inherit; color:inherit; cursor:pointer; }
+  .tile { width:34px; height:34px; border-radius:10px; flex:none; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:15px; background:var(--verde-cl); color:#0B4F4A; }
+  .faixa { display:flex; align-items:center; gap:12px; background:var(--verde-cl); border-radius:16px; padding:10px 14px; }
+  .papel { background:#fff; border:1px solid var(--borda); border-radius:6px; padding:16px 16px 14px; display:flex; flex-direction:column; gap:10px; box-shadow:0 1px 0 var(--borda); }
+  .papel .rot { font-size:11px; font-weight:700; color:var(--suave); text-transform:uppercase; letter-spacing:.04em; }
+  .seg { display:flex; gap:4px; background:var(--creme2); border-radius:14px; padding:4px; }
+  .seg button { flex:1; text-align:center; padding:10px 0; border:0; border-radius:10px; background:none; font:inherit; font-size:14px; font-weight:600; color:var(--suave); cursor:pointer; }
+  .seg button[aria-pressed=true] { background:#fff; color:var(--texto); font-weight:700; }
+  .filtro { padding:7px 14px; border-radius:999px; background:#fff; border:1px solid var(--borda); font:inherit; font-size:13px; font-weight:600; cursor:pointer; color:var(--texto); }
+  .filtro[aria-pressed=true] { background:var(--verde); color:#fff; border-color:var(--verde); font-weight:700; }
+  .art { background:#fff; border:1px solid var(--borda); border-radius:18px; padding:14px; display:flex; flex-direction:column; gap:8px; width:100%; font:inherit; color:inherit; cursor:pointer; text-align:left; }
+  .gar { font-size:12px; color:#0B4F4A; background:var(--verde-cl); border-radius:10px; padding:6px 10px; align-self:flex-start; font-weight:600; }
+  .gr { display:grid; grid-template-columns:34px minmax(0,1fr) 76px 76px; gap:8px; padding:8px 0; }
+  .slot { display:flex; align-items:center; gap:12px; padding:10px; border-radius:14px; background:var(--creme); }
+  .slot.eu { background:var(--verde-cl); } .slot.vazio { border:1.5px dashed #CFC5B1; background:none; }
+  .av2 { width:40px; height:40px; border-radius:50%; flex:none; display:flex; align-items:center; justify-content:center; background:var(--verde); color:#fff; font-weight:800; font-size:16px; }
+  .av2.vazio { background:none; border:1.5px dashed #9AA1AC; color:var(--suave); }
+  .lock { display:flex; align-items:center; gap:10px; padding:12px 14px; border-radius:14px; background:var(--creme2); color:#4B5563; font:inherit; font-size:13px; font-weight:600; border:0; cursor:pointer; text-align:left; width:100%; }
+  select { height:52px; border:1.5px solid #CFC5B1; border-radius:14px; padding:0 12px; font:inherit; font-size:16px; background:#fff; color:var(--texto); width:100%; }
+  .folha { max-height:92vh; overflow:auto; }
+  .btn.ambar:disabled { opacity:.55; }
   @media print {
     nav.barra, .nao-imprimir, .toast, .overlay { display:none !important; }
     body { background:#fff; } #app { max-width:none; } main { padding:0; }
@@ -138,7 +176,7 @@
   /** Executa uma ação do servidor com tratamento de erro; devolve true se correu bem. */
   async function acao(btn, fn, okMsg) {
     busy(btn, true);
-    try { var r = await fn(); if (okMsg) toast(okMsg); return r === undefined ? true : r; }
+    try { var r = await fn(); if (okMsg) { toast(okMsg); limparCache(); } return r === undefined ? true : r; }
     catch (e) {
       if (/Sess[ãa]o expirada/.test(e.message)) { sair(true); }
       toast(e.message, true); return false;
@@ -146,7 +184,7 @@
   }
 
   function sair(silencioso) {
-    store('token', null); state.token = null; state.me = null;
+    store('token', null); state.token = null; state.me = null; limparCache();
     if (!silencioso) toast('Sessão terminada');
     go('entrar');
   }
@@ -158,7 +196,15 @@
     avisos: '<path d="M6 17V11a6 6 0 0 1 12 0v6l1.5 2h-15L6 17z"/><path d="M10 21h4"/>',
     pedidos: '<path d="M16 11a4 4 0 1 0-8 0"/><path d="M4 20c0-3.3 3.6-6 8-6s8 2.7 8 6"/><path d="M19 4v4M17 6h4"/>',
     dispositivos: '<rect x="7" y="3" width="10" height="18" rx="2"/><path d="M11 18h2"/>',
-    pagamentos: '<rect x="3" y="6" width="18" height="12" rx="2"/><circle cx="12" cy="12" r="2.5"/>',
+    pagamentos: '<circle cx="12" cy="12" r="9"/><path d="M15 9c-.6-.8-1.6-1.2-2.8-1.2-1.7 0-3 1-3 2.6 0 3.2 6 1.4 6 4.4 0 1.5-1.3 2.4-3 2.4-1.3 0-2.4-.5-3-1.4M7.5 12h6"/>',
+    obras: '<path d="M14.7 6.3a4 4 0 0 0-5.4 5.2L3.5 17.3a1.8 1.8 0 0 0 2.5 2.5l5.8-5.8a4 4 0 0 0 5.2-5.4l-2.6 2.6-2.4-.6-.6-2.4z"/>',
+    resumo: '<path d="M5 20V10M12 20V4M19 20v-7"/>',
+    escudo: '<path d="M12 3l8 3v6c0 4.5-3.2 7.8-8 9-4.8-1.2-8-4.5-8-9V6l8-3z"/>',
+    recibo: '<path d="M6 3h12v18l-3-2-3 2-3-2-3 2V3z"/><path d="M9 8h6M9 12h6"/>',
+    mail: '<path d="M3 6h18v12H3z"/><path d="M3 7l9 7 9-7"/>',
+    enviar: '<path d="M3 11l18-8-8 18-2-8-8-2z"/>',
+    cadeado: '<rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/>',
+    doc: '<path d="M7 3h7l5 5v13H7z"/><path d="M14 3v5h5"/>',
     sair: '<path d="M10 4H5v16h5M15 8l4 4-4 4M19 12H9"/>'
   };
   function svg(n) { return '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + ICONES[n] + '</svg>'; }
@@ -167,7 +213,7 @@
     var m = state.me; if (!m) return '';
     var tabs = m.isMaster
       ? [['inicio', 'Início', 'inicio'], ['avisos', 'Avisos', 'avisos'], ['sair', 'Sair', 'sair']]
-      : [['inicio', 'Início', 'inicio'], ['fracoes', 'Frações', 'fracoes'], ['pagamentos', 'Pagamentos', 'pagamentos'], ['avisos', 'Avisos', 'avisos'], ['dispositivos', 'Dispositivos', 'dispositivos']];
+      : [['inicio', 'Início', 'inicio'], ['fracoes', 'Frações', 'fracoes'], ['pagamentos', 'Pagamentos', 'pagamentos'], ['obras', 'Obras', 'obras'], ['resumo', 'Resumo', 'resumo']];
     return '<nav class="barra" aria-label="Navegação">' + tabs.map(function (t) {
       var badge = t[0] === 'avisos' && m.avisosNaoLidos ? '<span class="badge">' + m.avisosNaoLidos + '</span>' : '';
       return '<button data-nav="' + t[0] + '" ' + (ativa === t[0] ? 'aria-current="page"' : '') + '>' + svg(t[2]) + t[1] + badge + '</button>';
@@ -181,8 +227,9 @@
   }
   function cabecalho(sub) {
     var m = state.me;
+    if (m && !m.isMaster) return sub || '';   // o design só tem cabeçalho no Início
     return '<header class="topo"><div class="marca">Condomínio<br>Rua da Misericórdia 13/15/17</div>' +
-      '<span style="display:flex;align-items:center;gap:8px"><button class="btn-ico" data-manual aria-label="Manual da app" title="Manual">?</button>' + (m ? '<span class="chip ' + (m.isMaster ? '' : 'verde') + '" style="padding:10px 14px;font-size:15px;' + (m.isMaster ? 'background:#1F2937;color:#fff' : '') + '">' + (m.isMaster ? 'Master' : esc(m.fracao)) + '</span>' : '') + '</span></header>' + (sub || '');
+      '<span style="display:flex;align-items:center;gap:8px"><button class="btn-ico" data-manual aria-label="Manual da app" title="Manual">?</button>' + (m ? '<span class="chip" style="padding:10px 14px;font-size:15px;background:#1F2937;color:#fff">Master</span>' : '') + '</span></header>' + (sub || '');
   }
   function vista(html, ativa) { app.innerHTML = html + barra(ativa); ligarBarra(); }
 
@@ -266,22 +313,60 @@
         '<button class="item" data-go="administracao"><div class="letra">A</div><div class="grande"><strong>Administração</strong><div class="pequeno">Ver e remover administradores (com motivo)</div></div></button>' +
         '<div class="nota"><span>Daqui não se registam pagamentos, recibos, obras, problemas nem convocatórias. Para isso, entra com o email da tua fração.</span></div></main>', 'inicio');
     } else {
-      vista('<main>' + cabecalho() + '<div><h1>Olá</h1><p class="suave" style="margin-top:4px">Fração ' + esc(m.fracao) + (m.fracaoInfo ? ' · ' + esc(m.fracaoInfo.nome) : '') + '</p></div>' +
-        '<div class="nota verde"><span>Todos veem tudo. Cada alteração fica registada com o autor.</span></div>' +
-        '<button class="item" data-go="fracao" data-l="' + esc(m.fracao) + '"><div class="letra sel">' + esc(m.fracao) + '</div><div class="grande"><strong>A minha fração</strong><div class="pequeno">Emails e histórico</div></div></button>' +
-        '<button class="item' + (m.pedidosPendentes ? ' nao-lido' : '') + '" data-go="pedidos"><div class="letra">P</div><div class="grande"><strong>Pedidos de entrada</strong><div class="pequeno">' + (m.pedidosPendentes ? m.pedidosPendentes + ' à espera da tua decisão' : 'Nenhum pedido pendente') + '</div></div></button>' +
-        '<button class="item" data-go="avisos"><div class="letra">!</div><div class="grande"><strong>Avisos</strong><div class="pequeno">' + (m.avisosNaoLidos ? m.avisosNaoLidos + ' por ler' : 'Tudo lido') + '</div></div></button>' +
-        '<button class="item" data-go="pagamentos"><div class="letra">€</div><div class="grande"><strong>Pagamentos e quotas</strong><div class="pequeno">Registar pagamentos com comprovativo e ver quotas</div></div></button>' +
-        '<button class="item" data-go="recibos"><div class="letra">R</div><div class="grande"><strong>Os meus recibos</strong><div class="pequeno">Recibos de quitação da tua fração</div></div></button>' +
-        (m.isAdmin ? '<button class="item" data-go="recibosadmin"><div class="letra">T</div><div class="grande"><strong>Todos os recibos</strong><div class="pequeno">Enviar por email e anular (administrador)</div></div></button>' : '') +
-        '<button class="item" data-go="administracao"><div class="letra">A</div><div class="grande"><strong>Administração</strong><div class="pequeno">' + (m.isAdmin ? 'És administrador' : 'Quem administra e como candidatar-te') + '</div></div></button>' +
-        '<div class="nota"><span>Obras, problemas e convocatórias chegam nas próximas fases.</span></div></main>', 'inicio');
+      carregar('home', 'api_home', [], desenharInicio);
+      if (!cache.home) desenharInicio(null);
+      return;
     }
-    Array.prototype.forEach.call(document.querySelectorAll('[data-go]'), function (b) { b.onclick = function () { go(b.getAttribute('data-go'), b.getAttribute('data-l') ? { letra: b.getAttribute('data-l') } : {}); }; });
+    ligarGo();
   }
 
-  /* ---------- pagamentos, quotas, recibos, administração ---------- */
-  function eur(v) { return Number(v).toFixed(2).replace('.', ',') + ' €'; }
+  /* ---------- cache de ecrãs (mostra logo o que já viu e atualiza por trás) ---------- */
+  var cache = {};
+  function limparCache() { cache = {}; }
+  async function carregar(chave, fn, args, desenhar) {
+    var snap = state.route + JSON.stringify(state.params);
+    var c = cache[chave];
+    if (c) desenhar(c.v);
+    try {
+      var v = await call.apply(null, [fn, state.token].concat(args || []));
+      var igual = c && JSON.stringify(c.v) === JSON.stringify(v);
+      cache[chave] = { v: v };
+      if (!igual && snap === state.route + JSON.stringify(state.params)) desenhar(v);
+    } catch (e) {
+      if (/Sess[ãa]o expirada/.test(e.message)) return sair(true);
+      if (!c) { toast(e.message, true); go('inicio'); }
+    }
+  }
+
+  /* ---------- formatação ---------- */
+  var MESES = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
+  function eur(v) {
+    var n = Number(v || 0).toFixed(2).split('.');
+    return '€ ' + n[0].replace(/\B(?=(\d{3})+(?!\d))/g, '.') + ',' + n[1];
+  }
+  function fmtMes(ym) { var p = String(ym).split('-'); return MESES[Number(p[1]) - 1] + ' ' + p[0]; }
+  function fmtMesCurto(ym) { var p = String(ym).split('-'); return p[1] + '/' + p[0]; }
+  function periodoTxt(per) {
+    var p = String(per).split(' a ');
+    return p.length > 1 ? fmtMes(p[0]) + ' a ' + fmtMes(p[1]) : fmtMes(p[0]);
+  }
+  function haTempo(ms) {
+    var m = Math.floor((Date.now() - ms) / 60000);
+    if (m < 2) return 'agora mesmo';
+    if (m < 60) return 'há ' + m + ' min';
+    var h = Math.floor(m / 60); if (h < 24) return 'há ' + h + ' h';
+    var d = Math.floor(h / 24); if (d < 14) return 'há ' + d + (d === 1 ? ' dia' : ' dias');
+    if (d < 60) return 'há ' + Math.floor(d / 7) + ' semanas';
+    var mm = Math.floor(d / 30.4); if (mm < 12) return 'há ' + mm + ' meses';
+    var a = Math.floor(mm / 12), r = mm % 12;
+    return 'há ' + a + (a === 1 ? ' ano' : ' anos') + (r ? ' e ' + r + (r === 1 ? ' mês' : ' meses') : '');
+  }
+  function pill(txt, bg, fg) { return '<span style="flex:none;font-size:12px;font-weight:700;padding:4px 9px;border-radius:999px;background:' + bg + ';color:' + fg + '">' + esc(txt) + '</span>'; }
+  var ESTADO_PAG = { pago: ['Pago', '#DCF3E3', '#14622F'], porpagar: ['Por pagar', '#FDF0D2', '#6B4200'], atraso: ['Em atraso', '#FBE3E1', '#8F1515'], semquota: ['Sem quota', '#EEE8DA', '#1F2937'] };
+  var PRIO = { 'Alta': ['#FBE3E1', '#8F1515'], 'Média': ['#FDF0D2', '#6B4200'], 'Baixa': ['#EEE8DA', '#1F2937'] };
+  var CHEV = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg>';
+  var MAIS = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>';
+  function voltarBtn(texto) { return '<button class="voltar" id="v">' + CHEV + esc(texto) + '</button>'; }
   function lerFicheiro(file) {
     return new Promise(function (resolve, reject) {
       var r = new FileReader();
@@ -298,72 +383,149 @@
     setTimeout(function () { URL.revokeObjectURL(url); }, 4000);
   }
   function ligarGo() {
-    Array.prototype.forEach.call(document.querySelectorAll('[data-go]'), function (b) { b.onclick = function () { go(b.getAttribute('data-go'), b.getAttribute('data-l') ? { letra: b.getAttribute('data-l') } : {}); }; });
-  }
-  function mesAtual() { var d = new Date(); return d.getFullYear() + '-' + ('0' + (d.getMonth() + 1)).slice(-2); }
-  function hojeISO() { var d = new Date(); return d.getFullYear() + '-' + ('0' + (d.getMonth() + 1)).slice(-2) + '-' + ('0' + d.getDate()).slice(-2); }
-
-  async function ecraPagamentos() {
-    var m = state.me, letra = state.params.letra || '';
-    try {
-      var lista = await call('api_payments', state.token, letra);
-      var letras = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
-      vista('<main>' + cabecalho() + '<div class="linha"><h1>Pagamentos</h1><button class="btn peq" id="novo">Registar</button></div>' +
-        '<div class="grelha">' + ['Todas'].concat(letras).map(function (l) { var v = l === 'Todas' ? '' : l; return '<button type="button" class="escolha" data-f="' + v + '" aria-pressed="' + (v === letra) + '">' + l + '</button>'; }).join('') + '</div>' +
-        '<button class="item" data-go="quotas"><div class="letra">€</div><div class="grande"><strong>Quotas</strong><div class="pequeno">Valor mensal de cada fração</div></div></button>' +
-        (lista.length ? lista.map(function (p) {
-          return '<section class="cartao"><div class="linha"><strong>Fração ' + esc(p.fracao) + ' · ' + eur(p.valor) + '</strong>' + (p.anulado ? '<span class="chip aviso">Anulado</span>' : '') + '</div>' +
-            '<div class="pequeno">' + fmtData(p.data) + ' · ' + esc(p.metodo) + ' · meses ' + esc(p.meses[0]) + (p.meses.length > 1 ? ' a ' + esc(p.meses[p.meses.length - 1]) : '') + '</div>' +
-            (p.notas ? '<div class="pequeno">' + esc(p.notas) + '</div>' : '') +
-            (p.anulado ? '<div class="pequeno">Motivo: ' + esc(p.motivo) + '</div>' : '') +
-            '<div class="linha"><button class="btn ghost peq" data-prova="' + esc(p.id) + '">Comprovativo</button>' +
-            (p.reciboKey ? '<button class="btn ghost peq" data-rec="' + esc(p.reciboKey) + '">Recibo ' + esc(p.reciboLabel) + '</button>' : (m.isAdmin && !p.anulado ? '<button class="btn peq" data-emitir="' + esc(p.id) + '">Emitir recibo</button>' : '')) +
-            (!p.anulado && !p.reciboKey ? '<button class="btn perigo peq" data-anular="' + esc(p.id) + '">Anular</button>' : '') + '</div></section>';
-        }).join('') : '<div class="nota"><span>Ainda não há pagamentos registados.</span></div>') + '</main>', 'pagamentos');
-      ligarGo();
-      Array.prototype.forEach.call(document.querySelectorAll('[data-f]'), function (b) { b.onclick = function () { go('pagamentos', { letra: b.getAttribute('data-f') }); }; });
-      document.getElementById('novo').onclick = async function () {
-        var v = await ask('Registar pagamento', 'O comprovativo é obrigatório (PDF ou foto, até 5 MB).', [
-          { name: 'letra', label: 'Fração', options: letras, value: m.fracao || letra || 'A' },
-          { name: 'data', label: 'Data do pagamento', type: 'date', value: hojeISO() },
-          { name: 'valor', label: 'Valor total (€)', type: 'text', placeholder: 'Ex.: 45,00' },
-          { name: 'mes', label: 'Primeiro mês pago', type: 'month', value: mesAtual() },
-          { name: 'n', label: 'Número de meses', type: 'number', value: '1' },
-          { name: 'metodo', label: 'Forma de pagamento', options: ['Transferência', 'MB Way', 'Numerário', 'Cheque', 'Outro'] },
-          { name: 'notas', label: 'Notas (opcional)' },
-          { name: 'ficheiro', label: 'Comprovativo', type: 'file' }
-        ], 'Registar');
-        if (!v) return;
-        var btn = document.getElementById('novo');
-        var ok = await acao(btn, async function () {
-          if (!v.ficheiro) throw new Error('Anexa o comprovativo (PDF ou foto).');
-          var f = await lerFicheiro(v.ficheiro);
-          return call('api_addPayment', state.token, v.letra, v.data, v.valor, v.mes, Number(v.n), v.metodo, v.notas, f);
-        }, 'Pagamento registado');
-        if (ok) ecraPagamentos();
+    Array.prototype.forEach.call(document.querySelectorAll('[data-go]'), function (b) {
+      b.onclick = function () {
+        var p = {};
+        if (b.getAttribute('data-l')) p.letra = b.getAttribute('data-l');
+        if (b.getAttribute('data-tab')) p.tab = b.getAttribute('data-tab');
+        go(b.getAttribute('data-go'), p);
       };
-      Array.prototype.forEach.call(document.querySelectorAll('[data-prova]'), function (b) { b.onclick = async function () { var f = await acao(b, function () { return call('api_getProof', state.token, b.getAttribute('data-prova')); }); if (f && f.base64) baixar(f); }; });
-      Array.prototype.forEach.call(document.querySelectorAll('[data-rec]'), function (b) { b.onclick = async function () { var f = await acao(b, function () { return call('api_getReceiptPdf', state.token, b.getAttribute('data-rec')); }); if (f && f.base64) baixar(f); }; });
-      Array.prototype.forEach.call(document.querySelectorAll('[data-emitir]'), function (b) { b.onclick = async function () { if (await acao(b, function () { return call('api_issueReceipt', state.token, b.getAttribute('data-emitir')); }, 'Recibo emitido')) ecraPagamentos(); }; });
+    });
+    var v = document.getElementById('v');
+    if (v && state.volta) v.onclick = function () { go(state.volta.r, state.volta.p); };
+  }
+  function mesAtualNum() { var d = new Date(); return { ano: d.getFullYear(), mes: d.getMonth() + 1 }; }
+  function hojeISO() { var d = new Date(); return d.getFullYear() + '-' + ('0' + (d.getMonth() + 1)).slice(-2) + '-' + ('0' + d.getDate()).slice(-2); }
+  function folha(titulo, corpo, ligar) {
+    var o = document.createElement('div'); o.className = 'overlay';
+    o.innerHTML = '<div class="folha" role="dialog" aria-modal="true" aria-label="' + esc(titulo) + '"><h3>' + esc(titulo) + '</h3>' + corpo + '</div>';
+    document.body.appendChild(o);
+    function fechar() { o.remove(); }
+    o.onclick = function (e) { if (e.target === o) fechar(); };
+    ligar(o, fechar);
+    return fechar;
+  }
+  function descarregar(btn, fn, arg) {
+    return acao(btn, function () { return call(fn, state.token, arg); }).then(function (f) { if (f && f.base64) baixar(f); });
+  }
+
+  /* ---------- Início (condómino) ---------- */
+  function saudacao() { var h = new Date().getHours(); return h < 6 ? 'Boa noite' : h < 13 ? 'Bom dia' : h < 20 ? 'Boa tarde' : 'Boa noite'; }
+  function desenharInicio(h) {
+    var m = state.me;
+    var stat = function (rot, valor, cor, sub, go, tab) {
+      return '<button class="stat" data-go="' + go + '"' + (tab ? ' data-tab="' + tab + '"' : '') + '><span class="s1">' + rot + '</span><span class="s2" style="color:' + cor + '">' + valor + '</span><span class="s1">' + sub + '</span></button>';
+    };
+    vista('<main><header class="topo"><div style="display:flex;align-items:center;gap:10px"><div class="logo">' + svg('fracoes') + '</div><div class="marca">Condomínio<br>Rua da Misericórdia 13/15/17</div></div>' +
+      '<div style="display:flex;align-items:center;gap:8px"><button class="circ" data-go="avisos" aria-label="Avisos' + (m.avisosNaoLidos ? ', ' + m.avisosNaoLidos + ' por ler' : '') + '">' + svg('avisos') + (m.avisosNaoLidos ? '<span class="badge2">' + m.avisosNaoLidos + '</span>' : '') + '</button>' +
+      '<button class="circ ambar" id="avatar" aria-label="Fração ' + esc(m.fracao) + ', terminar sessão">' + esc(m.fracao) + '</button></div></header>' +
+      '<div><h1>' + saudacao() + '</h1><p class="suave" style="margin-top:4px">Sessão da fração ' + esc(m.fracao) + (m.fracaoInfo ? ' · ' + esc(m.fracaoInfo.nome) : '') + ' · <button class="lnk" data-go="dispositivos">Dispositivos</button> · <button class="lnk" data-manual>Manual</button></p></div>' +
+      '<div class="nota verde" style="align-items:center"><span>Todos veem tudo. Cada alteração fica registada com o autor.</span></div>' +
+      (h ? '<div class="duas">' +
+        stat('Em débito', eur(h.emDebito), h.emDebito > 0 ? '#B91C1C' : '#15803D', h.nEmDebito + ' de ' + h.nFracoes + ' frações', 'resumo') +
+        stat('Pagas em ' + MESES[h.mes - 1].toLowerCase(), h.pagasMes + ' de ' + h.nFracoes, '#15803D', 'quotas do mês', 'pagamentos') +
+        stat('Problemas abertos', h.problemasAbertos, '#1F2937', h.problemasAltos ? h.problemasAltos + (h.problemasAltos === 1 ? ' de prioridade alta' : ' de prioridade alta') : 'nenhum de prioridade alta', 'obras', 'problemas') +
+        stat('Obras em curso', h.obrasEmCurso, '#1F2937', 'ver obras', 'obras', 'obras') + '</div>' : '<p class="suave">A carregar…</p>') +
+      (m.pedidosPendentes ? '<button class="item nao-lido" data-go="pedidos"><div class="letra">P</div><div class="grande"><strong>Pedidos de entrada</strong><div class="pequeno">' + m.pedidosPendentes + ' à espera da tua decisão</div></div></button>' : '') +
+      '<button class="item" data-go="administracao"><div class="letra" style="background:#FDF0D2;color:#7A4B00">' + svg('escudo') + '</div><div class="grande"><strong>Administração e convocatórias</strong><div class="pequeno">' + (h ? (2 - h.vagasAdmin) + ' de 2 vagas de administrador ocupadas' : '') + '</div></div></button>' +
+      (h ? '<section class="cartao" style="padding:0;gap:0;overflow:hidden"><div class="linha" style="justify-content:space-between;padding:12px 14px 10px"><h2>Atividade recente</h2><button class="lnk" data-go="avisos" style="font-weight:700">Ver registo</button></div>' +
+        (h.atividade.length ? h.atividade.map(function (a) {
+          return '<div class="linha" style="padding:10px 14px;border-top:1px solid #EFE9DD"><div class="av">' + esc(a.letra) + '</div><div style="min-width:0"><div style="font-size:14px;font-weight:600;line-height:1.3">' + esc(a.texto) + '</div><div class="pequeno" style="margin-top:2px">' + haTempo(a.data) + '</div></div></div>';
+        }).join('') : '<div class="pequeno" style="padding:10px 14px;border-top:1px solid #EFE9DD">Ainda não há atividade.</div>') + '</section>' : '') +
+      '</main>', 'inicio');
+    ligarGo();
+    document.getElementById('avatar').onclick = async function () {
+      var v = await ask('Terminar sessão?', 'Neste dispositivo vais ter de pedir um código novo.', [], 'Terminar sessão', true);
+      if (v) acao(null, function () { return call('api_logout', state.token); }).then(function () { sair(); });
+    };
+  }
+
+  /* ---------- Pagamentos (vista mensal) ---------- */
+  async function ecraPagamentos() {
+    var cur = mesAtualNum(), ano = Number(state.params.ano) || cur.ano, mes = Number(state.params.mes) || cur.mes;
+    carregar('pagm' + ano + '-' + mes, 'api_pagamentosMes', [ano, mes], function (d) {
+      var pct = d.esperado ? Math.min(100, Math.round(d.recebido / d.esperado * 100)) : 0;
+      var m2 = mes === 1 ? { ano: ano - 1, mes: 12 } : { ano: ano, mes: mes - 1 };
+      var m3 = mes === 12 ? { ano: ano + 1, mes: 1 } : { ano: ano, mes: mes + 1 };
+      vista('<main><header><h1>Pagamentos</h1><p class="suave" style="margin-top:4px">Quotas mensais. Valores definidos por ano em reunião.</p></header>' +
+        '<div class="mesnav"><button class="seta" id="ant" aria-label="Mês anterior">' + CHEV + '</button><span style="font-size:16px;font-weight:800">' + MESES[mes - 1] + ' ' + ano + '</span><button class="seta" id="seg" aria-label="Mês seguinte" style="transform:scaleX(-1)">' + CHEV + '</button></div>' +
+        '<div><div class="linha" style="justify-content:space-between;font-size:13px;font-weight:700"><span>' + d.nPagas + ' de ' + d.total + ' quotas pagas</span><span class="suave">' + eur(d.recebido) + ' de ' + eur(d.esperado) + '</span></div>' +
+        '<div class="barra-p"><div style="width:' + pct + '%"></div></div></div>' +
+        '<div style="display:flex;flex-direction:column;gap:6px">' + d.linhas.map(function (r) {
+          var e = ESTADO_PAG[r.estado];
+          return '<button class="rowf" data-f="' + esc(r.letra) + '" data-n="' + esc(r.nome) + '"><div class="tile">' + esc(r.letra) + '</div><div style="flex:1;min-width:0;text-align:left"><div style="font-size:14px;font-weight:700">' + esc(r.nome) + '</div><div class="pequeno">' + esc(r.nota) + '</div></div>' +
+            '<div style="font-size:14px;font-weight:700">' + (r.valor == null ? '' : eur(r.valor)) + '</div>' + pill(e[0], e[1], e[2]) + '</button>';
+        }).join('') + '</div>' +
+        '<div class="linha"><button class="btn ambar" id="novo" style="flex:1;display:flex;align-items:center;justify-content:center;gap:6px;white-space:nowrap;padding:0 10px;font-size:15px">' + MAIS + 'Registar pagamento</button><button class="btn ghost" data-go="recibos" style="width:auto;height:52px;font-size:15px;font-weight:800;white-space:nowrap;padding:0 14px">Os meus recibos</button></div>' +
+        '<button class="lnk" data-go="quotas" style="align-self:center;font-weight:700">Quotas de ' + ano + '</button></main>', 'pagamentos');
+      ligarGo();
+      document.getElementById('ant').onclick = function () { go('pagamentos', m2); };
+      document.getElementById('seg').onclick = function () { go('pagamentos', m3); };
+      Array.prototype.forEach.call(document.querySelectorAll('[data-f]'), function (b) { b.onclick = function () { go('pagfracao', { letra: b.getAttribute('data-f'), nome: b.getAttribute('data-n'), ano: ano, mes: mes }); }; });
+      document.getElementById('novo').onclick = function () { registarPagamento(ano, mes); };
+    });
+  }
+
+  async function registarPagamento(ano, mes) {
+    var m = state.me, letras = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
+    var v = await ask('Registar pagamento', 'O comprovativo é obrigatório (PDF ou foto, até 5 MB).', [
+      { name: 'letra', label: 'Fração', options: letras, value: m.fracao || 'A' },
+      { name: 'data', label: 'Data do pagamento', type: 'date', value: hojeISO() },
+      { name: 'valor', label: 'Valor total (€)', placeholder: 'Ex.: 50,00' },
+      { name: 'mes', label: 'Primeiro mês pago', type: 'month', value: ano + '-' + ('0' + mes).slice(-2) },
+      { name: 'n', label: 'Número de meses', type: 'number', value: '1' },
+      { name: 'metodo', label: 'Forma de pagamento', options: ['Transferência', 'MB Way', 'Numerário', 'Cheque', 'Outro'] },
+      { name: 'notas', label: 'Notas (opcional)' },
+      { name: 'ficheiro', label: 'Comprovativo', type: 'file' }
+    ], 'Registar');
+    if (!v) return;
+    var ok = await acao(null, async function () {
+      if (!v.ficheiro) throw new Error('Anexa o comprovativo (PDF ou foto).');
+      var f = await lerFicheiro(v.ficheiro);
+      return call('api_addPayment', state.token, v.letra, v.data, v.valor, v.mes, Number(v.n), v.metodo, v.notas, f);
+    }, 'Pagamento registado');
+    if (ok) ecraPagamentos();
+  }
+
+  /* ---------- Pagamentos de uma fração ---------- */
+  async function ecraPagFracao() {
+    var P = state.params;
+    state.volta = { r: 'pagamentos', p: { ano: P.ano, mes: P.mes } };
+    carregar('pagf' + P.letra, 'api_payments', [P.letra], function (lista) {
+      var m = state.me;
+      vista('<main>' + voltarBtn('Pagamentos') + '<header><h1>Fração ' + esc(P.letra) + '</h1><p class="suave" style="margin-top:4px">' + esc(P.nome || '') + '</p></header>' +
+        (lista.length ? lista.map(function (p) {
+          return '<section class="cartao"><div class="linha" style="justify-content:space-between"><strong style="font-size:16px">' + eur(p.valor) + '</strong>' + (p.anulado ? pill('Anulado', '#FBE3E1', '#8F1515') : '') + '</div>' +
+            '<div class="pequeno">' + fmtData(p.data) + ' · ' + esc(p.metodo) + ' · ' + esc(fmtMes(p.meses[0])) + (p.meses.length > 1 ? ' a ' + esc(fmtMes(p.meses[p.meses.length - 1])) : '') + ' · registado por ' + esc(p.registadoPor) + '</div>' +
+            (p.notas ? '<div class="pequeno">' + esc(p.notas) + '</div>' : '') + (p.anulado ? '<div class="pequeno" style="color:#8F1515">Motivo: ' + esc(p.motivo) + '</div>' : '') +
+            '<div class="linha" style="flex-wrap:wrap"><button class="btn ghost peq" data-prova="' + esc(p.id) + '">Comprovativo</button>' +
+            (p.reciboKey ? '<button class="btn ghost peq" data-rec="' + esc(p.reciboKey) + '">Recibo ' + esc(p.reciboLabel) + '</button>' : (m.isAdmin && !p.anulado ? '<button class="btn ambar peq" data-emitir="' + esc(p.id) + '">Emitir recibo</button>' : '')) +
+            (!p.anulado && !p.reciboKey ? '<button class="btn perigo peq" data-anular="' + esc(p.id) + '">Anular</button>' : '') + '</div></section>';
+        }).join('') : '<div class="nota"><span>Esta fração ainda não tem pagamentos registados.</span></div>') + '</main>', 'pagamentos');
+      ligarGo();
+      Array.prototype.forEach.call(document.querySelectorAll('[data-prova]'), function (b) { b.onclick = function () { descarregar(b, 'api_getProof', b.getAttribute('data-prova')); }; });
+      Array.prototype.forEach.call(document.querySelectorAll('[data-rec]'), function (b) { b.onclick = function () { descarregar(b, 'api_getReceiptPdf', b.getAttribute('data-rec')); }; });
+      Array.prototype.forEach.call(document.querySelectorAll('[data-emitir]'), function (b) { b.onclick = async function () { if (await acao(b, function () { return call('api_issueReceipt', state.token, b.getAttribute('data-emitir')); }, 'Recibo emitido')) ecraPagFracao(); }; });
       Array.prototype.forEach.call(document.querySelectorAll('[data-anular]'), function (b) { b.onclick = async function () {
         var v = await ask('Anular pagamento', 'O pagamento fica na lista como anulado. Todos veem o motivo.', [{ name: 'motivo', label: 'Motivo (obrigatório)' }], 'Anular', true);
-        if (v && await acao(b, function () { return call('api_annulPayment', state.token, b.getAttribute('data-anular'), v.motivo); }, 'Pagamento anulado')) ecraPagamentos();
+        if (v && await acao(b, function () { return call('api_annulPayment', state.token, b.getAttribute('data-anular'), v.motivo); }, 'Pagamento anulado')) ecraPagFracao();
       }; });
-    } catch (e) { toast(e.message, true); go('inicio'); }
+    });
   }
 
+  /* ---------- Quotas ---------- */
   async function ecraQuotas() {
     var ano = Number(state.params.ano) || new Date().getFullYear();
-    try {
-      var q = await call('api_quotas', state.token, ano);
-      vista('<main>' + cabecalho() + '<div class="linha"><button class="btn ghost peq" id="v">‹ Voltar</button><div class="linha"><button class="btn ghost peq" id="ant">‹</button><strong>' + ano + '</strong><button class="btn ghost peq" id="seg">›</button></div></div>' +
-        '<h1>Quotas mensais</h1>' +
+    state.volta = { r: 'pagamentos', p: {} };
+    carregar('quotas' + ano, 'api_quotas', [ano], function (q) {
+      vista('<main>' + voltarBtn('Pagamentos') + '<header class="linha" style="justify-content:space-between"><h1>Quotas</h1><div class="mesnav" style="padding:2px;gap:2px"><button class="seta" id="ant" aria-label="Ano anterior" style="width:36px;height:36px">' + CHEV + '</button><strong style="padding:0 6px">' + ano + '</strong><button class="seta" id="seg" aria-label="Ano seguinte" style="width:36px;height:36px;transform:scaleX(-1)">' + CHEV + '</button></div></header>' +
+        '<p class="suave">Valor mensal de cada fração, definido em reunião.</p>' +
         q.fracoes.map(function (f) {
-          return '<section class="cartao"><div class="linha"><strong>Fração ' + esc(f.letra) + ' · ' + esc(f.nome) + '</strong><span>' + (f.valor == null ? '<span class="pequeno">Por definir</span>' : '<strong>' + eur(f.valor) + '</strong>') + '</span></div>' +
-            (f.ref ? '<div class="pequeno">Aprovada em: ' + esc(f.ref) + '</div>' : '') +
-            '<div class="linha"><button class="btn ghost peq" data-q="' + esc(f.letra) + '" data-v="' + (f.valor == null ? '' : f.valor) + '" data-r="' + esc(f.ref) + '">' + (f.valor == null ? 'Definir' : 'Alterar') + '</button></div></section>';
+          return '<div class="rowf" style="cursor:default"><div class="tile">' + esc(f.letra) + '</div><div style="flex:1;min-width:0"><div style="font-size:14px;font-weight:700">' + esc(f.nome) + '</div><div class="pequeno">' + (f.ref ? 'Aprovada em: ' + esc(f.ref) : (f.tipo === 'loja' ? 'Loja' : 'Habitação')) + '</div></div>' +
+            '<div style="font-size:14px;font-weight:700">' + (f.valor == null ? '<span class="pequeno">Por definir</span>' : eur(f.valor)) + '</div>' +
+            '<button class="btn ghost peq" data-q="' + esc(f.letra) + '" data-v="' + (f.valor == null ? '' : f.valor) + '" data-r="' + esc(f.ref) + '">' + (f.valor == null ? 'Definir' : 'Alterar') + '</button></div>';
         }).join('') + '</main>', 'pagamentos');
-      document.getElementById('v').onclick = function () { go('pagamentos'); };
+      ligarGo();
       document.getElementById('ant').onclick = function () { go('quotas', { ano: ano - 1 }); };
       document.getElementById('seg').onclick = function () { go('quotas', { ano: ano + 1 }); };
       Array.prototype.forEach.call(document.querySelectorAll('[data-q]'), function (b) { b.onclick = async function () {
@@ -373,61 +535,312 @@
         var v = await ask('Quota da fração ' + b.getAttribute('data-q') + ' · ' + ano, 'Todos são avisados da alteração.', campos, 'Guardar');
         if (v && await acao(b, function () { return call('api_setQuota', state.token, ano, b.getAttribute('data-q'), v.valor, v.ref, '', v.motivo || ''); }, 'Quota guardada')) ecraQuotas();
       }; });
-    } catch (e) { toast(e.message, true); go('inicio'); }
+    });
   }
 
+  /* ---------- Recibos ---------- */
+  function cartaoRecibo(r, admin) {
+    return '<div class="rowf" style="flex-wrap:wrap" data-open="' + esc(r.key) + '"><div class="tile" style="background:#EEE8DA;color:#1F2937">' + svg('recibo') + '</div>' +
+      '<div style="flex:1;min-width:0;text-align:left"><div style="font-size:14px;font-weight:700">' + (admin ? esc(r.label) + ' · ' + esc(r.fracao) + ' · ' + esc(r.nome) : esc(periodoTxt(r.periodo))) + '</div><div class="pequeno">' + (admin ? esc(periodoTxt(r.periodo)) + ' · ' : 'N.º ' + esc(r.label) + ' · ') + eur(r.valor) + '</div></div>' +
+      (r.anulado ? pill('Anulado', '#FBE3E1', '#8F1515') : pill('Emitido', '#DCF3E3', '#14622F')) + '</div>';
+  }
   async function ecraRecibos() {
-    var m = state.me, todos = !!state.params.todos;
-    try {
-      var lista = todos ? await call('api_allReceipts', state.token, '', '') : await call('api_myReceipts', state.token);
-      vista('<main>' + cabecalho() + '<div class="linha"><button class="btn ghost peq" id="v">‹ Voltar</button></div><h1>' + (todos ? 'Todos os recibos' : 'Os meus recibos') + '</h1>' +
-        '<div class="nota"><span>Recibos de quitação de quotas. Não são faturas. O código serve para confirmar a autenticidade.</span></div>' +
-        (lista.length ? lista.map(function (r) {
-          return '<section class="cartao"><div class="linha"><strong>Recibo ' + esc(r.label) + ' · fração ' + esc(r.fracao) + '</strong>' + (r.anulado ? '<span class="chip aviso">Anulado</span>' : '') + '</div>' +
-            '<div class="pequeno">' + fmtData(r.data) + ' · ' + eur(r.valor) + ' · ' + esc(r.periodo) + ' · código ' + esc(r.codigo) + '</div>' +
-            (r.anulado ? '<div class="pequeno">Motivo: ' + esc(r.motivo) + '</div>' : '') +
-            (todos && r.bloqueados && r.bloqueados.length ? '<div class="pequeno">Já não ativos na fração (não recebem): ' + esc(r.bloqueados.join(', ')) + '</div>' : '') +
-            '<div class="linha"><button class="btn ghost peq" data-pdf="' + esc(r.key) + '">Descarregar PDF</button>' +
-            (todos && !r.anulado ? '<button class="btn peq" data-env="' + esc(r.key) + '"' + (r.destinos.length ? '' : ' disabled') + '>Enviar por email</button><button class="btn perigo peq" data-an="' + esc(r.key) + '">Anular</button>' : '') + '</div></section>';
-        }).join('') : '<div class="nota"><span>Ainda não há recibos.</span></div>') +
-        '<button class="item" id="ver"><div class="letra">✓</div><div class="grande"><strong>Verificar um recibo</strong><div class="pequeno">Confirma pelo código</div></div></button></main>', todos ? 'pagamentos' : 'inicio');
-      document.getElementById('v').onclick = function () { go('inicio'); };
-      document.getElementById('ver').onclick = async function () {
-        var v = await ask('Verificar recibo', '', [{ name: 'c', label: 'Código do recibo' }], 'Verificar');
-        if (!v) return;
-        var r = await acao(null, function () { return call('api_verifyReceipt', state.token, v.c); });
-        if (r) toast(r.valido ? 'Válido: recibo ' + r.label + ', fração ' + r.fracao + ', ' + eur(r.valor) : (r.anulado ? 'Recibo ' + r.label + ' está ANULADO' : 'Código não encontrado'), !r.valido);
-      };
-      Array.prototype.forEach.call(document.querySelectorAll('[data-pdf]'), function (b) { b.onclick = async function () { var f = await acao(b, function () { return call('api_getReceiptPdf', state.token, b.getAttribute('data-pdf')); }); if (f && f.base64) baixar(f); }; });
-      Array.prototype.forEach.call(document.querySelectorAll('[data-env]'), function (b) { b.onclick = async function () { var r = await acao(b, function () { return call('api_sendReceipt', state.token, b.getAttribute('data-env')); }); if (r) toast('Enviado a ' + r.destinos.join(', ')); }; });
-      Array.prototype.forEach.call(document.querySelectorAll('[data-an]'), function (b) { b.onclick = async function () {
-        var v = await ask('Anular recibo', 'O número não é reutilizado. A fração é avisada.', [{ name: 'motivo', label: 'Motivo (obrigatório)' }], 'Anular', true);
-        if (v && await acao(b, function () { return call('api_annulReceipt', state.token, b.getAttribute('data-an'), v.motivo); }, 'Recibo anulado')) ecraRecibos();
-      }; });
-    } catch (e) { toast(e.message, true); go('inicio'); }
+    state.volta = { r: 'pagamentos', p: {} };
+    carregar('meusrec', 'api_myReceipts', [], function (lista) {
+      var m = state.me;
+      vista('<main>' + voltarBtn('Pagamentos') + '<header><h1>Os meus recibos</h1></header>' +
+        '<div class="faixa"><div class="tile" style="width:40px;height:40px;background:var(--verde);color:#fff;font-size:17px">' + esc(m.fracao) + '</div><div><div style="font-size:14px;font-weight:800;color:#0B4F4A">Fração ' + esc(m.fracao) + (m.fracaoInfo ? ' · ' + esc(m.fracaoInfo.nome) : '') + '</div><div style="font-size:12px;color:#0B4F4A">Como ' + esc(m.email) + '</div></div></div>' +
+        (lista.length ? '<div style="display:flex;flex-direction:column;gap:6px">' + lista.map(function (r) { return cartaoRecibo(r, false); }).join('') + '</div>' : '<div class="nota"><span>Ainda não há recibos.</span></div>') +
+        '<div class="nota"><span>Aqui só aparecem os recibos emitidos enquanto o teu email estava na fração. Se o email da fração mudar, os recibos antigos continuam no histórico total, mas deixam de aparecer ao novo email.</span></div></main>', 'pagamentos');
+      ligarGo();
+      Array.prototype.forEach.call(document.querySelectorAll('[data-open]'), function (b) { b.onclick = function () { var r = lista.filter(function (x) { return x.key === b.getAttribute('data-open'); })[0]; go('recibo', { rec: r, de: 'recibos' }); }; });
+    });
   }
 
+  function ecraRecibo() {
+    var r = state.params.rec, m = state.me;
+    if (!r) return go('recibos');
+    state.volta = { r: state.params.de || 'recibos', p: {} };
+    var linhas = [['Recebido de', 'Fração ' + r.fracao + (r.nome ? ' · ' + r.nome : '')], ['Emails da fração na data', (r.emails || []).join(', ')], ['Referente a', (r.periodo.indexOf(' a ') > 0 ? 'Quotas de ' : 'Quota de ') + periodoTxt(r.periodo).replace(/(^|\sa\s)([A-ZÇ])/g, function (x, a, b) { return a + b.toLowerCase(); })],
+      ['Forma de pagamento', r.forma + ' · comprovativo anexado'], ['Emitido por', r.emitidoPor + ', administrador, em nome do condomínio']];
+    vista('<main>' + voltarBtn('Recibos') + '<header><h1>Recibo</h1></header>' +
+      (r.anulado ? '<div class="nota erro"><span>Recibo anulado. Motivo: ' + esc(r.motivo) + '</span></div>' : '') +
+      '<article class="papel"><div class="linha" style="justify-content:space-between;align-items:flex-start;border-bottom:2px solid var(--verde);padding-bottom:10px"><div><div style="font-size:15px;font-weight:800;line-height:1.25">Condomínio<br>Rua da Misericórdia 13/15/17</div>' + (r.nipc ? '<div class="pequeno" style="margin-top:3px">NIPC ' + esc(r.nipc) + '</div>' : '') + '</div>' +
+      '<div style="text-align:right;flex:none"><div style="font-size:12px;font-weight:700;color:#0B5A54">RECIBO N.º</div><div style="font-size:17px;font-weight:800">' + esc(r.label) + '</div><div class="pequeno">' + fmtData(r.data) + '</div></div></div>' +
+      linhas.map(function (l) { return '<div><div class="rot">' + esc(l[0]) + '</div><div style="font-size:14px;font-weight:600;line-height:1.35;word-break:break-word">' + esc(l[1]) + '</div></div>'; }).join('') +
+      '<div class="linha" style="justify-content:space-between;background:#D7EEEA;border-radius:10px;padding:10px 12px"><span style="font-size:13px;font-weight:700;color:#0B4F4A">Total recebido</span><span style="font-size:22px;font-weight:800;color:#0B4F4A">' + eur(r.valor) + '</span></div>' +
+      '<div class="linha" style="justify-content:space-between;font-size:12px;color:var(--suave);border-top:1px dashed #CFC5B1;padding-top:8px"><span>Código de verificação</span><span style="font-weight:800;color:#1F2937;letter-spacing:.06em">' + esc(r.codigo) + '</span></div></article>' +
+      '<div style="display:flex;flex-direction:column;gap:8px">' +
+      (m.isAdmin && !r.anulado ? '<button class="btn ambar" id="env"' + (r.destinos && r.destinos.length ? '' : ' disabled') + ' style="display:flex;align-items:center;justify-content:center;gap:8px">' + svg('mail') + 'Enviar para os emails atuais da fração</button>' + (r.destinos && r.destinos.length ? '' : '<div class="pequeno" style="color:#8F1515;text-align:center">Só se envia para emails atuais da fração.</div>') : '') +
+      '<div class="linha"><button class="btn ghost" id="pdf" style="flex:1;height:44px;font-size:14px">Descarregar PDF</button>' + (m.isAdmin && !r.anulado ? '<button class="btn perigo" id="anu" style="flex:1;height:44px;font-size:14px">Anular (com motivo)</button>' : '') + '</div></div>' +
+      '<p class="pequeno">Numeração sequencial. Um recibo nunca se apaga: só se anula, e emite-se um novo. Fica tudo no registo.</p></main>', 'pagamentos');
+    ligarGo();
+    document.getElementById('pdf').onclick = function () { descarregar(this, 'api_getReceiptPdf', r.key); };
+    var env = document.getElementById('env');
+    if (env) env.onclick = async function () { var x = await acao(env, function () { return call('api_sendReceipt', state.token, r.key); }); if (x) toast('Enviado a ' + x.destinos.join(', ')); };
+    var anu = document.getElementById('anu');
+    if (anu) anu.onclick = async function () {
+      var v = await ask('Anular recibo', 'O número não é reutilizado. A fração é avisada.', [{ name: 'motivo', label: 'Motivo (obrigatório)' }], 'Anular', true);
+      if (v && await acao(anu, function () { return call('api_annulReceipt', state.token, r.key, v.motivo); }, 'Recibo anulado')) go(state.volta.r, state.volta.p);
+    };
+  }
+
+  async function ecraRecibosAdmin() {
+    var F = state.tmp.filtroRec || { mes: '', letra: '' };
+    state.volta = { r: 'administracao', p: {} };
+    carregar('todosrec' + F.mes + F.letra, 'api_allReceipts', [F.mes, F.letra], function (lista) {
+      var ver = state.tmp.verif;
+      vista('<main>' + voltarBtn('Administração') + '<header><h1>Todos os recibos</h1><p class="suave" style="margin-top:4px">Só para administradores. Todas as frações, incluindo emails antigos.</p></header>' +
+        '<div class="linha"><input id="cod" placeholder="Código de verificação" aria-label="Código de verificação" style="height:44px;border-radius:12px;font-weight:700;letter-spacing:.06em;flex:1;min-width:0"><button class="btn" id="verif" style="width:auto;height:44px;font-size:14px;border-radius:12px">Verificar</button></div>' +
+        (ver ? '<div class="nota ' + (ver.valido ? 'ok' : 'erro') + '"><span>' + esc(ver.texto) + '</span></div>' : '') +
+        '<div class="linha"><button class="filtro" id="fm" aria-pressed="' + !!F.mes + '">' + (F.mes ? esc(fmtMes(F.mes)) : 'Todos os meses') + '</button><button class="filtro" id="ff" aria-pressed="' + !!F.letra + '">' + (F.letra ? 'Fração ' + esc(F.letra) : 'Todas as frações') + '</button></div>' +
+        (lista.length ? lista.map(function (r) {
+          var emails = r.destinos.map(esc).concat(r.bloqueados.map(function (e) { return esc(e) + ' (já não está na fração)'; })).join(', ');
+          return '<div class="cartao" style="padding:8px 12px;gap:6px"><button class="lnk" data-open="' + esc(r.key) + '" style="display:block;text-align:left;width:100%"><div class="linha" style="justify-content:space-between;align-items:baseline;gap:8px"><span style="font-size:14px;font-weight:800">' + esc(r.label) + ' · ' + esc(r.fracao) + ' · ' + esc(r.nome) + '</span><span style="font-size:13px;font-weight:700;color:var(--suave)">' + esc(fmtMesCurto(String(r.periodo).slice(0, 7))) + ' · ' + eur(r.valor) + '</span></div></button>' +
+            (r.anulado ? '<div>' + pill('Anulado', '#FBE3E1', '#8F1515') + '</div>' : '') +
+            '<div class="pequeno" style="line-height:1.35">' + emails + '</div>' +
+            '<div class="linha"><button class="btn ghost peq" data-pdf="' + esc(r.key) + '" style="height:36px;font-size:13px">Descarregar</button>' +
+            (r.anulado ? '' : '<button class="btn peq" data-env="' + esc(r.key) + '"' + (r.destinos.length ? '' : ' disabled') + ' style="height:36px;font-size:13px;background:' + (r.destinos.length ? 'var(--ambar)' : '#E7E0D3') + ';color:' + (r.destinos.length ? '#1F2937' : '#4B5563') + '">Enviar</button>') +
+            (!r.anulado && !r.destinos.length ? '<span style="font-size:11.5px;color:#8F1515;font-weight:600;line-height:1.3">Só se envia para emails atuais da fração</span>' : '') + '</div></div>';
+        }).join('') : '<div class="nota"><span>Sem recibos para este filtro.</span></div>') + '</main>', 'pagamentos');
+      ligarGo();
+      Array.prototype.forEach.call(document.querySelectorAll('[data-open]'), function (b) { b.onclick = function () { var r = lista.filter(function (x) { return x.key === b.getAttribute('data-open'); })[0]; go('recibo', { rec: r, de: 'recibosadmin' }); }; });
+      Array.prototype.forEach.call(document.querySelectorAll('[data-pdf]'), function (b) { b.onclick = function () { descarregar(b, 'api_getReceiptPdf', b.getAttribute('data-pdf')); }; });
+      Array.prototype.forEach.call(document.querySelectorAll('[data-env]'), function (b) { b.onclick = async function () { var x = await acao(b, function () { return call('api_sendReceipt', state.token, b.getAttribute('data-env')); }); if (x) { b.textContent = 'Enviado ✓'; b.style.background = '#DCF3E3'; b.style.color = '#14622F'; b.disabled = true; } }; });
+      document.getElementById('verif').onclick = async function () {
+        var r = await acao(this, function () { return call('api_verifyReceipt', state.token, document.getElementById('cod').value); });
+        if (r) { state.tmp.verif = r.valido ? { valido: true, texto: 'Válido · ' + r.label + ' · Fração ' + r.fracao + ' · ' + eur(r.valor) } : { valido: false, texto: r.anulado ? 'O recibo ' + r.label + ' está ANULADO.' : 'Código não encontrado.' }; ecraRecibosAdmin(); }
+      };
+      document.getElementById('fm').onclick = async function () {
+        var opts = ['Todos os meses'], mapa = {}, d = new Date();
+        for (var i = 0; i < 18; i++) { var x = new Date(d.getFullYear(), d.getMonth() - i, 1), k = x.getFullYear() + '-' + ('0' + (x.getMonth() + 1)).slice(-2); mapa[fmtMes(k)] = k; opts.push(fmtMes(k)); }
+        var v = await ask('Filtrar por mês', '', [{ name: 'mes', label: 'Mês', options: opts, value: F.mes ? fmtMes(F.mes) : opts[0] }], 'Filtrar');
+        if (v) { state.tmp.filtroRec = { mes: mapa[v.mes] || '', letra: F.letra }; ecraRecibosAdmin(); }
+      };
+      document.getElementById('ff').onclick = async function () {
+        var v = await ask('Filtrar por fração', '', [{ name: 'letra', label: 'Fração', options: ['Todas', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'], value: F.letra || 'Todas' }], 'Filtrar');
+        if (v) { state.tmp.filtroRec = { mes: F.mes, letra: v.letra === 'Todas' ? '' : v.letra }; ecraRecibosAdmin(); }
+      };
+    });
+  }
+
+  /* ---------- Administração ---------- */
   async function ecraAdministracao() {
     var m = state.me;
-    try {
-      var a = await call('api_admins', state.token);
-      vista('<main>' + cabecalho() + '<div class="linha"><button class="btn ghost peq" id="v">‹ Voltar</button></div><h1>Administração</h1>' +
-        '<div class="nota"><span>Há no máximo 2 administradores, de frações diferentes. Emitem e anulam recibos e enviam-nos por email. Vagas livres: ' + a.vagas + '.</span></div>' +
-        (a.admins.length ? a.admins.map(function (x) {
-          return '<section class="cartao"><div class="linha"><div class="grande"><div class="mail">' + esc(x.email) + '</div><div class="pequeno">Fração ' + esc(x.fracao) + ' · desde ' + fmtData(x.desde) + '</div></div>' +
-            (a.podeRemover ? '<button class="btn perigo peq" data-rem="' + esc(x.email) + '">Remover</button>' : '') + '</div></section>';
-        }).join('') : '<div class="nota"><span>Ainda não há administradores.</span></div>') +
-        (!m.isMaster ? (a.souAdmin ? '<button class="btn ghost" id="sair-adm">Deixar de ser administrador</button>' : (a.podeNomear ? '<button class="btn" id="ser">Tornar-me administrador</button>' : '<div class="nota"><span>' + esc(a.motivoNaoNomear || '') + '</span></div>')) : '') + '</main>', 'inicio');
-      document.getElementById('v').onclick = function () { go('inicio'); };
+    state.volta = { r: 'inicio', p: {} };
+    carregar('admins', 'api_admins', [], function (a) {
+      var conf = state.tmp.confirmar;   // email a remover
+      var slot = function (x) {
+        if (!x) return '<div class="slot vazio"><div class="av2 vazio">' + MAIS + '</div><div><div style="font-size:15px;font-weight:700">Vaga livre</div><div class="pequeno" style="margin-top:1px">Qualquer condómino se pode nomear</div></div></div>';
+        return '<div class="slot' + (x.eu ? ' eu' : '') + '"><div class="av2">' + esc(x.fracao) + '</div><div style="flex:1;min-width:0"><div class="mail" style="font-size:15px">' + esc(x.email) + '</div><div class="pequeno" style="margin-top:1px">Fração ' + esc(x.fracao) + ' · ' + esc(x.nome) + ' · desde ' + fmtMesCurto(new Date(x.desde).getFullYear() + '-' + ('0' + (new Date(x.desde).getMonth() + 1)).slice(-2)) + '</div></div>' +
+          (x.eu ? '<span class="chip verde">Tu</span>' : '') + (a.podeRemover && !x.eu ? '<button class="btn perigo peq" data-rem="' + esc(x.email) + '">Remover</button>' : '') + '</div>';
+      };
+      vista('<main>' + voltarBtn('Início') + '<header><h1>Administração</h1><p class="suave" style="margin-top:4px">Os administradores enviam convocatórias e emitem recibos. Tudo o resto é igual para todos.</p></header>' +
+        (m.isMaster ? '<div class="nota escura" style="align-items:flex-start"><span><strong>Admin Master · conta do condomínio</strong><br>Pode remover os administradores em qualquer altura. Não é uma fração e só faz isto.</span></div>' : '') +
+        '<section class="cartao"><div class="linha" style="justify-content:space-between"><h2>Administradores</h2><span class="pequeno" style="font-weight:700">' + a.admins.length + ' de 2 vagas</span></div>' + slot(a.admins[0]) + slot(a.admins[1]) + '</section>' +
+        (conf ? '<div class="nota erro" style="flex-direction:column;gap:10px"><div style="font-size:14px;font-weight:700;line-height:1.4">Remover ' + esc(conf) + ' como administrador?</div><div style="font-size:12px;line-height:1.4">Todos recebem um aviso e fica registado quem removeu.</div>' +
+          (m.isMaster ? '<input id="motivo" placeholder="Motivo (obrigatório)" aria-label="Motivo" style="height:44px">' : '') +
+          '<div class="linha"><button class="btn ghost" id="cn" style="flex:1;height:44px;font-size:14px;border-color:#8F1515;color:#8F1515">Cancelar</button><button class="btn" id="cf" style="flex:1;height:44px;font-size:14px;background:#B91C1C">Remover</button></div></div>'
+          : '<div class="nota"><span>Os 2 administradores têm de ser de frações diferentes. Cada administrador pode sair ou remover o outro. Com as 2 vagas ocupadas, mais ninguém se pode nomear.</span></div>') +
+        (!m.isMaster && !a.souAdmin ? (a.podeNomear ? '<div style="display:flex;flex-direction:column;gap:6px"><button class="btn" id="ser">Nomear-me administrador</button><span class="pequeno" style="text-align:center">Como ' + esc(m.email) + ' · fração ' + esc(m.fracao) + '. Todos recebem um aviso.</span></div>'
+          : '<div style="display:flex;flex-direction:column;gap:6px"><button class="btn" disabled style="background:#E7E0D3;color:#4B5563">Nomear-me administrador</button><span style="font-size:13px;color:#8F1515;text-align:center;font-weight:600;line-height:1.4">' + esc(a.motivoNaoNomear) + '</span></div>') : '') +
+        (a.souAdmin ? '<div style="display:flex;flex-direction:column;gap:10px"><button class="btn ambar" data-go="convocatoria" style="display:flex;align-items:center;justify-content:center;gap:8px">' + svg('enviar') + 'Enviar convocatória</button><button class="btn ghost" data-go="recibosadmin" style="height:48px;font-size:15px">Todos os recibos</button><button class="btn ghost" id="sair-adm" style="height:44px;font-size:14px;border-color:#CFC5B1;color:#1F2937">Sair do cargo de administrador</button></div>'
+          : '<button class="lock" data-go="convocatoria">' + svg('cadeado') + '<span>Enviar convocatória: só para administradores. <u>Ver histórico</u></span></button>') +
+        '<section class="cartao" style="padding:12px 14px;gap:0"><h2 style="font-size:14px;margin-bottom:6px">Registo de administradores</h2>' +
+        (a.registo.length ? a.registo.map(function (l) { return '<div style="font-size:13px;line-height:1.4;padding:6px 0;border-top:1px solid #EFE9DD"><strong>' + fmtData(l.data) + '</strong> · ' + esc(l.texto) + '</div>'; }).join('') : '<div class="pequeno" style="border-top:1px solid #EFE9DD;padding-top:6px">Sem alterações registadas.</div>') + '</section></main>', 'inicio');
+      ligarGo();
+      Array.prototype.forEach.call(document.querySelectorAll('[data-rem]'), function (b) { b.onclick = function () { state.tmp.confirmar = b.getAttribute('data-rem'); ecraAdministracao(); }; });
+      var cn = document.getElementById('cn'); if (cn) cn.onclick = function () { state.tmp.confirmar = null; ecraAdministracao(); };
+      var cf = document.getElementById('cf');
+      if (cf) cf.onclick = async function () {
+        var mot = document.getElementById('motivo');
+        if (await acao(cf, function () { return call('api_removeAdmin', state.token, conf, mot ? mot.value : ''); }, 'Administrador removido')) { state.tmp.confirmar = null; state.me = await call('api_me', state.token); ecraAdministracao(); }
+      };
       var ser = document.getElementById('ser');
       if (ser) ser.onclick = async function () { if (await acao(ser, function () { return call('api_becomeAdmin', state.token); }, 'Agora és administrador')) { state.me = await call('api_me', state.token); ecraAdministracao(); } };
       var sai = document.getElementById('sair-adm');
       if (sai) sai.onclick = async function () { if (await acao(sai, function () { return call('api_leaveAdmin', state.token); }, 'Deixaste de ser administrador')) { state.me = await call('api_me', state.token); ecraAdministracao(); } };
-      Array.prototype.forEach.call(document.querySelectorAll('[data-rem]'), function (b) { b.onclick = async function () {
-        var v = await ask('Remover administrador', 'Todos são avisados e a pessoa recebe um email.', [{ name: 'motivo', label: m.isMaster ? 'Motivo (obrigatório)' : 'Motivo (opcional)' }], 'Remover', true);
-        if (v && await acao(b, function () { return call('api_removeAdmin', state.token, b.getAttribute('data-rem'), v.motivo); }, 'Administrador removido')) ecraAdministracao();
-      }; });
-    } catch (e) { toast(e.message, true); go('inicio'); }
+    });
+  }
+
+  /* ---------- Convocatória ---------- */
+  async function ecraConvocatoria() {
+    var F = state.tmp.conv = state.tmp.conv || { assunto: '', reuniao: '', file: null };
+    state.volta = { r: 'administracao', p: {} };
+    carregar('conv', 'api_convocatoriaInfo', [], function (c) {
+      var kb = F.file ? Math.max(1, Math.round(F.file.size / 1024)) + ' KB · pronto a enviar' : '';
+      vista('<main>' + voltarBtn('Administração') + '<header><h1>' + (c.souAdmin ? 'Nova convocatória' : 'Convocatórias') + '</h1><p class="suave" style="margin-top:4px">' + (c.souAdmin ? 'Carrega o documento e a app envia por email a todas as frações.' : 'Só os administradores enviam. Aqui vês o que já foi enviado.') + '</p></header>' +
+        (c.souAdmin ? '<section class="cartao" style="gap:12px"><label>Assunto<input id="assunto" placeholder="Assembleia de condóminos 2026" value="' + esc(F.assunto) + '"></label>' +
+          '<label><span>Reunião <span class="pequeno" style="font-weight:500">(data, hora e local · opcional)</span></span><input id="reuniao" placeholder="12/12 às 19h, hall do prédio" value="' + esc(F.reuniao) + '"></label>' +
+          '<div style="display:flex;flex-direction:column;gap:5px"><span style="font-size:13px;font-weight:700">Documento da convocatória (PDF)</span><input id="pdf" type="file" accept="application/pdf" hidden>' +
+          (F.file ? '<div class="faixa" style="border-radius:12px"><div class="tile" style="width:38px;height:38px;background:var(--verde);color:#fff">' + svg('doc') + '</div><div style="flex:1;min-width:0"><div style="font-size:14px;font-weight:700;word-break:break-all">' + esc(F.file.name) + '</div><div style="font-size:12px;color:#0B4F4A">' + kb + '</div></div><button class="btn ghost peq" id="trocar" style="background:#fff">Trocar</button></div>'
+            : '<button class="btn ghost" id="trocar" style="border-style:dashed;height:56px">Escolher PDF</button>') + '</div></section>' +
+          '<div class="cartao" style="flex-direction:row;align-items:center"><span style="color:#0B5A54;flex:none">' + svg('mail') + '</span><div style="flex:1;font-size:13px;line-height:1.35"><strong>' + c.nEmails + ' emails em ' + c.nFracoes + ' frações</strong><br><span class="suave">Respostas vão para ' + esc(state.me.email) + '</span></div><button class="lnk" id="lista" style="font-weight:700">Ver lista</button></div>' +
+          '<button class="btn ambar" id="enviar" style="display:flex;align-items:center;justify-content:center;gap:8px">' + svg('enviar') + 'Enviar a todas as frações</button>' : '') +
+        '<section class="cartao" style="padding:12px 14px;gap:0"><h2 style="font-size:14px;margin-bottom:4px">Convocatórias enviadas</h2>' +
+        (c.historico.length ? c.historico.map(function (h) { return '<div style="padding:8px 0;border-top:1px solid #EFE9DD"><div style="font-size:14px;font-weight:700">' + esc(h.assunto) + '</div><div class="pequeno" style="margin-top:2px;line-height:1.35">' + fmtData(h.data) + ' · enviada por ' + esc(h.enviadoPor) + (h.fracao ? ' (fração ' + esc(h.fracao) + ')' : '') + ' · ' + h.n + ' emails · PDF anexado</div></div>'; }).join('') : '<div class="pequeno" style="border-top:1px solid #EFE9DD;padding-top:6px">Ainda não foi enviada nenhuma convocatória.</div>') + '</section>' +
+        '<p class="pequeno">Nota: o email só vale como convocatória para quem o aceitou em ata, e convém que cada condómino confirme a receção.</p></main>', 'inicio');
+      ligarGo();
+      if (!c.souAdmin) return;
+      var guardar = function () { F.assunto = document.getElementById('assunto').value; F.reuniao = document.getElementById('reuniao').value; };
+      var pdf = document.getElementById('pdf');
+      document.getElementById('trocar').onclick = function () { guardar(); pdf.click(); };
+      pdf.onchange = function () { if (pdf.files[0]) { F.file = pdf.files[0]; ecraConvocatoria(); } };
+      document.getElementById('lista').onclick = function () {
+        folha('Destinatários', '<div style="max-height:50vh;overflow:auto;display:flex;flex-direction:column;gap:6px">' + c.emails.map(function (e) { return '<div class="linha" style="font-size:14px"><span class="chip verde" style="min-width:26px;text-align:center">' + esc(e.fracao) + '</span><span class="mail" style="font-size:14px;font-weight:600">' + esc(e.email) + '</span></div>'; }).join('') + '</div><button class="btn ghost" data-x>Fechar</button>',
+          function (o, fechar) { o.querySelector('[data-x]').onclick = fechar; });
+      };
+      document.getElementById('enviar').onclick = async function () {
+        guardar();
+        var b = this;
+        if (!F.file) return toast('Carrega o PDF da convocatória.', true);
+        var ok = await ask('Enviar a ' + c.nEmails + ' emails?', 'Não se pode desfazer. Fica registado quem enviou e para que emails.', [], 'Enviar', false);
+        if (!ok) return;
+        var r = await acao(b, async function () { var f = await lerFicheiro(F.file); return call('api_sendConvocatoria', state.token, F.assunto, F.reuniao, f); }, 'Convocatória enviada');
+        if (r) { state.tmp.conv = null; ecraConvocatoria(); }
+      };
+    });
+  }
+
+  /* ---------- Obras e problemas ---------- */
+  var filtroObras = { obras: 'Todas', problemas: 'Abertos' };
+  async function ecraObras() {
+    var tab = state.params.tab === 'problemas' ? 'problemas' : 'obras';
+    var fn = tab === 'obras' ? 'api_obras' : 'api_problemas';
+    carregar(tab, fn, [], function (lista) {
+      var f = filtroObras[tab], chips, cards;
+      if (tab === 'obras') {
+        chips = ['Todas', 'Em curso', 'Concluídas'];
+        var vis = lista.filter(function (o) { return f === 'Todas' || (f === 'Em curso' ? o.estado === 'Em curso' : o.estado === 'Concluída'); });
+        cards = vis.map(function (o) {
+          var ok = o.estado === 'Concluída';
+          return '<button class="art" data-id="' + esc(o.id) + '"><div class="linha" style="justify-content:space-between;align-items:flex-start;gap:10px"><h2 style="font-size:16px;line-height:1.25;text-align:left">' + esc(o.titulo) + '</h2>' + pill(o.estado, ok ? '#DCF3E3' : '#FDF0D2', ok ? '#14622F' : '#6B4200') + '</div>' +
+            '<div class="suave" style="font-size:13px;text-align:left">' + (ok && o.fim ? 'Concluída em ' + fmtMesCurto(new Date(o.fim).getFullYear() + '-' + ('0' + (new Date(o.fim).getMonth() + 1)).slice(-2)) + ' · ' + haTempo(o.fim) : (o.inicio ? 'Iniciada em ' + fmtData(o.inicio) + ' · ' + haTempo(o.inicio) : '')) + '</div>' +
+            '<div class="linha" style="gap:14px;font-size:13px;font-weight:600"><span>' + (o.custo == null ? 'Custo por indicar' : eur(o.custo)) + '</span><span class="suave" style="font-weight:500">' + o.docs + (o.docs === 1 ? ' documento' : ' documentos') + '</span></div>' +
+            '<span class="gar">' + (o.garantia ? 'Garantia até ' + fmtMesCurto(o.garantia) : 'Garantia a definir') + '</span></button>';
+        }).join('');
+      } else {
+        chips = ['Abertos', 'Em tratamento', 'Resolvidos'];
+        var cont = lista.filter(function (p) { return p.estado === 'Aberto'; }).length;
+        var alvo = f === 'Abertos' ? 'Aberto' : (f === 'Em tratamento' ? 'Em tratamento' : 'Resolvido');
+        cards = lista.filter(function (p) { return p.estado === alvo; }).map(function (p) {
+          return '<button class="art" data-id="' + esc(p.id) + '"><div class="linha" style="justify-content:space-between;align-items:flex-start;gap:10px"><h2 style="font-size:16px;line-height:1.25;text-align:left">' + esc(p.titulo) + '</h2>' + pill(p.prioridade, PRIO[p.prioridade][0], PRIO[p.prioridade][1]) + '</div>' +
+            '<div class="suave" style="font-size:13px;text-align:left">' + esc(p.local) + '</div><div class="linha" style="justify-content:space-between;font-size:12px;color:var(--suave)"><span>Reportado pela fração ' + esc(p.fracao) + ' · ' + haTempo(p.data) + '</span><strong style="color:#1F2937;white-space:nowrap">' + (p.comentarios ? p.comentarios + (p.comentarios === 1 ? ' comentário' : ' comentários') : 'Sem comentários') + '</strong></div></button>';
+        }).join('');
+        chips[0] = 'Abertos';
+        state.tmp.nAbertos = cont;
+      }
+      vista('<main><header><h1>Obras e problemas</h1><p class="suave" style="margin-top:4px">' + (tab === 'obras' ? 'O que foi feito, quando e há quanto tempo.' : 'Coisas a considerar e a tratar no prédio.') + '</p></header>' +
+        '<div class="seg"><button data-tab="obras" aria-pressed="' + (tab === 'obras') + '">Obras</button><button data-tab="problemas" aria-pressed="' + (tab === 'problemas') + '">Problemas</button></div>' +
+        '<div class="linha" style="flex-wrap:wrap;gap:8px">' + chips.map(function (c) { return '<button class="filtro" data-fil="' + esc(c) + '" aria-pressed="' + (c === f) + '">' + esc(c) + (tab === 'problemas' && c === 'Abertos' ? ' · ' + state.tmp.nAbertos : '') + '</button>'; }).join('') + '</div>' +
+        '<div style="display:flex;flex-direction:column;gap:10px">' + (cards || '<div class="nota"><span>Nada para mostrar aqui.</span></div>') + '</div>' +
+        '<button class="btn ambar" id="novo" style="margin-top:auto;display:flex;align-items:center;justify-content:center;gap:8px">' + MAIS + (tab === 'obras' ? 'Registar obra' : 'Reportar problema') + '</button></main>', 'obras');
+      ligarGo();
+      Array.prototype.forEach.call(document.querySelectorAll('[data-tab]'), function (b) { b.onclick = function () { go('obras', { tab: b.getAttribute('data-tab') }); }; });
+      Array.prototype.forEach.call(document.querySelectorAll('[data-fil]'), function (b) { b.onclick = function () { filtroObras[tab] = b.getAttribute('data-fil'); ecraObras(); }; });
+      Array.prototype.forEach.call(document.querySelectorAll('[data-id]'), function (b) { b.onclick = function () { var x = lista.filter(function (i) { return i.id === b.getAttribute('data-id'); })[0]; if (tab === 'obras') abrirObra(x); else abrirProblema(x); }; });
+      document.getElementById('novo').onclick = tab === 'obras' ? novaObra : novoProblema;
+    });
+  }
+
+  async function novaObra() {
+    var v = await ask('Registar obra', 'Todos veem as obras. Podes juntar orçamentos e faturas depois.', [
+      { name: 'titulo', label: 'Título', placeholder: 'Ex.: Reparação do telhado' }, { name: 'descricao', label: 'Descrição (opcional)' }, { name: 'fornecedor', label: 'Fornecedor (opcional)' },
+      { name: 'inicio', label: 'Data de início', type: 'date', value: hojeISO() }, { name: 'custo', label: 'Custo (€, opcional)' }, { name: 'garantia', label: 'Garantia até (opcional)', type: 'month' },
+      { name: 'ficheiro', label: 'Documento (opcional)', type: 'file' }], 'Registar');
+    if (!v) return;
+    if (await acao(null, async function () { var f = v.ficheiro ? await lerFicheiro(v.ficheiro) : null; return call('api_addObra', state.token, v.titulo, v.descricao, v.fornecedor, v.inicio, v.custo, v.garantia, f); }, 'Obra registada')) ecraObras();
+  }
+  async function novoProblema() {
+    var v = await ask('Reportar problema', 'Todos veem e podem comentar.', [
+      { name: 'titulo', label: 'O que se passa?', placeholder: 'Ex.: Luz da escada fundida' }, { name: 'local', label: 'Onde?', placeholder: 'Ex.: 2º andar · escada' },
+      { name: 'descricao', label: 'Mais detalhes (opcional)' }, { name: 'prioridade', label: 'Prioridade', options: ['Alta', 'Média', 'Baixa'], value: 'Média' }], 'Reportar');
+    if (!v) return;
+    if (await acao(null, function () { return call('api_addProblema', state.token, v.titulo, v.descricao, v.local, v.prioridade); }, 'Problema reportado')) ecraObras();
+  }
+
+  function abrirObra(o) {
+    folha(o.titulo, '<div style="display:flex;flex-direction:column;gap:6px;font-size:14px">' + (o.descricao ? '<p>' + esc(o.descricao) + '</p>' : '') +
+      (o.fornecedor ? '<div class="suave">Fornecedor: ' + esc(o.fornecedor) + '</div>' : '') + '<div class="suave">' + (o.custo == null ? 'Custo por indicar' : eur(o.custo)) + ' · ' + (o.garantia ? 'garantia até ' + fmtMesCurto(o.garantia) : 'garantia a definir') + '</div></div>' +
+      '<button class="btn ghost" data-a="docs">Documentos (' + o.docs + ')</button><button class="btn ghost" data-a="com">Comentários</button>' + (o.estado === 'Em curso' ? '<button class="btn ambar" data-a="fim">Marcar como concluída</button>' : '') + '<button class="btn ghost" data-x style="border-color:transparent">Fechar</button>',
+      function (el, fechar) {
+        el.querySelector('[data-x]').onclick = fechar;
+        el.querySelector('[data-a=docs]').onclick = function () { fechar(); docsFolha('Obra', o); };
+        el.querySelector('[data-a=com]').onclick = function () { fechar(); comentariosFolha('Obra', o); };
+        var fim = el.querySelector('[data-a=fim]');
+        if (fim) fim.onclick = async function () {
+          fechar();
+          var v = await ask('Concluir obra', 'Podes acertar o custo final e a garantia.', [{ name: 'fim', label: 'Data de conclusão', type: 'date', value: hojeISO() }, { name: 'custo', label: 'Custo final (€)', value: o.custo == null ? '' : String(o.custo) }, { name: 'garantia', label: 'Garantia até (opcional)', type: 'month', value: o.garantia || '' }], 'Concluir');
+          if (v && await acao(null, function () { return call('api_concluirObra', state.token, o.id, v.fim, v.custo, v.garantia); }, 'Obra concluída')) ecraObras();
+        };
+      });
+  }
+  function abrirProblema(p) {
+    folha(p.titulo, '<div style="display:flex;flex-direction:column;gap:6px;font-size:14px">' + (p.descricao ? '<p>' + esc(p.descricao) + '</p>' : '') + '<div class="suave">' + esc(p.local) + ' · fração ' + esc(p.fracao) + ' · ' + haTempo(p.data) + '</div></div>' +
+      '<div class="seg">' + ['Aberto', 'Em tratamento', 'Resolvido'].map(function (e) { return '<button data-e="' + e + '" aria-pressed="' + (p.estado === e) + '">' + e + '</button>'; }).join('') + '</div>' +
+      '<button class="btn ghost" data-a="docs">Documentos (' + p.docs + ')</button><button class="btn ghost" data-a="com">Comentários (' + p.comentarios + ')</button><button class="btn ghost" data-x style="border-color:transparent">Fechar</button>',
+      function (el, fechar) {
+        el.querySelector('[data-x]').onclick = fechar;
+        el.querySelector('[data-a=docs]').onclick = function () { fechar(); docsFolha('Problema', p); };
+        el.querySelector('[data-a=com]').onclick = function () { fechar(); comentariosFolha('Problema', p); };
+        Array.prototype.forEach.call(el.querySelectorAll('[data-e]'), function (b) { b.onclick = async function () { if (b.getAttribute('data-e') !== p.estado && await acao(b, function () { return call('api_setProblema', state.token, p.id, b.getAttribute('data-e')); }, 'Estado atualizado')) { fechar(); ecraObras(); } }; });
+      });
+  }
+  async function docsFolha(tipo, reg) {
+    var lista = [];
+    try { lista = await call('api_docs', state.token, tipo, reg.id); } catch (e) { return toast(e.message, true); }
+    folha('Documentos', (lista.length ? lista.map(function (d) { return '<div class="linha"><div class="grande" style="min-width:0"><div style="font-size:14px;font-weight:700;word-break:break-all">' + esc(d.nome) + '</div><div class="pequeno">' + fmtData(d.data) + ' · ' + esc(d.enviadoPor) + '</div></div><button class="btn ghost peq" data-d="' + esc(d.id) + '">Abrir</button></div>'; }).join('') : '<p class="suave">Ainda não há documentos.</p>') +
+      '<button class="btn" data-a="add">Adicionar documento</button><button class="btn ghost" data-x style="border-color:transparent">Fechar</button>', function (el, fechar) {
+      el.querySelector('[data-x]').onclick = fechar;
+      Array.prototype.forEach.call(el.querySelectorAll('[data-d]'), function (b) { b.onclick = function () { descarregar(b, 'api_getDoc', b.getAttribute('data-d')); }; });
+      el.querySelector('[data-a=add]').onclick = async function () {
+        fechar();
+        var v = await ask('Adicionar documento', 'PDF ou foto, até 5 MB.', [{ name: 'ficheiro', label: 'Ficheiro', type: 'file' }], 'Adicionar');
+        if (v && await acao(null, async function () { if (!v.ficheiro) throw new Error('Escolhe um ficheiro.'); return call('api_addDoc', state.token, tipo, reg.id, await lerFicheiro(v.ficheiro)); }, 'Documento adicionado')) ecraObras();
+      };
+    });
+  }
+  async function comentariosFolha(tipo, reg) {
+    var lista = [];
+    try { lista = await call('api_comments', state.token, tipo, reg.id); } catch (e) { return toast(e.message, true); }
+    folha('Comentários', '<div style="max-height:40vh;overflow:auto;display:flex;flex-direction:column;gap:8px">' + (lista.length ? lista.map(function (c) { return '<div style="font-size:14px;line-height:1.4"><strong>' + (c.fracao ? 'Fração ' + esc(c.fracao) : esc(c.autor)) + '</strong> <span class="pequeno">' + haTempo(c.data) + '</span><br>' + esc(c.texto) + '</div>'; }).join('') : '<p class="suave">Sem comentários.</p>') + '</div>' +
+      '<input id="txt" placeholder="Escreve um comentário" aria-label="Comentário"><button class="btn" data-a="ok">Comentar</button><button class="btn ghost" data-x style="border-color:transparent">Fechar</button>', function (el, fechar) {
+      el.querySelector('[data-x]').onclick = fechar;
+      el.querySelector('[data-a=ok]').onclick = async function () {
+        var t = el.querySelector('#txt').value;
+        if (await acao(this, function () { return call('api_addComment', state.token, tipo, reg.id, t); }, 'Comentário guardado')) { fechar(); comentariosFolha(tipo, reg); }
+      };
+    });
+  }
+
+  /* ---------- Resumo anual ---------- */
+  async function ecraResumo() {
+    var ano = Number(state.params.ano) || new Date().getFullYear();
+    carregar('resumo' + ano, 'api_resumo', [ano], function (r) {
+      vista('<main><header class="linha" style="justify-content:space-between;align-items:flex-start"><div><h1>Resumo anual</h1><p class="suave" style="margin-top:4px">Quanto cada fração pagou</p></div><button class="filtro" id="ano" style="min-height:40px;font-size:15px;font-weight:800;background:#fff">' + ano + ' ▾</button></header>' +
+        '<div class="tres"><div class="kpi" style="background:var(--verde);color:#fff;border-color:var(--verde)"><div class="s1" style="color:#fff;opacity:.9">Cobrado</div><div class="k">' + eur(r.cobrado) + '</div></div><div class="kpi"><div class="s1">Em débito</div><div class="k" style="color:#B91C1C">' + eur(r.emDebito) + '</div></div><div class="kpi"><div class="s1">Em dia</div><div class="k">' + r.emDia + ' de ' + r.total + '</div></div></div>' +
+        '<section class="cartao" style="padding:6px 14px 4px;gap:0"><div class="gr" style="font-size:12px;font-weight:700;color:var(--suave)"><span>Fr.</span><span>Pago</span><span style="text-align:right">Quota</span><span style="text-align:right">Em débito</span></div>' +
+        r.linhas.map(function (l) {
+          var pct = l.quota ? Math.min(100, Math.round(l.pago / l.quota * 100)) : 0;
+          return '<div class="gr" style="border-top:1px solid #EFE9DD;align-items:center"><div class="tile" style="width:30px;height:30px;font-size:14px;border-radius:9px">' + esc(l.letra) + '</div><div style="display:flex;flex-direction:column;gap:4px;min-width:0"><span style="font-size:14px;font-weight:700">' + eur(l.pago) + '</span><div class="barra-p" style="height:6px;margin:0"><div style="width:' + pct + '%"></div></div></div>' +
+            '<span style="text-align:right;font-size:13px;color:var(--suave)">' + (l.semQuota ? '—' : eur(l.quota)) + '</span><span style="text-align:right;font-size:13px;font-weight:700;color:' + (l.debito ? '#B91C1C' : 'var(--suave)') + '">' + (l.debito ? eur(l.debito) : '—') + '</span></div>';
+        }).join('') + '</section><p class="pequeno">Quota = o que já devia estar pago até ao mês atual. Pagamentos de vários meses repartem-se por igual pelos meses.</p>' +
+        '<div class="linha nao-imprimir"><button class="btn" id="pdf" style="flex:1;height:48px;font-size:14px">Exportar PDF</button><button class="btn ghost" id="csv" style="flex:1;height:48px;font-size:14px">Exportar CSV</button></div></main>', 'resumo');
+      ligarGo();
+      document.getElementById('ano').onclick = async function () {
+        var anos = [], a0 = new Date().getFullYear(); for (var i = a0 + 1; i >= a0 - 5; i--) anos.push(String(i));
+        var v = await ask('Escolher ano', '', [{ name: 'ano', label: 'Ano', options: anos, value: String(ano) }], 'Ver');
+        if (v) go('resumo', { ano: Number(v.ano) });
+      };
+      document.getElementById('pdf').onclick = function () { window.print(); };
+      document.getElementById('csv').onclick = function () {
+        var linhas = [['Fracao', 'Nome', 'Quota_ate_hoje', 'Pago', 'Em_debito']].concat(r.linhas.map(function (l) { return [l.letra, l.nome, l.quota, l.pago, l.debito]; }));
+        var csv = linhas.map(function (l) { return l.map(function (c) { return '"' + String(c).replace(/"/g, '""') + '"'; }).join(';'); }).join('\n');
+        var url = URL.createObjectURL(new Blob(['﻿' + csv], { type: 'text/csv' }));
+        var a = document.createElement('a'); a.href = url; a.download = 'resumo-' + ano + '.csv'; document.body.appendChild(a); a.click(); a.remove();
+        setTimeout(function () { URL.revokeObjectURL(url); }, 4000);
+      };
+    });
   }
 
   async function ecraFracoes() {
@@ -546,8 +959,13 @@
     if (r === 'pagamentos') return ecraPagamentos();
     if (r === 'quotas') return ecraQuotas();
     if (r === 'recibos') return ecraRecibos();
-    if (r === 'recibosadmin') { state.params = { todos: true }; return ecraRecibos(); }
+    if (r === 'pagfracao') return ecraPagFracao();
+    if (r === 'recibo') return ecraRecibo();
+    if (r === 'recibosadmin') return ecraRecibosAdmin();
     if (r === 'administracao') return ecraAdministracao();
+    if (r === 'convocatoria') return ecraConvocatoria();
+    if (r === 'obras') return ecraObras();
+    if (r === 'resumo') return ecraResumo();
     app.innerHTML = '<main style="padding-top:80px"><p class="suave">A carregar…</p></main>';
   }
 
@@ -555,6 +973,10 @@
     state.token = state.token || load('token');
     if (!state.token) { state.tmp = {}; return go('entrar'); }
     try {
+      // pedidos em paralelo: o início e o mês atual já vêm a caminho enquanto confirmamos a sessão
+      var cur = mesAtualNum();
+      call('api_home', state.token).then(function (v) { cache.home = { v: v }; }).catch(function () {});
+      call('api_pagamentosMes', state.token, cur.ano, cur.mes).then(function (v) { cache['pagm' + cur.ano + '-' + cur.mes] = { v: v }; }).catch(function () {});
       state.me = await call('api_me', state.token);
       state.tmp = {};
       go(state.me.needsWho ? 'quemes' : (state.route === 'boot' || state.route === 'entrar' || state.route === 'quemes' ? 'inicio' : state.route), state.params);

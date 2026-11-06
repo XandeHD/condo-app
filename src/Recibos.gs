@@ -27,7 +27,8 @@ function reciboPublico_(r) {
   return {
     key: reciboKey_(r), label: reciboLabel_(r), fracao: r.fracao, data: Number(r.data), valor: Number(r.valor),
     periodo: r.periodo, forma: r.forma_pagamento, emitidoPor: r.emitido_por, codigo: r.codigo_verificacao,
-    anulado: isTrue_(r.anulado), motivo: r.motivo_anulacao, destinos: destinos, bloqueados: bloqueados
+    anulado: isTrue_(r.anulado), motivo: r.motivo_anulacao, destinos: destinos, bloqueados: bloqueados,
+    nome: (fracaoInfo_(r.fracao) || {}).nome || '', emails: listaEmails_(r.emails_na_altura), nipc: cfg_('nipc')
   };
 }
 
@@ -100,7 +101,7 @@ function api_myReceipts(token) {
   return table_('Recibos')
     .filter(function (r) { return podeVerRecibo_(s, r); })
     .sort(function (a, b) { return Number(b.data) - Number(a.data); })
-    .map(function (r) { const x = reciboPublico_(r); delete x.destinos; delete x.bloqueados; return x; });
+    .map(function (r) { const x = reciboPublico_(r); if (!isAdmin_(s.email)) { delete x.destinos; delete x.bloqueados; } return x; });
 }
 
 function api_allReceipts(token, mes, letra) {

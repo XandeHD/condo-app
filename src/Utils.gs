@@ -14,14 +14,33 @@ const DAY_MS = 24 * 60 * MIN_MS;
 
 let SALT_ = null;
 
+let SS_ = null;      // Sheet aberta (só 1 vez por pedido: abrir é a parte mais lenta)
+const MEMO_ = {};    // folhas já lidas neste pedido
+const CACHE_TTL_ = 120;                        // segundos de cache entre pedidos
+const SEM_CACHE_ = { Codigos_Login: true };    // nunca em cache (segurança)
+
 function db_() {
+  if (SS_) return SS_;
   const id = PropertiesService.getScriptProperties().getProperty('SHEET_ID');
   if (!id) throw new Error('A app ainda não foi configurada. Corre setup() no editor do Apps Script.');
-  return SpreadsheetApp.openById(id);
+  SS_ = SpreadsheetApp.openById(id);
+  return SS_;
 }
 
-/** Lê uma folha inteira como lista de objetos. _row é o número da linha na folha. */
-function table_(nome) {
+/** Limpa tudo (usado pelo setup, que escreve diretamente nas folhas). */
+function limparTudo_() {
+  SS_ = null;
+  Object.keys(MEMO_).forEach(function (k) { delete MEMO_[k]; });
+  Object.keys(SCHEMA).forEach(function (k) { try { CacheService.getScriptCache().remove('T:' + k); } catch (e) { /* ok */ } });
+}
+
+/** Esquece o que está em memória/cache de uma folha (chamado em cada escrita). */
+function invalidar_(nome) {
+  delete MEMO_[nome];
+  try { CacheService.getScriptCache().remove('T:' + nome); } catch (e) { /* cache é só um acelerador */ }
+}
+
+function lerFolha_(nome) {
   const sh = db_().getSheetByName(nome);
   if (!sh) throw new Error('Folha em falta: ' + nome);
   const v = sh.getDataRange().getValues();
@@ -31,6 +50,23 @@ function table_(nome) {
     head.forEach(function (h, j) { o[h] = r[j]; });
     return o;
   });
+}
+
+/** Lê uma folha inteira como lista de objetos. _row é o número da linha na folha. */
+function table_(nome) {
+  if (MEMO_[nome]) return MEMO_[nome].slice();
+  let rows = null;
+  if (!SEM_CACHE_[nome]) {
+    try { const c = CacheService.getScriptCache().get('T:' + nome); if (c) rows = JSON.parse(c); } catch (e) { rows = null; }
+  }
+  if (!rows) {
+    rows = lerFolha_(nome);
+    if (!SEM_CACHE_[nome]) {
+      try { CacheService.getScriptCache().put('T:' + nome, JSON.stringify(rows), CACHE_TTL_); } catch (e) { /* demasiado grande: segue sem cache */ }
+    }
+  }
+  MEMO_[nome] = rows;
+  return rows.slice();
 }
 
 /** Impede que texto livre seja interpretado como fórmula pela Sheet. */
@@ -44,16 +80,24 @@ function append_(nome, obj) {
   db_().getSheetByName(nome).appendRow(head.map(function (h) {
     return obj[h] === undefined ? '' : safe_(obj[h]);
   }));
+  invalidar_(nome);
 }
 
 function update_(nome, row, patch) {
   const head = SCHEMA[nome];
   const sh = db_().getSheetByName(nome);
-  Object.keys(patch).forEach(function (k) {
-    const c = head.indexOf(k);
-    if (c < 0) throw new Error('Coluna desconhecida: ' + nome + '.' + k);
-    sh.getRange(row, c + 1).setValue(safe_(patch[k]));
-  });
+  const keys = Object.keys(patch);
+  keys.forEach(function (k) { if (head.indexOf(k) < 0) throw new Error('Coluna desconhecida: ' + nome + '.' + k); });
+  if (keys.length === 1) {
+    sh.getRange(row, head.indexOf(keys[0]) + 1).setValue(safe_(patch[keys[0]]));
+  } else {
+    // uma só escrita para a linha inteira (várias escritas pequenas são lentas)
+    const rng = sh.getRange(row, 1, 1, head.length);
+    const vals = rng.getValues();
+    keys.forEach(function (k) { vals[0][head.indexOf(k)] = safe_(patch[k]); });
+    rng.setValues(vals);
+  }
+  invalidar_(nome);
 }
 
 function withLock_(fn) {
@@ -107,10 +151,11 @@ function text_(v, min, max, nome) {
 }
 
 /** Envia um email. Devolve true/false (nunca lança), para o chamador poder avisar se falhou. */
-function sendMail_(to, subject, body, anexos) {
+function sendMail_(to, subject, body, anexos, replyTo) {
   try {
     const msg = { to: to, subject: '[Condomínio] ' + subject, body: body, name: 'Condomínio Rua da Misericórdia 13/15/17' };
     if (anexos && anexos.length) msg.attachments = anexos;
+    if (replyTo) msg.replyTo = replyTo;
     MailApp.sendEmail(msg);
     return true;
   } catch (e) {

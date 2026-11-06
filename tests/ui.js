@@ -43,7 +43,7 @@ const fill = (sel, v) => { const e = d.querySelector(sel); e.value = v; };
   fill('#q', 'impasse'); d.querySelector('#q').dispatchEvent(new w.Event('input', { bubbles: true }));
   ok(d.querySelectorAll('[data-t]:not([hidden])').length >= 2 && d.querySelector('#s-dispositivos').hidden, 'pesquisa filtra secções');
   ok(/Administradores/.test(text()) && /2 vagas/.test(text()) && /Convocatórias/.test(text()) && /Recibos/.test(text()), 'manual documenta administradores, convocatórias e recibos');
-  ok(d.querySelectorAll('.chip.aviso').length >= 1, 'secções ainda não programadas levam a etiqueta "Em breve na app"');
+  ok(d.querySelectorAll('.chip.aviso').length === w.MANUAL.secoes.filter(x => x.estado === 'breve').length, 'só as secções ainda não programadas levam a etiqueta "Em breve na app"');
   ok(d.querySelector('#imp'), 'botão de imprimir existe');
   await click('#v');
   ok(d.querySelector('#email'), 'voltar do manual regressa à entrada');
@@ -72,7 +72,9 @@ const fill = (sel, v) => { const e = d.querySelector(sel); e.value = v; };
   ok(d.querySelector('#email'), 'master terminou sessão');
   fill('#email', 'ana@exemplo.pt'); await submit('#f');
   fill('#code', /é (\d{6})\./.exec(mails[mails.length - 1].body)[1]); await submit('#f');
-  ok(/Olá/.test(text()) && /Fração D/.test(text()), 'ana entra e vê a sua fração');
+  await wait(150);
+  ok(/Sessão da fração D/.test(text()) && /Atividade recente/.test(text()), 'ana entra e vê o início com atividade recente');
+  ok(['inicio','fracoes','pagamentos','obras','resumo'].every(k => d.querySelector('[data-nav="'+k+'"]')), 'menu com os 5 separadores do design');
   ok(!/Quem és/.test(text()), 'condómino não passa por "Quem és?"');
 
   // Fração alheia é só leitura
@@ -81,23 +83,36 @@ const fill = (sel, v) => { const e = d.querySelector(sel); e.value = v; };
   ok(/Só a própria fração pode alterar/.test(text()) && !d.querySelector('#add') && !d.querySelector('[data-trocar]'), 'fração alheia sem botões de editar');
 
   // Pedido de entrada pelo ecrã público
-  await click('[data-nav="dispositivos"]'); await wait(60);
+  await click('[data-nav="inicio"]'); await wait(80);
+  await click('[data-go="dispositivos"]'); await wait(80);
   ok(/Dispositivos ligados/.test(text()) && /Ativo agora/.test(text()), 'lista de dispositivos');
-  // Pagamentos, quotas, recibos e administração
-  await click('[data-nav="pagamentos"]'); await wait(80);
-  ok(/Pagamentos/.test(text()) && d.querySelector('#novo'), 'ecrã de pagamentos com botão Registar');
+  // Pagamentos, quotas, recibos, administração, obras, resumo
+  await click('[data-nav="pagamentos"]'); await wait(120);
+  ok(/Pagamentos/.test(text()) && /quotas pagas/.test(text()) && d.querySelectorAll('.rowf').length === 8 && d.querySelector('#novo'), 'pagamentos: vista mensal com 8 frações');
   await click('#novo');
   ok(d.querySelector('.folha input[type=file]') && d.querySelector('.folha select[name=metodo]'), 'formulário de pagamento tem ficheiro e forma de pagamento');
   await click('[data-x]');
-  await click('[data-go="quotas"]'); await wait(80);
-  ok(/Quotas mensais/.test(text()) && /Por definir/.test(text()), 'ecrã de quotas');
-  await click('#v'); await click('[data-nav="inicio"]'); await wait(60);
-  await click('[data-go="administracao"]'); await wait(80);
-  ok(/Tornar-me administrador/.test(text()), 'ecrã de administração permite candidatar-se');
-  await click('#ser'); await wait(100);
-  ok(/Deixar de ser administrador/.test(text()), 'ana tornou-se administradora');
+  await click('[data-go="quotas"]'); await wait(120);
+  ok(/Quotas/.test(text()) && /Por definir/.test(text()), 'ecrã de quotas');
   await click('#v'); await wait(60);
-  ok(/Todos os recibos/.test(text()), 'administrador vê "Todos os recibos" no início');
+  await click('[data-nav="inicio"]'); await wait(80);
+  await click('[data-go="administracao"]'); await wait(120);
+  ok(/Nomear-me administrador/.test(text()) && /Vaga livre/.test(text()), 'administração: vagas livres e botão de nomear');
+  await click('#ser'); await wait(150);
+  ok(/Sair do cargo de administrador/.test(text()) && /Enviar convocatória/.test(text()) && /Tu/.test(text()), 'ana tornou-se administradora e vê a convocatória');
+  await click('[data-go="convocatoria"]'); await wait(120);
+  ok(/Nova convocatória/.test(text()) && d.querySelector('#assunto') && /Enviar a todas as frações/.test(text()), 'ecrã de convocatória');
+  await click('#v'); await wait(60);
+  await click('[data-go="recibosadmin"]'); await wait(120);
+  ok(/Todos os recibos/.test(text()) && d.querySelector('#verif'), 'todos os recibos (administrador)');
+  await click('[data-nav="obras"]'); await wait(120);
+  ok(/Obras e problemas/.test(text()) && d.querySelector('#novo') && /Registar obra/.test(text()), 'obras: separador com botão de registar');
+  await click('[data-tab="problemas"]'); await wait(120);
+  ok(/Reportar problema/.test(text()), 'problemas: separador com botão de reportar');
+  await click('[data-nav="resumo"]'); await wait(120);
+  ok(/Resumo anual/.test(text()) && /Cobrado/.test(text()) && d.querySelectorAll('.gr').length === 9, 'resumo anual com 8 frações');
+  await click('[data-nav="inicio"]'); await wait(120);
+  ok(/Em débito/.test(text()) && /Problemas abertos/.test(text()) && /Obras em curso/.test(text()), 'início tem os 4 números do design');
   console.log(fails ? `\n${fails} falhas` : '\nUI ok');
   process.exit(fails ? 1 : 0);
 })().catch(e => { console.log('ERRO', e.message); process.exit(1); });

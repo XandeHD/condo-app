@@ -5,7 +5,7 @@
    no mesmo commit (e 'breve' passa a 'ativo') e a versão/data sobem. Vale para todos: qualquer pessoa lê tudo,
    para que ninguém fique sem perceber o que os outros podem fazer. */
 window.MANUAL = {
-  versao: 3,
+  versao: 4,
   atualizado: '2026-11-06',
   secoes: [
     { id: 'basico', titulo: 'O que é esta app', quem: 'Todos', estado: 'ativo', html:
@@ -27,13 +27,13 @@ window.MANUAL = {
       '<div class="tr"><span>Nomear-se administrador</span><span>Sim, se houver vaga</span><span>—</span><span>Não</span></div>' +
       '<div class="tr"><span>Sair do cargo de administrador</span><span>—</span><span>Sim</span><span>—</span></div>' +
       '<div class="tr"><span>Remover um administrador</span><span>Não</span><span>Sim, o outro</span><span>Sim, com motivo</span></div>' +
-      '<div class="tr"><span>Enviar convocatória <em>(em breve)</em></span><span>Não</span><span>Sim</span><span>Não</span></div>' +
+      '<div class="tr"><span>Enviar convocatória</span><span>Não</span><span>Sim</span><span>Não</span></div>' +
       '<div class="tr"><span>Emitir e anular recibos</span><span>Não</span><span>Sim</span><span>Não</span></div>' +
       '<div class="tr"><span>Ver “Todos os recibos”</span><span>Não</span><span>Sim</span><span>Não</span></div>' +
       '<div class="tr"><span>Ver os recibos da própria fração</span><span>Sim</span><span>Sim</span><span>Não</span></div>' +
       '<div class="tr"><span>Registar pagamentos e definir quotas</span><span>Sim</span><span>Sim</span><span>Não</span></div>' +
-      '<div class="tr"><span>Registar obras e problemas <em>(em breve)</em></span><span>Sim</span><span>Sim</span><span>Não</span></div></div>' +
-      '<p class="pequeno">Impasse = a fração não tem nenhum email ativo, ou o pedido está sem resposta há mais de 7 dias. Linhas com “em breve” já estão decididas e desenhadas, mas ainda não estão na app.</p>' +
+      '<div class="tr"><span>Registar obras e problemas</span><span>Sim</span><span>Sim</span><span>Não</span></div></div>' +
+      '<p class="pequeno">Impasse = a fração não tem nenhum email ativo, ou o pedido está sem resposta há mais de 7 dias.</p>' +
       '<p>Ser administrador <strong>só dá os poderes da tabela</strong>. Todo o resto é igual para todos. E o Master não é um super-utilizador: só vê Administração, Pedidos de entrada e Emails das frações.</p>' },
 
     { id: 'entrar', titulo: 'Entrar na app', quem: 'Todos', estado: 'ativo', html:
@@ -85,12 +85,12 @@ window.MANUAL = {
       '<li>Se o email de um administrador sai da fração, a vaga fica livre sozinha.</li>' +
       '<li>Se os dois administradores não se removem e há um problema grave, o <strong>Admin Master</strong> pode remover um, com motivo.</li>' +
       '<li>Toda a nomeação, saída ou remoção fica no registo e gera um aviso para todos. Quem é removido recebe também um email.</li></ul>' +
-      '<p><strong>Onde:</strong> no início, em “Administração”. <strong>O que dá ser administrador:</strong> emitir, enviar e anular recibos, ver todos os recibos, remover o outro administrador e (em breve) enviar convocatórias. Nada mais: não dá mais voto, nem mais acesso a emails de outras frações.</p>' },
+      '<p><strong>Onde:</strong> no início, em “Administração”. <strong>O que dá ser administrador:</strong> emitir, enviar e anular recibos, ver todos os recibos, remover o outro administrador e enviar convocatórias. Nada mais: não dá mais voto, nem mais acesso a emails de outras frações.</p>' },
 
-    { id: 'convocatoria', titulo: 'Convocatórias', quem: 'Só administradores enviam · todos recebem', estado: 'breve', html:
+    { id: 'convocatoria', titulo: 'Convocatórias', quem: 'Só administradores enviam · todos recebem', estado: 'ativo', html:
       '<p>Só um <strong>administrador</strong> pode enviar uma convocatória.</p>' +
-      '<ol><li>Carrega o documento (PDF), escreve o assunto e, se quiser, a data, hora e local.</li>' +
-      '<li>A app mostra a <strong>lista de destinatários</strong>: todos os emails ativos de todas as frações. Confirma-se antes de enviar.</li>' +
+      '<p><strong>Onde:</strong> Início → Administração → Enviar convocatória. Quem não é administrador vê só o histórico.</p><ol><li>Carrega o documento (PDF, até 5 MB), escreve o assunto e, se quiser, a data, hora e local.</li>' +
+      '<li>A app mostra a <strong>lista de destinatários</strong>: todos os emails ativos de todas as frações. “Ver lista” mostra-a (só os administradores veem os emails). A app pede confirmação antes de enviar, porque não se pode desfazer.</li>' +
       '<li>A app envia o email com o PDF. Se responderes, a resposta vai para o administrador que enviou.</li></ol>' +
       '<p>Fica registado quem enviou, quando, o documento, o assunto e <strong>exatamente quais os emails</strong> que receberam.</p>' +
       '<p class="pequeno">Nota: o email só vale como convocatória para quem o aceitou em ata, e convém que cada condómino confirme a receção. Não substitui aconselhamento jurídico.</p>' },
@@ -108,6 +108,20 @@ window.MANUAL = {
       '<p><strong>Como condómino</strong>, em “Os meus recibos” vês os recibos <strong>da tua fração, mês a mês</strong>, e descarregas o PDF. Só vês um recibo se o <strong>teu email já estava na fração quando foi emitido</strong>. Se mudares de email, os recibos antigos não aparecem ao email novo, mas continuam no histórico total.</p>' +
       '<p><strong>Como administrador</strong>, em “Todos os recibos” vês os de todas as frações, descarregas, anulas com motivo e emites recibos a partir dos pagamentos. Qualquer pessoa pode <strong>verificar</strong> um recibo pelo código. Podes <strong>enviar</strong> um recibo por email, mas só para emails que estão <strong>ativos na fração agora</strong>. Se o email do recibo já saiu, o botão fica bloqueado.</p>' +
       '<p>Cada descarga, envio e verificação fica no registo.</p>' },
+
+    { id: 'obras', titulo: 'Obras e problemas', quem: 'Todos veem e registam', estado: 'ativo', html:
+      '<p>No separador <strong>Obras</strong> do menu há dois ecrãs: Obras e Problemas. Qualquer condómino (as contas das frações) pode registar e comentar.</p>' +
+      '<ul><li><strong>Obras:</strong> título, descrição, fornecedor, data de início, custo e garantia. Cada obra pode ter documentos (orçamentos, faturas, fotos em PDF/JPG/PNG, até 5 MB). Quando acaba, “Marcar como concluída” guarda a data, o custo final e a garantia.</li>' +
+      '<li><strong>Problemas:</strong> o que se passa, onde e a prioridade (alta, média ou baixa). Passam por <em>Aberto</em>, <em>Em tratamento</em> e <em>Resolvido</em>. Todos podem comentar e juntar documentos.</li>' +
+      '<li>Nada se apaga. Cada registo e cada mudança de estado fica na auditoria, com o autor, e gera um aviso para todos.</li></ul>' +
+      '<p>O Admin Master <strong>não</strong> tem acesso a esta área.</p>' },
+
+    { id: 'resumo', titulo: 'Resumo anual', quem: 'Todos', estado: 'ativo', html:
+      '<p>No separador <strong>Resumo</strong> vês, para cada fração e para o ano escolhido: quanto já pagou, a quota que já devia estar paga até ao mês atual e o valor em débito.</p>' +
+      '<ul><li>Um pagamento de vários meses reparte-se por igual por esses meses.</li>' +
+      '<li>O “Em débito” nunca é negativo: se uma fração pagou adiantado, fica a zero.</li>' +
+      '<li>“Exportar PDF” abre a impressão do telemóvel/computador (escolhe “Guardar como PDF”). “Exportar CSV” descarrega uma folha que abre no Excel.</li>' +
+      '<li>No início da app aparecem os números do mês: em débito, quotas pagas, problemas abertos e obras em curso.</li></ul>' },
 
     { id: 'dispositivos', titulo: 'Dispositivos e sessões', quem: 'Todos', estado: 'ativo', html:
       '<p>Cada telemóvel ou computador onde entraste é um <strong>dispositivo</strong>. Em <strong>Dispositivos</strong> vês a lista, com o último uso, e podes <strong>Terminar</strong> qualquer sessão que não seja a atual.</p>' +

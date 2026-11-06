@@ -68,6 +68,7 @@ function setup() {
   const padrao = ss.getSheetByName('Folha1') || ss.getSheetByName('Sheet1');
   if (padrao && ss.getSheets().length > 1 && padrao.getLastRow() === 0) ss.deleteSheet(padrao);
 
+  limparTudo_();
   Logger.log('Setup concluído. Admin Master: ' + Session.getEffectiveUser().getEmail() + ' · Sheet: ' + ss.getUrl());
 }
 

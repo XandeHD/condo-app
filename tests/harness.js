@@ -12,12 +12,13 @@ const mkSheet = (name) => ({
     return {
       setValue(v) { store[name][r - 1][c - 1] = v; return this; },
       setValues(vs) { vs.forEach((row, i) => row.forEach((v, j) => { (store[name][r - 1 + i] = store[name][r - 1 + i] || [])[c - 1 + j] = v; })); return this; },
+      getValues() { return [store[name][r - 1].slice(0, nc || store[name][r - 1].length)]; },
       setFontWeight() { return this; }
     };
   },
   setFrozenRows() {}
 });
-const files = {}; let fileN = 0;
+const cache = {}; const files = {}; let fileN = 0;
 const mkBlob = (data, mime, name) => { const b = { _d: data, _m: mime, _n: name,
   getName: () => b._n, setName: (n) => { b._n = n; return b; }, getContentType: () => b._m,
   getBytes: () => (typeof b._d === 'string' ? Array.from(Buffer.from(b._d)) : b._d),
@@ -48,6 +49,7 @@ const ctx = {
     getFileById: (id) => ({ getBlob: () => files[id] })
   },
   PropertiesService: { getScriptProperties: () => ({ getProperty: k => props[k] || null, setProperty: (k, v) => { props[k] = v; } }) },
+  CacheService: { getScriptCache: () => ({ get: k => (cache[k] === undefined ? null : cache[k]), put: (k, v) => { cache[k] = v; }, remove: k => { delete cache[k]; } }) },
   LockService: { getScriptLock: () => ({ waitLock() {}, releaseLock() {} }) },
   MailApp: { sendEmail: (m) => mails.push(m) },
   SpreadsheetApp: { getActiveSpreadsheet: () => ss, openById: () => ss },

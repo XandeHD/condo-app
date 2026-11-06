@@ -32,7 +32,8 @@ function api_admins(token) {
     else if (fracaoOcupada) motivoNao = 'A tua fração já tem um administrador. Os 2 têm de ser de frações diferentes.';
   }
   return {
-    admins: ativos.map(function (a) { return { email: a.email, fracao: a.fracao, desde: Number(a.desde) }; }),
+    admins: ativos.map(function (a) { const f = fracaoInfo_(a.fracao); return { email: a.email, fracao: a.fracao, nome: f ? f.nome : '', desde: Number(a.desde), eu: a.email === s.email }; }),
+    registo: table_('Avisos').filter(function (x) { return x.tipo === 'administracao'; }).sort(function (a, b) { return Number(b.data) - Number(a.data); }).slice(0, 3).map(function (x) { return { data: Number(x.data), texto: x.texto }; }),
     vagas: vagas,
     souAdmin: souAdmin,
     podeNomear: !s.isMaster && !souAdmin && !motivoNao,

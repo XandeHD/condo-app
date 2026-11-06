@@ -2,7 +2,7 @@
   "name": "condo-app",
   "private": true,
   "scripts": {
-    "test": "node tests/smoke.js && node tests/pagamentos.js && node tests/ui.js"
+    "test": "node tests/smoke.js && node tests/pagamentos.js && node tests/modulos.js && node tests/ui.js"
   },
   "devDependencies": {
     "jsdom": "^24.0.0"
