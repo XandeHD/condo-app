@@ -211,7 +211,7 @@
       '<form class="cartao" id="f" style="padding:20px;gap:16px"><label>O teu email<input id="email" type="email" inputmode="email" placeholder="novo@exemplo.pt" required></label>' +
       '<div><span style="font-size:13px;font-weight:700">A tua fração</span><div class="grelha" style="margin-top:8px">' + letras.map(function (l) { return '<button type="button" class="escolha" data-l="' + l + '" aria-pressed="' + (l === sel) + '">' + l + '</button>'; }).join('') + '</div></div>' +
       '<button class="btn" id="go" ' + (sel ? '' : 'disabled') + '>Enviar pedido</button></form>' +
-      '<div class="nota"><span>Se a tua fração já não tem nenhum email ativo (por exemplo, depois de uma venda), o pedido segue para o Admin Master.</span></div></main>';
+      '<div class="nota"><span>Se a tua fração já não tem nenhum email ativo, o pedido segue para o Admin Master.</span></div></main>';
     document.getElementById('v').onclick = function () { state.tmp = {}; go('entrar'); };
     Array.prototype.forEach.call(document.querySelectorAll('[data-l]'), function (b) { b.onclick = function () { state.tmp.sel = b.getAttribute('data-l'); state.tmp.emailTmp = document.getElementById('email').value; ecraPedir(); document.getElementById('email').value = state.tmp.emailTmp || ''; }; });
     document.getElementById('f').onsubmit = async function (ev) {
@@ -330,7 +330,7 @@
       var lista = await call('api_devices', state.token), m = state.me;
       vista('<main>' + cabecalho('') + '<div><h1>Dispositivos ligados</h1><p class="suave" style="margin-top:4px">Onde tens sessão iniciada com ' + esc(m.email) + '. Se não reconheces algum, termina a sessão.</p></div>' +
         lista.map(function (d) { return '<div class="item" style="cursor:default;' + (d.revogado ? 'opacity:.55' : '') + '"><div class="grande"><strong>' + esc(d.nome) + '</strong><div class="pequeno">' + (d.este ? 'Ativo agora' : 'Último uso ' + fmtQuando(d.ultimoUso)) + '</div></div>' + (d.este ? '<span class="chip verde">Este</span>' : d.revogado ? '<span class="pequeno">Terminada</span>' : '<button class="btn perigo peq" data-end="' + d.id + '">Terminar</button>') + '</div>'; }).join('') +
-        '<p class="pequeno">A sessão dura 30 dias em cada dispositivo. Quando um dispositivo novo entra, a tua fração recebe um aviso.</p></main>', 'dispositivos');
+        '<p class="pequeno">A sessão dura 6 meses em cada dispositivo (renova sempre que a usas). Quando um dispositivo novo entra, a tua fração recebe um aviso.</p></main>', 'dispositivos');
       Array.prototype.forEach.call(document.querySelectorAll('[data-end]'), function (b) { b.onclick = async function () { if (await acao(b, function () { return call('api_endDevice', state.token, b.getAttribute('data-end')); }, 'Sessão terminada')) ecraDispositivos(); }; });
     } catch (e) { toast(e.message, true); if (/expirada/.test(e.message)) sair(true); }
   }
