@@ -481,7 +481,7 @@
   async function registarPagamento(ano, mes) {
     var m = state.me, letras = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
     var v = await ask('Registar pagamento', 'O comprovativo é obrigatório (PDF ou foto, até 5 MB).', [
-      { name: 'letra', label: 'Fração', options: letras, value: m.fracao || 'A' },
+      { name: 'letra', label: 'Fração', options: m.isAdmin ? letras : [m.fracao], value: m.fracao || 'A' },
       { name: 'data', label: 'Data do pagamento', type: 'date', value: hojeISO() },
       { name: 'valor', label: 'Valor total (€)', placeholder: 'Ex.: 50,00' },
       { name: 'mes', label: 'Primeiro mês pago', type: 'month', value: ano + '-' + ('0' + mes).slice(-2) },

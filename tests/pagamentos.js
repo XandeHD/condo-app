@@ -39,6 +39,7 @@ throws(`api_addPayment('${tc}','C','${dataHoje}',50,'${ano}-01',1,'MB Way','',nu
 throws(`api_addPayment('${tc}','C','${dataHoje}',50,'${ano}-01',1,'Bitcoin','',${F})`, /forma/i, 'forma de pagamento inválida');
 throws(`api_addPayment('${tc}','C','2999-01-01',50,'${ano}-01',1,'MB Way','',${F})`, /futuro/i, 'data futura recusada');
 throws(`api_addPayment('${tc}','C','${dataHoje}',50,'${ano}-01',1,'MB Way','',{nome:'a.exe',mime:'application/x-msdownload',base64:'AAAA'})`, /PDF/i, 'tipo de ficheiro recusado');
+throws(`api_addPayment('${tc}','D','${dataHoje}',50,'${ano}-01',1,'MB Way','',${F})`, /tua fração/i, 'condómino não regista pagamento de outra fração');
 const r = run(`api_addPayment('${tc}','C','${dataHoje}',100,'${ano}-11',3,'MB Way','Nov a Jan',${F})`);
 let pg = run(`api_payments('${tb}','C')`);
 ok(pg.length === 1 && pg[0].meses.join() === `${ano}-11,${ano + 1}-01`.replace(',', ',') || pg[0].meses.length === 3, 'pagamento com 3 meses, a passar o ano');
@@ -82,5 +83,7 @@ throws(`api_annulReceipt('${ta}','${rc.key}','')`, /motivo/i, 'anular recibo exi
 run(`api_annulReceipt('${ta}','${rc.key}','Valor errado')`);
 run(`api_annulPayment('${tn}','${r.id}','Valor errado')`);
 ok(run(`api_payments('${tn}','C')`)[0].anulado === true, 'pagamento anulado mantém-se na lista');
+
+ok(run(`api_addPayment('${tb}','C','${dataHoje}',10,'${ano}-02',1,'MB Way','',${F})`).ok, 'administrador regista pagamento de qualquer fração');
 
 process.exit(fails ? 1 : (console.log('\nPagamentos ok'), 0));

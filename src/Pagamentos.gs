@@ -122,6 +122,7 @@ function api_addPayment(token, letra, dataStr, valor, mesInicio, nMeses, metodo,
   requireMember_(s);
   return withLock_(function () {
     if (!fracaoInfo_(letra)) throw new Error('Escolhe a fração.');
+    if (!isAdmin_(s.email) && letra !== s.fracao) throw new Error('Só podes registar pagamentos da tua fração. Os administradores registam de qualquer fração.');
     const data = dataValida_(dataStr);
     valor = valorValido_(valor, 'O valor');
     const meses = mesesLista_(mesInicio, nMeses);
