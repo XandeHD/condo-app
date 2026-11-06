@@ -106,6 +106,14 @@ function datasLegiveis_(ss) {
       rng.setNumberFormat(FORMATO_DATA_);
       final.forEach(function (r) { if (r[0] instanceof Date) total++; });
     });
+    (COLUNAS_MES_[nome] || []).forEach(function (col) {   // meses "2026-11": texto, nunca data
+      const c = SCHEMA[nome].indexOf(col) + 1, n = sh.getMaxRows() - 1;
+      if (c < 1 || n < 1) return;
+      const rng = sh.getRange(2, c, n, 1), vals = rng.getValues();
+      const txt = vals.map(function (r) { return [r[0] instanceof Date ? Utilities.formatDate(r[0], 'Europe/Lisbon', 'yyyy-MM') : r[0]]; });
+      rng.setNumberFormat('@');
+      rng.setValues(txt);
+    });
     sh.autoResizeColumns(1, SCHEMA[nome].length);
   });
   return total;

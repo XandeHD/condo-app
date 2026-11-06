@@ -58,6 +58,9 @@ const COLUNAS_DATA_ = {
   Despesas: ['data'], Obras: ['data_inicio', 'data_fim'], Problemas: ['data'], Comentarios: ['data'], Documentos: ['data'],
   Auditoria: ['data_hora'], Codigos_Login: ['validade']
 };
+// Colunas com texto do tipo "2026-11": a Sheet tende a transformá-lo numa data, por isso guardam-se como texto
+// e, se mesmo assim vier uma data, converte-se de volta para "aaaa-mm".
+const COLUNAS_MES_ = { Pagamentos: ['meses'], Recibos: ['periodo'], Obras: ['garantia_ate'] };
 const FORMATO_DATA_ = 'dd/mm/yyyy hh:mm';
 
 function val_(nome, col, v) {
@@ -73,7 +76,12 @@ function lerFolha_(nome) {
   const head = v[0];
   return v.slice(1).map(function (r, i) {
     const o = { _row: i + 2 };
-    head.forEach(function (h, j) { o[h] = (r[j] instanceof Date) ? r[j].getTime() : r[j]; });
+    const mes = COLUNAS_MES_[nome] || [];
+    head.forEach(function (h, j) {
+      const x = r[j];
+      if (x instanceof Date) o[h] = mes.indexOf(h) >= 0 ? Utilities.formatDate(x, 'Europe/Lisbon', 'yyyy-MM') : x.getTime();
+      else o[h] = x;
+    });
     return o;
   });
 }

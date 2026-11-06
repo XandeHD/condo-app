@@ -94,5 +94,8 @@ store.Pagamentos[1][2] = 1762444800000;   // dado antigo (número gigante) conti
 ok(typeof run(`api_payments('${tb}','A')`) === 'object', 'dados antigos em milissegundos continuam a funcionar');
 run('corrigirDatas()');
 ok(store.Pagamentos.slice(1).every(r => r[2] instanceof Date), 'migração converte os números antigos em datas');
+store.Pagamentos[1][4] = require('vm').runInContext('new Date(2026, 10, 1)', require('./harness').ctx);   // a Sheet transformou "2026-11" em data
+run('invalidar_("Pagamentos")');
+ok(JSON.stringify(run(`api_payments('${tb}','${store.Pagamentos[1][1]}')`).find(x => x.id === store.Pagamentos[1][0]).meses) === '["2026-11"]', 'mês que a Sheet converteu em data volta a "aaaa-mm"');
 
 process.exit(fails ? 1 : (console.log('\nPagamentos ok'), 0));
