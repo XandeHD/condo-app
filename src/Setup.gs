@@ -40,10 +40,11 @@ const FRACOES_INICIAIS = [
 ];
 
 function setup() {
-  const ss = SpreadsheetApp.getActiveSpreadsheet();
-  if (!ss) throw new Error('setup() só pode ser corrido a partir do editor do Apps Script, no projeto ligado à Sheet.');
-
   const props = PropertiesService.getScriptProperties();
+  // 1) Script ligado a uma Sheet; 2) Sheet já criada por um setup anterior; 3) cria uma Sheet nova.
+  let ss = SpreadsheetApp.getActiveSpreadsheet();
+  if (!ss && props.getProperty('SHEET_ID')) ss = SpreadsheetApp.openById(props.getProperty('SHEET_ID'));
+  if (!ss) ss = SpreadsheetApp.create('Condomínio Rua da Misericórdia 13/15/17 – Dados');
   props.setProperty('SHEET_ID', ss.getId());
   if (!props.getProperty('SALT')) props.setProperty('SALT', Utilities.getUuid() + Utilities.getUuid());
 
@@ -67,7 +68,7 @@ function setup() {
   const padrao = ss.getSheetByName('Folha1') || ss.getSheetByName('Sheet1');
   if (padrao && ss.getSheets().length > 1 && padrao.getLastRow() === 0) ss.deleteSheet(padrao);
 
-  Logger.log('Setup concluído. Admin Master: ' + Session.getEffectiveUser().getEmail());
+  Logger.log('Setup concluído. Admin Master: ' + Session.getEffectiveUser().getEmail() + ' · Sheet: ' + ss.getUrl());
 }
 
 /** Só escreve as linhas iniciais se a folha ainda não tiver dados. */

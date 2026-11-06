@@ -22,7 +22,7 @@ tests/                testes (npm install && npm test)
 
 ## Configuração inicial (uma vez)
 
-1. **Sheet + script.** Cria uma Google Sheet. Abre **Extensões → Apps Script** e copia o *Script ID* (Definições do projeto).
+1. **Projeto Apps Script.** Cria um projeto em https://script.google.com e copia o *Script ID* (Definições do projeto). Não precisas de criar a Sheet: o `setup` (passo 6) cria-a sozinho. (Se preferires, podes abrir o Apps Script a partir de uma Sheet sem nada, em **Extensões → Apps Script**, e o `setup` usa essa.)
 2. **Ativa a Apps Script API** em https://script.google.com/home/usersettings
 3. **Credenciais no teu PC:**
    ```
