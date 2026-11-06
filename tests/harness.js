@@ -20,6 +20,7 @@ const mkSheet = (name) => ({
 const sheets = {};
 const ss = {
   getId: () => 'SHEET',
+  getUrl: () => 'https://docs.google.com/spreadsheets/d/SHEET',
   getSheetByName: (n) => (store[n] ? (sheets[n] = sheets[n] || mkSheet(n)) : null),
   insertSheet: (n) => { store[n] = []; return ss.getSheetByName(n); },
   getSheets: () => Object.keys(store).map(n => ss.getSheetByName(n)),
