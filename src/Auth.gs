@@ -49,10 +49,6 @@ function requireSession_(token) {
   };
 }
 
-function requireMember_(s) {
-  if (s.isMaster || !s.fracao) throw new Error('Esta conta não pertence a nenhuma fração.');
-}
-
 function requireMaster_(s) {
   if (!s.isMaster) throw new Error('Só o Admin Master pode fazer isto.');
   if (!s.quem) throw new Error('Diz-nos primeiro quem és.');

@@ -5,7 +5,7 @@
    no mesmo commit (e 'breve' passa a 'ativo') e a versão/data sobem. Vale para todos: qualquer pessoa lê tudo,
    para que ninguém fique sem perceber o que os outros podem fazer. */
 window.MANUAL = {
-  versao: 2,
+  versao: 3,
   atualizado: '2026-11-06',
   secoes: [
     { id: 'basico', titulo: 'O que é esta app', quem: 'Todos', estado: 'ativo', html:
@@ -28,10 +28,11 @@ window.MANUAL = {
       '<div class="tr"><span>Sair do cargo de administrador</span><span>—</span><span>Sim</span><span>—</span></div>' +
       '<div class="tr"><span>Remover um administrador</span><span>Não</span><span>Sim, o outro</span><span>Sim, com motivo</span></div>' +
       '<div class="tr"><span>Enviar convocatória <em>(em breve)</em></span><span>Não</span><span>Sim</span><span>Não</span></div>' +
-      '<div class="tr"><span>Emitir e anular recibos <em>(em breve)</em></span><span>Não</span><span>Sim</span><span>Não</span></div>' +
-      '<div class="tr"><span>Ver “Todos os recibos” <em>(em breve)</em></span><span>Não</span><span>Sim</span><span>Não</span></div>' +
-      '<div class="tr"><span>Ver os recibos da própria fração <em>(em breve)</em></span><span>Sim</span><span>Sim</span><span>Não</span></div>' +
-      '<div class="tr"><span>Registar pagamentos, obras e problemas <em>(em breve)</em></span><span>Sim</span><span>Sim</span><span>Não</span></div></div>' +
+      '<div class="tr"><span>Emitir e anular recibos</span><span>Não</span><span>Sim</span><span>Não</span></div>' +
+      '<div class="tr"><span>Ver “Todos os recibos”</span><span>Não</span><span>Sim</span><span>Não</span></div>' +
+      '<div class="tr"><span>Ver os recibos da própria fração</span><span>Sim</span><span>Sim</span><span>Não</span></div>' +
+      '<div class="tr"><span>Registar pagamentos e definir quotas</span><span>Sim</span><span>Sim</span><span>Não</span></div>' +
+      '<div class="tr"><span>Registar obras e problemas <em>(em breve)</em></span><span>Sim</span><span>Sim</span><span>Não</span></div></div>' +
       '<p class="pequeno">Impasse = a fração não tem nenhum email ativo, ou o pedido está sem resposta há mais de 7 dias. Linhas com “em breve” já estão decididas e desenhadas, mas ainda não estão na app.</p>' +
       '<p>Ser administrador <strong>só dá os poderes da tabela</strong>. Todo o resto é igual para todos. E o Master não é um super-utilizador: só vê Administração, Pedidos de entrada e Emails das frações.</p>' },
 
@@ -75,7 +76,7 @@ window.MANUAL = {
       '<li>Os avisos por ler ficam destacados. “Marcar como lidos” limpa o número.</li></ul>' +
       '<p>Só recebes <strong>email</strong> quando és diretamente afetado: o código de entrada, um pedido da tua fração, o teu pedido aprovado ou recusado, ou o teu email adicionado, trocado ou removido.</p>' },
 
-    { id: 'administradores', titulo: 'Administradores', quem: 'Todos devem ler', estado: 'breve', html:
+    { id: 'administradores', titulo: 'Administradores', quem: 'Todos devem ler', estado: 'ativo', html:
       '<p>O prédio tem <strong>2 vagas de administrador</strong>. Qualquer condómino pode assumir uma, desde que haja vaga.</p>' +
       '<ul><li>Cada administrador é <strong>um email</strong>, e os 2 têm de ser de <strong>frações diferentes</strong>. A app não deixa nomear o 2.º se for da mesma fração do 1.º.</li>' +
       '<li>Com as 2 vagas ocupadas, <strong>mais ninguém</strong> se pode nomear.</li>' +
@@ -84,7 +85,7 @@ window.MANUAL = {
       '<li>Se o email de um administrador sai da fração, a vaga fica livre sozinha.</li>' +
       '<li>Se os dois administradores não se removem e há um problema grave, o <strong>Admin Master</strong> pode remover um, com motivo.</li>' +
       '<li>Toda a nomeação, saída ou remoção fica no registo e gera um aviso para todos. Quem é removido recebe também um email.</li></ul>' +
-      '<p><strong>O que dá ser administrador:</strong> enviar convocatórias, emitir recibos, ver todos os recibos e remover o outro administrador. Nada mais: não dá mais voto, nem mais acesso a emails de outras frações.</p>' },
+      '<p><strong>Onde:</strong> no início, em “Administração”. <strong>O que dá ser administrador:</strong> emitir, enviar e anular recibos, ver todos os recibos, remover o outro administrador e (em breve) enviar convocatórias. Nada mais: não dá mais voto, nem mais acesso a emails de outras frações.</p>' },
 
     { id: 'convocatoria', titulo: 'Convocatórias', quem: 'Só administradores enviam · todos recebem', estado: 'breve', html:
       '<p>Só um <strong>administrador</strong> pode enviar uma convocatória.</p>' +
@@ -94,18 +95,18 @@ window.MANUAL = {
       '<p>Fica registado quem enviou, quando, o documento, o assunto e <strong>exatamente quais os emails</strong> que receberam.</p>' +
       '<p class="pequeno">Nota: o email só vale como convocatória para quem o aceitou em ata, e convém que cada condómino confirme a receção. Não substitui aconselhamento jurídico.</p>' },
 
-    { id: 'pagamentos', titulo: 'Quotas e pagamentos', quem: 'Todos', estado: 'breve', html:
-      '<p>As quotas são <strong>mensais</strong>, com valor definido <strong>por fração e por ano</strong> (por exemplo, as lojas do R/C pagam menos por não usarem o elevador). Qualquer alteração de valor fica registada com o motivo.</p>' +
-      '<ul><li>Qualquer condómino pode <strong>registar um pagamento</strong>: fração, data, valor, método e meses. É obrigatório anexar o <strong>comprovativo</strong>.</li>' +
+    { id: 'pagamentos', titulo: 'Quotas e pagamentos', quem: 'Todos', estado: 'ativo', html:
+      '<p>As quotas são <strong>mensais</strong>, com valor definido <strong>por fração e por ano</strong> (por exemplo, as lojas do R/C pagam menos por não usarem o elevador). Qualquer condómino pode definir a quota; <strong>alterar um valor exige motivo</strong>, fica registado e todos são avisados. Está em Pagamentos → Quotas.</p>' +
+      '<ul><li>Em <strong>Pagamentos</strong>, qualquer condómino pode <strong>registar um pagamento</strong>: fração, data, valor total, primeiro mês, número de meses e forma de pagamento. É obrigatório anexar o <strong>comprovativo</strong> (PDF ou foto, até 5 MB), que fica guardado no Drive do condomínio.</li><li>Todos veem os pagamentos e podem descarregar os comprovativos.</li><li>Um pagamento com recibo só se anula depois de o recibo ser anulado.</li>' +
       '<li>Um pagamento nunca se apaga: só se <strong>anula, com motivo</strong>.</li>' +
       '<li>Cada pagamento guarda quem o registou e os emails que a fração tinha nessa altura.</li></ul>' },
 
-    { id: 'recibos', titulo: 'Recibos', quem: 'Só administradores emitem · cada fração vê os seus', estado: 'breve', html:
+    { id: 'recibos', titulo: 'Recibos', quem: 'Só administradores emitem · cada fração vê os seus', estado: 'ativo', html:
       '<p>Os recibos substituem o caderno de recibos em papel. <strong>Só os administradores os emitem.</strong></p>' +
       '<ul><li>É um <strong>recibo de quitação</strong>, não uma fatura. Em PDF, com número sequencial sem falhas, data, fração, valor, período, forma de pagamento, quem emitiu e um código de verificação.</li>' +
       '<li>Um recibo <strong>nunca se apaga</strong>: anula-se com motivo e emite-se outro.</li></ul>' +
       '<p><strong>Como condómino</strong>, em “Os meus recibos” vês os recibos <strong>da tua fração, mês a mês</strong>, e descarregas o PDF. Só vês um recibo se o <strong>teu email já estava na fração quando foi emitido</strong>. Se mudares de email, os recibos antigos não aparecem ao email novo, mas continuam no histórico total.</p>' +
-      '<p><strong>Como administrador</strong>, em “Todos os recibos” vês os de todas as frações, filtras por mês e fração, descarregas, <strong>verificas</strong> o código e anulas com motivo. Podes <strong>enviar</strong> um recibo por email, mas só para emails que estão <strong>ativos na fração agora</strong>. Se o email do recibo já saiu, o botão fica bloqueado.</p>' +
+      '<p><strong>Como administrador</strong>, em “Todos os recibos” vês os de todas as frações, descarregas, anulas com motivo e emites recibos a partir dos pagamentos. Qualquer pessoa pode <strong>verificar</strong> um recibo pelo código. Podes <strong>enviar</strong> um recibo por email, mas só para emails que estão <strong>ativos na fração agora</strong>. Se o email do recibo já saiu, o botão fica bloqueado.</p>' +
       '<p>Cada descarga, envio e verificação fica no registo.</p>' },
 
     { id: 'dispositivos', titulo: 'Dispositivos e sessões', quem: 'Todos', estado: 'ativo', html:
@@ -121,7 +122,7 @@ window.MANUAL = {
       '<p><strong>O que pode fazer:</strong></p>' +
       '<ul><li>Aprovar ou recusar um pedido de entrada <strong>em impasse</strong>.</li>' +
       '<li>Adicionar, alterar ou remover emails de qualquer fração.</li>' +
-      '<li>Remover administradores quando eles não se removem entre si <em>(em breve)</em>.</li></ul>' +
+      '<li>Remover administradores quando eles não se removem entre si (com motivo).</li></ul>' +
       '<p><strong>O que não pode:</strong> registar pagamentos, emitir recibos, registar obras ou problemas, enviar convocatórias, carregar documentos.</p>' +
       '<p><strong>Impasse</strong> quer dizer: a fração não tem nenhum email ativo, ou o pedido está sem resposta há <strong>mais de 7 dias</strong>. Antes disso, só a própria fração decide.</p>' +
       '<p><strong>Regras de transparência — valem sempre:</strong></p>' +

@@ -17,6 +17,11 @@ const mkSheet = (name) => ({
   },
   setFrozenRows() {}
 });
+const files = {}; let fileN = 0;
+const mkBlob = (data, mime, name) => { const b = { _d: data, _m: mime, _n: name,
+  getName: () => b._n, setName: (n) => { b._n = n; return b; }, getContentType: () => b._m,
+  getBytes: () => (typeof b._d === 'string' ? Array.from(Buffer.from(b._d)) : b._d),
+  getAs: (m) => mkBlob(b._d, m, b._n) }; return b; };
 const sheets = {};
 const ss = {
   getId: () => 'SHEET',
@@ -31,7 +36,16 @@ const ctx = {
   Utilities: {
     DigestAlgorithm: { SHA_256: 'sha256' }, Charset: { UTF_8: 'utf8' },
     computeDigest: (alg, s) => Array.from(crypto.createHash('sha256').update(String(s)).digest()),
-    getUuid: () => crypto.randomUUID()
+    getUuid: () => crypto.randomUUID(),
+    formatDate: (d, tz, fmt) => { const x = new Date(d); const p = n => ('0' + n).slice(-2); return fmt.replace('yyyy', x.getFullYear()).replace('MM', p(x.getMonth() + 1)).replace('dd', p(x.getDate())); },
+    base64Encode: (b) => Buffer.from(b).toString('base64'),
+    base64Decode: (s) => Array.from(Buffer.from(s, 'base64')),
+    newBlob: (data, mime, name) => mkBlob(data, mime, name)
+  },
+  DriveApp: {
+    createFolder: (n) => ({ getId: () => 'FOLDER', createFile: (blob) => { const id = 'F' + (++fileN); files[id] = blob; return { getId: () => id }; } }),
+    getFolderById: () => ({ getId: () => 'FOLDER', createFile: (blob) => { const id = 'F' + (++fileN); files[id] = blob; return { getId: () => id }; } }),
+    getFileById: (id) => ({ getBlob: () => files[id] })
   },
   PropertiesService: { getScriptProperties: () => ({ getProperty: k => props[k] || null, setProperty: (k, v) => { props[k] = v; } }) },
   LockService: { getScriptLock: () => ({ waitLock() {}, releaseLock() {} }) },
@@ -46,4 +60,4 @@ vm.runInContext(src, ctx);
 const run = (code) => vm.runInContext(code, ctx);
 
 
-module.exports = { ctx, run, mails, store, props };
+module.exports = { ctx, run, mails, store, props, files };

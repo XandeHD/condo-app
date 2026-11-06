@@ -106,10 +106,15 @@ function text_(v, min, max, nome) {
   return s.slice(0, max);
 }
 
-function sendMail_(to, subject, body) {
+/** Envia um email. Devolve true/false (nunca lança), para o chamador poder avisar se falhou. */
+function sendMail_(to, subject, body, anexos) {
   try {
-    MailApp.sendEmail({ to: to, subject: '[Condomínio] ' + subject, body: body, name: 'Condomínio Rua da Misericórdia 13/15/17' });
+    const msg = { to: to, subject: '[Condomínio] ' + subject, body: body, name: 'Condomínio Rua da Misericórdia 13/15/17' };
+    if (anexos && anexos.length) msg.attachments = anexos;
+    MailApp.sendEmail(msg);
+    return true;
   } catch (e) {
     console.error('Falha a enviar email para ' + to + ': ' + e.message);
+    return false;
   }
 }

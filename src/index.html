@@ -122,7 +122,7 @@
       var o = document.createElement('div'); o.className = 'overlay';
       o.innerHTML = '<div class="folha" role="dialog" aria-modal="true" aria-label="' + esc(title) + '"><h3>' + esc(title) + '</h3>' +
         (text ? '<p class="suave">' + esc(text) + '</p>' : '') +
-        fields.map(function (f) { return '<label>' + esc(f.label) + '<input name="' + esc(f.name) + '" type="' + (f.type || 'text') + '" value="' + esc(f.value || '') + '" placeholder="' + esc(f.placeholder || '') + '" autocomplete="off"></label>'; }).join('') +
+        fields.map(function (f) { if (f.options) return '<label>' + esc(f.label) + '<select name="' + esc(f.name) + '">' + f.options.map(function (o) { return '<option' + (o === f.value ? ' selected' : '') + '>' + esc(o) + '</option>'; }).join('') + '</select></label>'; if (f.type === 'file') return '<label>' + esc(f.label) + '<input name="' + esc(f.name) + '" type="file" accept="application/pdf,image/jpeg,image/png,image/webp"></label>'; return '<label>' + esc(f.label) + '<input name="' + esc(f.name) + '" type="' + (f.type || 'text') + '" value="' + esc(f.value || '') + '" placeholder="' + esc(f.placeholder || '') + '" autocomplete="off"></label>'; }).join('') +
         '<div class="linha"><button class="btn ghost" data-x>Cancelar</button><button class="btn ' + (perigo ? 'perigo' : '') + '" data-ok>' + esc(okLabel || 'Confirmar') + '</button></div></div>';
       document.body.appendChild(o);
       var first = o.querySelector('input'); if (first) first.focus();
@@ -130,7 +130,7 @@
       o.querySelector('[data-x]').onclick = function () { close(null); };
       o.onclick = function (e) { if (e.target === o) close(null); };
       o.querySelector('[data-ok]').onclick = function () {
-        var v = {}; Array.prototype.forEach.call(o.querySelectorAll('input'), function (i) { v[i.name] = i.value.trim(); }); close(v);
+        var v = {}; Array.prototype.forEach.call(o.querySelectorAll('input,select'), function (i) { v[i.name] = i.type === 'file' ? (i.files && i.files[0] || null) : i.value.trim(); }); close(v);
       };
     });
   }
@@ -158,6 +158,7 @@
     avisos: '<path d="M6 17V11a6 6 0 0 1 12 0v6l1.5 2h-15L6 17z"/><path d="M10 21h4"/>',
     pedidos: '<path d="M16 11a4 4 0 1 0-8 0"/><path d="M4 20c0-3.3 3.6-6 8-6s8 2.7 8 6"/><path d="M19 4v4M17 6h4"/>',
     dispositivos: '<rect x="7" y="3" width="10" height="18" rx="2"/><path d="M11 18h2"/>',
+    pagamentos: '<rect x="3" y="6" width="18" height="12" rx="2"/><circle cx="12" cy="12" r="2.5"/>',
     sair: '<path d="M10 4H5v16h5M15 8l4 4-4 4M19 12H9"/>'
   };
   function svg(n) { return '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + ICONES[n] + '</svg>'; }
@@ -166,7 +167,7 @@
     var m = state.me; if (!m) return '';
     var tabs = m.isMaster
       ? [['inicio', 'Início', 'inicio'], ['avisos', 'Avisos', 'avisos'], ['sair', 'Sair', 'sair']]
-      : [['inicio', 'Início', 'inicio'], ['fracoes', 'Frações', 'fracoes'], ['avisos', 'Avisos', 'avisos'], ['dispositivos', 'Dispositivos', 'dispositivos']];
+      : [['inicio', 'Início', 'inicio'], ['fracoes', 'Frações', 'fracoes'], ['pagamentos', 'Pagamentos', 'pagamentos'], ['avisos', 'Avisos', 'avisos'], ['dispositivos', 'Dispositivos', 'dispositivos']];
     return '<nav class="barra" aria-label="Navegação">' + tabs.map(function (t) {
       var badge = t[0] === 'avisos' && m.avisosNaoLidos ? '<span class="badge">' + m.avisosNaoLidos + '</span>' : '';
       return '<button data-nav="' + t[0] + '" ' + (ativa === t[0] ? 'aria-current="page"' : '') + '>' + svg(t[2]) + t[1] + badge + '</button>';
@@ -262,7 +263,7 @@
         '<h1 style="font-size:26px">O que precisas de fazer?</h1>' +
         '<button class="item" data-go="pedidos">' + '<div class="letra">P</div><div class="grande"><strong>Pedidos de entrada</strong><div class="pequeno">' + (m.pedidosPendentes ? m.pedidosPendentes + ' em impasse à espera de decisão' : 'Nenhum em impasse') + '</div></div></button>' +
         '<button class="item" data-go="fracoes"><div class="letra">@</div><div class="grande"><strong>Emails das frações</strong><div class="pequeno">Corrigir emails quando ninguém consegue (venda, perda de acesso)</div></div></button>' +
-        '<button class="item" disabled style="opacity:.6"><div class="letra">A</div><div class="grande"><strong>Administração</strong><div class="pequeno">Chega na próxima fase (administradores e convocatórias)</div></div></button>' +
+        '<button class="item" data-go="administracao"><div class="letra">A</div><div class="grande"><strong>Administração</strong><div class="pequeno">Ver e remover administradores (com motivo)</div></div></button>' +
         '<div class="nota"><span>Daqui não se registam pagamentos, recibos, obras, problemas nem convocatórias. Para isso, entra com o email da tua fração.</span></div></main>', 'inicio');
     } else {
       vista('<main>' + cabecalho() + '<div><h1>Olá</h1><p class="suave" style="margin-top:4px">Fração ' + esc(m.fracao) + (m.fracaoInfo ? ' · ' + esc(m.fracaoInfo.nome) : '') + '</p></div>' +
@@ -270,9 +271,163 @@
         '<button class="item" data-go="fracao" data-l="' + esc(m.fracao) + '"><div class="letra sel">' + esc(m.fracao) + '</div><div class="grande"><strong>A minha fração</strong><div class="pequeno">Emails e histórico</div></div></button>' +
         '<button class="item' + (m.pedidosPendentes ? ' nao-lido' : '') + '" data-go="pedidos"><div class="letra">P</div><div class="grande"><strong>Pedidos de entrada</strong><div class="pequeno">' + (m.pedidosPendentes ? m.pedidosPendentes + ' à espera da tua decisão' : 'Nenhum pedido pendente') + '</div></div></button>' +
         '<button class="item" data-go="avisos"><div class="letra">!</div><div class="grande"><strong>Avisos</strong><div class="pequeno">' + (m.avisosNaoLidos ? m.avisosNaoLidos + ' por ler' : 'Tudo lido') + '</div></div></button>' +
-        '<div class="nota"><span>Pagamentos, recibos, obras e problemas chegam nas próximas fases.</span></div></main>', 'inicio');
+        '<button class="item" data-go="pagamentos"><div class="letra">€</div><div class="grande"><strong>Pagamentos e quotas</strong><div class="pequeno">Registar pagamentos com comprovativo e ver quotas</div></div></button>' +
+        '<button class="item" data-go="recibos"><div class="letra">R</div><div class="grande"><strong>Os meus recibos</strong><div class="pequeno">Recibos de quitação da tua fração</div></div></button>' +
+        (m.isAdmin ? '<button class="item" data-go="recibosadmin"><div class="letra">T</div><div class="grande"><strong>Todos os recibos</strong><div class="pequeno">Enviar por email e anular (administrador)</div></div></button>' : '') +
+        '<button class="item" data-go="administracao"><div class="letra">A</div><div class="grande"><strong>Administração</strong><div class="pequeno">' + (m.isAdmin ? 'És administrador' : 'Quem administra e como candidatar-te') + '</div></div></button>' +
+        '<div class="nota"><span>Obras, problemas e convocatórias chegam nas próximas fases.</span></div></main>', 'inicio');
     }
     Array.prototype.forEach.call(document.querySelectorAll('[data-go]'), function (b) { b.onclick = function () { go(b.getAttribute('data-go'), b.getAttribute('data-l') ? { letra: b.getAttribute('data-l') } : {}); }; });
+  }
+
+  /* ---------- pagamentos, quotas, recibos, administração ---------- */
+  function eur(v) { return Number(v).toFixed(2).replace('.', ',') + ' €'; }
+  function lerFicheiro(file) {
+    return new Promise(function (resolve, reject) {
+      var r = new FileReader();
+      r.onload = function () { resolve({ nome: file.name, mime: file.type, base64: String(r.result).split(',')[1] || '' }); };
+      r.onerror = function () { reject(new Error('Não consegui ler o ficheiro.')); };
+      r.readAsDataURL(file);
+    });
+  }
+  function baixar(f) {
+    var bin = atob(f.base64), bytes = new Uint8Array(bin.length);
+    for (var i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+    var url = URL.createObjectURL(new Blob([bytes], { type: f.mime }));
+    var a = document.createElement('a'); a.href = url; a.download = f.nome; document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(function () { URL.revokeObjectURL(url); }, 4000);
+  }
+  function ligarGo() {
+    Array.prototype.forEach.call(document.querySelectorAll('[data-go]'), function (b) { b.onclick = function () { go(b.getAttribute('data-go'), b.getAttribute('data-l') ? { letra: b.getAttribute('data-l') } : {}); }; });
+  }
+  function mesAtual() { var d = new Date(); return d.getFullYear() + '-' + ('0' + (d.getMonth() + 1)).slice(-2); }
+  function hojeISO() { var d = new Date(); return d.getFullYear() + '-' + ('0' + (d.getMonth() + 1)).slice(-2) + '-' + ('0' + d.getDate()).slice(-2); }
+
+  async function ecraPagamentos() {
+    var m = state.me, letra = state.params.letra || '';
+    try {
+      var lista = await call('api_payments', state.token, letra);
+      var letras = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
+      vista('<main>' + cabecalho() + '<div class="linha"><h1>Pagamentos</h1><button class="btn peq" id="novo">Registar</button></div>' +
+        '<div class="grelha">' + ['Todas'].concat(letras).map(function (l) { var v = l === 'Todas' ? '' : l; return '<button type="button" class="escolha" data-f="' + v + '" aria-pressed="' + (v === letra) + '">' + l + '</button>'; }).join('') + '</div>' +
+        '<button class="item" data-go="quotas"><div class="letra">€</div><div class="grande"><strong>Quotas</strong><div class="pequeno">Valor mensal de cada fração</div></div></button>' +
+        (lista.length ? lista.map(function (p) {
+          return '<section class="cartao"><div class="linha"><strong>Fração ' + esc(p.fracao) + ' · ' + eur(p.valor) + '</strong>' + (p.anulado ? '<span class="chip aviso">Anulado</span>' : '') + '</div>' +
+            '<div class="pequeno">' + fmtData(p.data) + ' · ' + esc(p.metodo) + ' · meses ' + esc(p.meses[0]) + (p.meses.length > 1 ? ' a ' + esc(p.meses[p.meses.length - 1]) : '') + '</div>' +
+            (p.notas ? '<div class="pequeno">' + esc(p.notas) + '</div>' : '') +
+            (p.anulado ? '<div class="pequeno">Motivo: ' + esc(p.motivo) + '</div>' : '') +
+            '<div class="linha"><button class="btn ghost peq" data-prova="' + esc(p.id) + '">Comprovativo</button>' +
+            (p.reciboKey ? '<button class="btn ghost peq" data-rec="' + esc(p.reciboKey) + '">Recibo ' + esc(p.reciboLabel) + '</button>' : (m.isAdmin && !p.anulado ? '<button class="btn peq" data-emitir="' + esc(p.id) + '">Emitir recibo</button>' : '')) +
+            (!p.anulado && !p.reciboKey ? '<button class="btn perigo peq" data-anular="' + esc(p.id) + '">Anular</button>' : '') + '</div></section>';
+        }).join('') : '<div class="nota"><span>Ainda não há pagamentos registados.</span></div>') + '</main>', 'pagamentos');
+      ligarGo();
+      Array.prototype.forEach.call(document.querySelectorAll('[data-f]'), function (b) { b.onclick = function () { go('pagamentos', { letra: b.getAttribute('data-f') }); }; });
+      document.getElementById('novo').onclick = async function () {
+        var v = await ask('Registar pagamento', 'O comprovativo é obrigatório (PDF ou foto, até 5 MB).', [
+          { name: 'letra', label: 'Fração', options: letras, value: m.fracao || letra || 'A' },
+          { name: 'data', label: 'Data do pagamento', type: 'date', value: hojeISO() },
+          { name: 'valor', label: 'Valor total (€)', type: 'text', placeholder: 'Ex.: 45,00' },
+          { name: 'mes', label: 'Primeiro mês pago', type: 'month', value: mesAtual() },
+          { name: 'n', label: 'Número de meses', type: 'number', value: '1' },
+          { name: 'metodo', label: 'Forma de pagamento', options: ['Transferência', 'MB Way', 'Numerário', 'Cheque', 'Outro'] },
+          { name: 'notas', label: 'Notas (opcional)' },
+          { name: 'ficheiro', label: 'Comprovativo', type: 'file' }
+        ], 'Registar');
+        if (!v) return;
+        var btn = document.getElementById('novo');
+        var ok = await acao(btn, async function () {
+          if (!v.ficheiro) throw new Error('Anexa o comprovativo (PDF ou foto).');
+          var f = await lerFicheiro(v.ficheiro);
+          return call('api_addPayment', state.token, v.letra, v.data, v.valor, v.mes, Number(v.n), v.metodo, v.notas, f);
+        }, 'Pagamento registado');
+        if (ok) ecraPagamentos();
+      };
+      Array.prototype.forEach.call(document.querySelectorAll('[data-prova]'), function (b) { b.onclick = async function () { var f = await acao(b, function () { return call('api_getProof', state.token, b.getAttribute('data-prova')); }); if (f && f.base64) baixar(f); }; });
+      Array.prototype.forEach.call(document.querySelectorAll('[data-rec]'), function (b) { b.onclick = async function () { var f = await acao(b, function () { return call('api_getReceiptPdf', state.token, b.getAttribute('data-rec')); }); if (f && f.base64) baixar(f); }; });
+      Array.prototype.forEach.call(document.querySelectorAll('[data-emitir]'), function (b) { b.onclick = async function () { if (await acao(b, function () { return call('api_issueReceipt', state.token, b.getAttribute('data-emitir')); }, 'Recibo emitido')) ecraPagamentos(); }; });
+      Array.prototype.forEach.call(document.querySelectorAll('[data-anular]'), function (b) { b.onclick = async function () {
+        var v = await ask('Anular pagamento', 'O pagamento fica na lista como anulado. Todos veem o motivo.', [{ name: 'motivo', label: 'Motivo (obrigatório)' }], 'Anular', true);
+        if (v && await acao(b, function () { return call('api_annulPayment', state.token, b.getAttribute('data-anular'), v.motivo); }, 'Pagamento anulado')) ecraPagamentos();
+      }; });
+    } catch (e) { toast(e.message, true); go('inicio'); }
+  }
+
+  async function ecraQuotas() {
+    var ano = Number(state.params.ano) || new Date().getFullYear();
+    try {
+      var q = await call('api_quotas', state.token, ano);
+      vista('<main>' + cabecalho() + '<div class="linha"><button class="btn ghost peq" id="v">‹ Voltar</button><div class="linha"><button class="btn ghost peq" id="ant">‹</button><strong>' + ano + '</strong><button class="btn ghost peq" id="seg">›</button></div></div>' +
+        '<h1>Quotas mensais</h1>' +
+        q.fracoes.map(function (f) {
+          return '<section class="cartao"><div class="linha"><strong>Fração ' + esc(f.letra) + ' · ' + esc(f.nome) + '</strong><span>' + (f.valor == null ? '<span class="pequeno">Por definir</span>' : '<strong>' + eur(f.valor) + '</strong>') + '</span></div>' +
+            (f.ref ? '<div class="pequeno">Aprovada em: ' + esc(f.ref) + '</div>' : '') +
+            '<div class="linha"><button class="btn ghost peq" data-q="' + esc(f.letra) + '" data-v="' + (f.valor == null ? '' : f.valor) + '" data-r="' + esc(f.ref) + '">' + (f.valor == null ? 'Definir' : 'Alterar') + '</button></div></section>';
+        }).join('') + '</main>', 'pagamentos');
+      document.getElementById('v').onclick = function () { go('pagamentos'); };
+      document.getElementById('ant').onclick = function () { go('quotas', { ano: ano - 1 }); };
+      document.getElementById('seg').onclick = function () { go('quotas', { ano: ano + 1 }); };
+      Array.prototype.forEach.call(document.querySelectorAll('[data-q]'), function (b) { b.onclick = async function () {
+        var novo = b.getAttribute('data-v') === '';
+        var campos = [{ name: 'valor', label: 'Valor mensal (€)', value: b.getAttribute('data-v') }, { name: 'ref', label: 'Aprovada em (reunião/ata)', value: b.getAttribute('data-r'), placeholder: 'Ex.: Assembleia de março' }];
+        if (!novo) campos.push({ name: 'motivo', label: 'Motivo da alteração (obrigatório)' });
+        var v = await ask('Quota da fração ' + b.getAttribute('data-q') + ' · ' + ano, 'Todos são avisados da alteração.', campos, 'Guardar');
+        if (v && await acao(b, function () { return call('api_setQuota', state.token, ano, b.getAttribute('data-q'), v.valor, v.ref, '', v.motivo || ''); }, 'Quota guardada')) ecraQuotas();
+      }; });
+    } catch (e) { toast(e.message, true); go('inicio'); }
+  }
+
+  async function ecraRecibos() {
+    var m = state.me, todos = !!state.params.todos;
+    try {
+      var lista = todos ? await call('api_allReceipts', state.token, '', '') : await call('api_myReceipts', state.token);
+      vista('<main>' + cabecalho() + '<div class="linha"><button class="btn ghost peq" id="v">‹ Voltar</button></div><h1>' + (todos ? 'Todos os recibos' : 'Os meus recibos') + '</h1>' +
+        '<div class="nota"><span>Recibos de quitação de quotas. Não são faturas. O código serve para confirmar a autenticidade.</span></div>' +
+        (lista.length ? lista.map(function (r) {
+          return '<section class="cartao"><div class="linha"><strong>Recibo ' + esc(r.label) + ' · fração ' + esc(r.fracao) + '</strong>' + (r.anulado ? '<span class="chip aviso">Anulado</span>' : '') + '</div>' +
+            '<div class="pequeno">' + fmtData(r.data) + ' · ' + eur(r.valor) + ' · ' + esc(r.periodo) + ' · código ' + esc(r.codigo) + '</div>' +
+            (r.anulado ? '<div class="pequeno">Motivo: ' + esc(r.motivo) + '</div>' : '') +
+            (todos && r.bloqueados && r.bloqueados.length ? '<div class="pequeno">Já não ativos na fração (não recebem): ' + esc(r.bloqueados.join(', ')) + '</div>' : '') +
+            '<div class="linha"><button class="btn ghost peq" data-pdf="' + esc(r.key) + '">Descarregar PDF</button>' +
+            (todos && !r.anulado ? '<button class="btn peq" data-env="' + esc(r.key) + '"' + (r.destinos.length ? '' : ' disabled') + '>Enviar por email</button><button class="btn perigo peq" data-an="' + esc(r.key) + '">Anular</button>' : '') + '</div></section>';
+        }).join('') : '<div class="nota"><span>Ainda não há recibos.</span></div>') +
+        '<button class="item" id="ver"><div class="letra">✓</div><div class="grande"><strong>Verificar um recibo</strong><div class="pequeno">Confirma pelo código</div></div></button></main>', todos ? 'pagamentos' : 'inicio');
+      document.getElementById('v').onclick = function () { go('inicio'); };
+      document.getElementById('ver').onclick = async function () {
+        var v = await ask('Verificar recibo', '', [{ name: 'c', label: 'Código do recibo' }], 'Verificar');
+        if (!v) return;
+        var r = await acao(null, function () { return call('api_verifyReceipt', state.token, v.c); });
+        if (r) toast(r.valido ? 'Válido: recibo ' + r.label + ', fração ' + r.fracao + ', ' + eur(r.valor) : (r.anulado ? 'Recibo ' + r.label + ' está ANULADO' : 'Código não encontrado'), !r.valido);
+      };
+      Array.prototype.forEach.call(document.querySelectorAll('[data-pdf]'), function (b) { b.onclick = async function () { var f = await acao(b, function () { return call('api_getReceiptPdf', state.token, b.getAttribute('data-pdf')); }); if (f && f.base64) baixar(f); }; });
+      Array.prototype.forEach.call(document.querySelectorAll('[data-env]'), function (b) { b.onclick = async function () { var r = await acao(b, function () { return call('api_sendReceipt', state.token, b.getAttribute('data-env')); }); if (r) toast('Enviado a ' + r.destinos.join(', ')); }; });
+      Array.prototype.forEach.call(document.querySelectorAll('[data-an]'), function (b) { b.onclick = async function () {
+        var v = await ask('Anular recibo', 'O número não é reutilizado. A fração é avisada.', [{ name: 'motivo', label: 'Motivo (obrigatório)' }], 'Anular', true);
+        if (v && await acao(b, function () { return call('api_annulReceipt', state.token, b.getAttribute('data-an'), v.motivo); }, 'Recibo anulado')) ecraRecibos();
+      }; });
+    } catch (e) { toast(e.message, true); go('inicio'); }
+  }
+
+  async function ecraAdministracao() {
+    var m = state.me;
+    try {
+      var a = await call('api_admins', state.token);
+      vista('<main>' + cabecalho() + '<div class="linha"><button class="btn ghost peq" id="v">‹ Voltar</button></div><h1>Administração</h1>' +
+        '<div class="nota"><span>Há no máximo 2 administradores, de frações diferentes. Emitem e anulam recibos e enviam-nos por email. Vagas livres: ' + a.vagas + '.</span></div>' +
+        (a.admins.length ? a.admins.map(function (x) {
+          return '<section class="cartao"><div class="linha"><div class="grande"><div class="mail">' + esc(x.email) + '</div><div class="pequeno">Fração ' + esc(x.fracao) + ' · desde ' + fmtData(x.desde) + '</div></div>' +
+            (a.podeRemover ? '<button class="btn perigo peq" data-rem="' + esc(x.email) + '">Remover</button>' : '') + '</div></section>';
+        }).join('') : '<div class="nota"><span>Ainda não há administradores.</span></div>') +
+        (!m.isMaster ? (a.souAdmin ? '<button class="btn ghost" id="sair-adm">Deixar de ser administrador</button>' : (a.podeNomear ? '<button class="btn" id="ser">Tornar-me administrador</button>' : '<div class="nota"><span>' + esc(a.motivoNaoNomear || '') + '</span></div>')) : '') + '</main>', 'inicio');
+      document.getElementById('v').onclick = function () { go('inicio'); };
+      var ser = document.getElementById('ser');
+      if (ser) ser.onclick = async function () { if (await acao(ser, function () { return call('api_becomeAdmin', state.token); }, 'Agora és administrador')) { state.me = await call('api_me', state.token); ecraAdministracao(); } };
+      var sai = document.getElementById('sair-adm');
+      if (sai) sai.onclick = async function () { if (await acao(sai, function () { return call('api_leaveAdmin', state.token); }, 'Deixaste de ser administrador')) { state.me = await call('api_me', state.token); ecraAdministracao(); } };
+      Array.prototype.forEach.call(document.querySelectorAll('[data-rem]'), function (b) { b.onclick = async function () {
+        var v = await ask('Remover administrador', 'Todos são avisados e a pessoa recebe um email.', [{ name: 'motivo', label: m.isMaster ? 'Motivo (obrigatório)' : 'Motivo (opcional)' }], 'Remover', true);
+        if (v && await acao(b, function () { return call('api_removeAdmin', state.token, b.getAttribute('data-rem'), v.motivo); }, 'Administrador removido')) ecraAdministracao();
+      }; });
+    } catch (e) { toast(e.message, true); go('inicio'); }
   }
 
   async function ecraFracoes() {
@@ -388,6 +543,11 @@
     if (r === 'pedidos') return ecraPedidos();
     if (r === 'avisos') return ecraAvisos();
     if (r === 'dispositivos') return ecraDispositivos();
+    if (r === 'pagamentos') return ecraPagamentos();
+    if (r === 'quotas') return ecraQuotas();
+    if (r === 'recibos') return ecraRecibos();
+    if (r === 'recibosadmin') { state.params = { todos: true }; return ecraRecibos(); }
+    if (r === 'administracao') return ecraAdministracao();
     app.innerHTML = '<main style="padding-top:80px"><p class="suave">A carregar…</p></main>';
   }
 
