@@ -6,13 +6,16 @@ const props = {};
 const mkSheet = (name) => ({
   _name: name,
   getLastRow() { return store[name].length; },
+  getMaxRows() { return store[name].length; },
+  autoResizeColumns() {},
   getDataRange() { return { getValues: () => store[name].map(r => r.slice()) }; },
   appendRow(a) { store[name].push(a.slice()); },
   getRange(r, c, nr, nc) {
     return {
       setValue(v) { store[name][r - 1][c - 1] = v; return this; },
       setValues(vs) { vs.forEach((row, i) => row.forEach((v, j) => { (store[name][r - 1 + i] = store[name][r - 1 + i] || [])[c - 1 + j] = v; })); return this; },
-      getValues() { return [store[name][r - 1].slice(0, nc || store[name][r - 1].length)]; },
+      getValues() { const out = []; for (let i = 0; i < (nr || 1); i++) { const row = store[name][r - 1 + i] || []; out.push(nc ? row.slice(c - 1, c - 1 + nc) : row.slice(0, row.length)); } return out; },
+      setNumberFormat() { return this; },
       setFontWeight() { return this; }
     };
   },
@@ -26,6 +29,7 @@ const mkBlob = (data, mime, name) => { const b = { _d: data, _m: mime, _n: name,
 const sheets = {};
 const ss = {
   getId: () => 'SHEET',
+  setSpreadsheetTimeZone() {},
   getUrl: () => 'https://docs.google.com/spreadsheets/d/SHEET',
   getSheetByName: (n) => (store[n] ? (sheets[n] = sheets[n] || mkSheet(n)) : null),
   insertSheet: (n) => { store[n] = []; return ss.getSheetByName(n); },

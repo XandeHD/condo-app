@@ -68,8 +68,29 @@ function setup() {
   const padrao = ss.getSheetByName('Folha1') || ss.getSheetByName('Sheet1');
   if (padrao && ss.getSheets().length > 1 && padrao.getLastRow() === 0) ss.deleteSheet(padrao);
 
+  datasLegiveis_(ss);
   limparTudo_();
   Logger.log('Setup concluído. Admin Master: ' + Session.getEffectiveUser().getEmail() + ' · Sheet: ' + ss.getUrl());
+}
+
+/** Converte os números gigantes (milissegundos) já guardados em datas verdadeiras e formata as colunas. Seguro de repetir. */
+function datasLegiveis_(ss) {
+  try { ss.setSpreadsheetTimeZone('Europe/Lisbon'); } catch (e) { /* sem permissão: segue */ }
+  Object.keys(COLUNAS_DATA_).forEach(function (nome) {
+    const sh = ss.getSheetByName(nome);
+    if (!sh) return;
+    COLUNAS_DATA_[nome].forEach(function (col) {
+      const c = SCHEMA[nome].indexOf(col) + 1, n = sh.getMaxRows() - 1;
+      if (c < 1 || n < 1) return;
+      const rng = sh.getRange(2, c, n, 1);
+      rng.setNumberFormat(FORMATO_DATA_);
+      const vals = rng.getValues();
+      let mudou = false;
+      vals.forEach(function (r) { if (typeof r[0] === 'number' && r[0] > 1e11) { r[0] = new Date(r[0]); mudou = true; } });
+      if (mudou) rng.setValues(vals);
+    });
+    sh.autoResizeColumns(1, SCHEMA[nome].length);
+  });
 }
 
 /** Só escreve as linhas iniciais se a folha ainda não tiver dados. */

@@ -87,5 +87,12 @@ ok(run(`api_addPayment('${tb}','C','${dataHoje}',10,'${ano}-02',1,'MB Way','',${
 const sp = run(`api_addPayment('${tb}','C','${dataHoje}',5,'${ano}-03',1,'Numerário','',null)`);
 ok(sp.ok && run(`api_payments('${tb}','C')`).find(x => x.id === sp.id).temProva === false, 'comprovativo é opcional');
 throws(`api_getProof('${tb}','${sp.id}')`, /não tem comprovativo/i, 'sem comprovativo, sem descarga');
+const linhaP = store.Pagamentos[store.Pagamentos.length - 1];
+ok(linhaP[2] instanceof Date, 'na Sheet a data do pagamento é uma data verdadeira');
+ok(typeof run(`api_payments('${tb}','C')`)[0].data === 'number', 'o código continua a ver milissegundos');
+store.Pagamentos[1][2] = 1762444800000;   // dado antigo (número gigante) continua legível
+ok(typeof run(`api_payments('${tb}','A')`) === 'object', 'dados antigos em milissegundos continuam a funcionar');
+run('datasLegiveis_(SpreadsheetApp.getActiveSpreadsheet())');
+ok(store.Pagamentos.slice(1).every(r => r[2] instanceof Date), 'migração converte os números antigos em datas');
 
 process.exit(fails ? 1 : (console.log('\nPagamentos ok'), 0));

@@ -51,6 +51,21 @@ function invalidar_(nome) {
   try { CacheService.getScriptCache().put('V:' + nome, String(Date.now()) + Math.floor(Math.random() * 1000), 21600); } catch (e) { /* cache é só um acelerador */ }
 }
 
+// Colunas com data/hora. Na Sheet ficam como datas verdadeiras (legíveis); no código continuam a ser milissegundos.
+const COLUNAS_DATA_ = {
+  Emails_Fracao: ['data_inicio', 'data_fim'], Pedidos_Entrada: ['data', 'data_decisao'], Dispositivos: ['criado_em', 'ultimo_uso'],
+  Avisos: ['data'], Administradores: ['desde', 'ate'], Convocatorias: ['data_envio'], Pagamentos: ['data'], Recibos: ['data'],
+  Despesas: ['data'], Obras: ['data_inicio', 'data_fim'], Problemas: ['data'], Comentarios: ['data'], Documentos: ['data'],
+  Auditoria: ['data_hora'], Codigos_Login: ['validade']
+};
+const FORMATO_DATA_ = 'dd/mm/yyyy hh:mm';
+
+function val_(nome, col, v) {
+  const cols = COLUNAS_DATA_[nome];
+  if (cols && cols.indexOf(col) >= 0 && typeof v === 'number' && v > 1e11) return new Date(v);
+  return safe_(v);
+}
+
 function lerFolha_(nome) {
   const sh = db_().getSheetByName(nome);
   if (!sh) throw new Error('Folha em falta: ' + nome);
@@ -58,7 +73,7 @@ function lerFolha_(nome) {
   const head = v[0];
   return v.slice(1).map(function (r, i) {
     const o = { _row: i + 2 };
-    head.forEach(function (h, j) { o[h] = r[j]; });
+    head.forEach(function (h, j) { o[h] = (r[j] instanceof Date) ? r[j].getTime() : r[j]; });
     return o;
   });
 }
@@ -90,7 +105,7 @@ function append_(nome, obj) {
   const head = SCHEMA[nome];
   if (!head) throw new Error('Folha desconhecida: ' + nome);
   db_().getSheetByName(nome).appendRow(head.map(function (h) {
-    return obj[h] === undefined ? '' : safe_(obj[h]);
+    return obj[h] === undefined ? '' : val_(nome, h, obj[h]);
   }));
   invalidar_(nome);
 }
@@ -101,12 +116,12 @@ function update_(nome, row, patch) {
   const keys = Object.keys(patch);
   keys.forEach(function (k) { if (head.indexOf(k) < 0) throw new Error('Coluna desconhecida: ' + nome + '.' + k); });
   if (keys.length === 1) {
-    sh.getRange(row, head.indexOf(keys[0]) + 1).setValue(safe_(patch[keys[0]]));
+    sh.getRange(row, head.indexOf(keys[0]) + 1).setValue(val_(nome, keys[0], patch[keys[0]]));
   } else {
     // uma só escrita para a linha inteira (várias escritas pequenas são lentas)
     const rng = sh.getRange(row, 1, 1, head.length);
     const vals = rng.getValues();
-    keys.forEach(function (k) { vals[0][head.indexOf(k)] = safe_(patch[k]); });
+    keys.forEach(function (k) { vals[0][head.indexOf(k)] = val_(nome, k, patch[k]); });
     rng.setValues(vals);
   }
   invalidar_(nome);
