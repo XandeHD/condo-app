@@ -35,7 +35,6 @@ run(`api_setQuota('${ta}',${ano},'A',50,'Ata 2','', 'Aprovado em reunião')`);
 ok(run(`api_quotas('${tb}',${ano})`).fracoes.find(f => f.letra === 'A').valor === 50, 'quota visível a outros condóminos');
 
 // Pagamentos
-throws(`api_addPayment('${tc}','C','${dataHoje}',50,'${ano}-01',1,'MB Way','',null)`, /comprovativo/i, 'comprovativo obrigatório');
 throws(`api_addPayment('${tc}','C','${dataHoje}',50,'${ano}-01',1,'Bitcoin','',${F})`, /forma/i, 'forma de pagamento inválida');
 throws(`api_addPayment('${tc}','C','2999-01-01',50,'${ano}-01',1,'MB Way','',${F})`, /futuro/i, 'data futura recusada');
 throws(`api_addPayment('${tc}','C','${dataHoje}',50,'${ano}-01',1,'MB Way','',{nome:'a.exe',mime:'application/x-msdownload',base64:'AAAA'})`, /PDF/i, 'tipo de ficheiro recusado');
@@ -85,5 +84,8 @@ run(`api_annulPayment('${tn}','${r.id}','Valor errado')`);
 ok(run(`api_payments('${tn}','C')`)[0].anulado === true, 'pagamento anulado mantém-se na lista');
 
 ok(run(`api_addPayment('${tb}','C','${dataHoje}',10,'${ano}-02',1,'MB Way','',${F})`).ok, 'administrador regista pagamento de qualquer fração');
+const sp = run(`api_addPayment('${tb}','C','${dataHoje}',5,'${ano}-03',1,'Numerário','',null)`);
+ok(sp.ok && run(`api_payments('${tb}','C')`).find(x => x.id === sp.id).temProva === false, 'comprovativo é opcional');
+throws(`api_getProof('${tb}','${sp.id}')`, /não tem comprovativo/i, 'sem comprovativo, sem descarga');
 
 process.exit(fails ? 1 : (console.log('\nPagamentos ok'), 0));

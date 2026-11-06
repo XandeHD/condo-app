@@ -128,14 +128,17 @@ function api_addPayment(token, letra, dataStr, valor, mesInicio, nMeses, metodo,
     const meses = mesesLista_(mesInicio, nMeses);
     if (METODOS.indexOf(metodo) < 0) throw new Error('Escolhe a forma de pagamento.');
     notas = String(notas || '').trim().slice(0, 200);
-    if (!ficheiro || !ficheiro.base64) throw new Error('Anexa o comprovativo (PDF ou foto).');
-    if (!MIMES_OK[ficheiro.mime]) throw new Error('O comprovativo tem de ser PDF, JPG, PNG ou WEBP.');
-    if (String(ficheiro.base64).length > MAX_FICHEIRO_B64) throw new Error('O comprovativo é demasiado grande (máximo 5 MB).');
+    const temFicheiro = !!(ficheiro && ficheiro.base64);   // o comprovativo é sempre opcional
+    if (temFicheiro && !MIMES_OK[ficheiro.mime]) throw new Error('O comprovativo tem de ser PDF, JPG, PNG ou WEBP.');
+    if (temFicheiro && String(ficheiro.base64).length > MAX_FICHEIRO_B64) throw new Error('O comprovativo é demasiado grande (máximo 5 MB).');
 
     const id = Utilities.getUuid();
-    const nome = nomeSeguro_(ficheiro.nome).replace(/\.[^.]*$/, '') + '.' + MIMES_OK[ficheiro.mime];
-    const blob = Utilities.newBlob(Utilities.base64Decode(ficheiro.base64), ficheiro.mime, 'Comprovativo ' + letra + ' ' + meses[0] + ' - ' + nome);
-    const doc = guardarDoc_(blob, 'Pagamento', id, s);
+    let doc = { id: '' };
+    if (temFicheiro) {
+      const nome = nomeSeguro_(ficheiro.nome).replace(/\.[^.]*$/, '') + '.' + MIMES_OK[ficheiro.mime];
+      const blob = Utilities.newBlob(Utilities.base64Decode(ficheiro.base64), ficheiro.mime, 'Comprovativo ' + letra + ' ' + meses[0] + ' - ' + nome);
+      doc = guardarDoc_(blob, 'Pagamento', id, s);
+    }
     append_('Pagamentos', {
       id: id, fracao: letra, data: data, valor: valor, meses: meses.join(','), metodo: metodo, notas: notas,
       registado_por: s.email, emails_na_altura: emailsAtivos_(letra).map(function (e) { return e.email; }).join(','),
@@ -160,7 +163,7 @@ function api_payments(token, letra) {
       return {
         id: p.id, fracao: p.fracao, data: Number(p.data), valor: Number(p.valor), meses: String(p.meses).split(','),
         metodo: p.metodo, notas: p.notas, registadoPor: p.registado_por, anulado: isTrue_(p.anulado), motivo: p.motivo,
-        reciboKey: r ? reciboKey_(r) : '', reciboLabel: r ? reciboLabel_(r) : ''
+        temProva: !!p.id_documento, reciboKey: r ? reciboKey_(r) : '', reciboLabel: r ? reciboLabel_(r) : ''
       };
     });
 }
@@ -170,6 +173,7 @@ function api_getProof(token, id) {
   requireMember_(s);
   const p = table_('Pagamentos').filter(function (x) { return x.id === id; })[0];
   if (!p) throw new Error('Pagamento não encontrado.');
+  if (!p.id_documento) throw new Error('Este pagamento não tem comprovativo.');
   audit_(s, 'Pagamentos', id, 'descarga', '', 'comprovativo', 'Descarga do comprovativo');
   return docBase64_(p.id_documento);
 }
