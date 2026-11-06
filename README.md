@@ -6,10 +6,16 @@ Cada push para `main` faz deploy automático para o Apps Script.
 ## Estrutura
 ```
 src/                  código que vai para o Apps Script
-  Code.gs             doGet() e utilitários
+  Code.gs             doGet() (entrada da web app)
   Setup.gs            cria as folhas e os dados iniciais (correr uma vez)
-  index.html          página da app
+  Utils.gs            acesso à Sheet, hashes, validações
+  Auth.gs             login por código, sessões por dispositivo, Admin Master
+  Fracoes.gs          frações e emails (cada fração só altera os seus)
+  Pedidos.gs          pedidos de entrada
+  Avisos.gs           avisos na app e registo de auditoria
+  index.html          a app (ecrãs)
   appsscript.json     manifesto (fuso horário, permissões, web app)
+tests/                testes (npm install && npm test)
 .github/workflows/    deploy automático (clasp)
 ```
 
@@ -28,8 +34,21 @@ src/                  código que vai para o Apps Script
    - `SCRIPT_ID`: o Script ID do passo 1
 5. **Primeiro envio.** Faz push para `main` (ou **Actions → Deploy → Run workflow**).
 6. **Criar as folhas.** No editor do Apps Script, escolhe a função `setup`, clica em **Executar** e aprova as permissões.
+   O email de quem corre o `setup` fica como **Admin Master** (altera-se na folha `Config`, chave `email_master`).
 7. **Publicar a web app.** **Implementar → Nova implementação → Aplicação Web** (executar como: eu; acesso: qualquer pessoa). Copia o *ID da implementação*.
 8. **Secret final:** `DEPLOYMENT_ID` = o ID da implementação. A partir daqui, cada push atualiza a app **no mesmo link**.
+
+## Primeiro uso
+1. Abre o link da web app e entra com o email do Admin Master (recebes um código por email).
+2. A app pergunta "Quem és?" (fração e nome). Fica no registo de tudo o que o master fizer.
+3. Em **Frações**, escolhe cada fração e adiciona os emails (o master pode, com motivo). Depois cada fração gere os seus.
+
+## Testes
+```
+npm install
+npm test
+```
+Corre o servidor com um Google Sheets simulado e a página real num browser simulado (jsdom). Não envia emails nem toca no Google.
 
 ## Trabalhar localmente
 ```

@@ -4,22 +4,365 @@
 <base target="_top">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap">
+<title>Condomínio Rua da Misericórdia 13/15/17</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
 <style>
-  body { margin: 0; min-height: 100vh; display: flex; align-items: center; justify-content: center;
-         background: #FAF7F2; color: #1F2937; font-family: 'Plus Jakarta Sans', system-ui, sans-serif; }
-  main { max-width: 360px; padding: 24px; text-align: center; }
-  h1 { font-size: 24px; font-weight: 800; letter-spacing: -0.01em; line-height: 1.2; }
-  p { color: #5B6472; line-height: 1.5; }
-  .ok { display: inline-block; margin-top: 8px; padding: 6px 12px; border-radius: 999px;
-        background: #D7EEEA; color: #0B4F4A; font-weight: 600; font-size: 13px; }
+  :root { --verde:#0F766E; --verde-esc:#0B5A54; --verde-cl:#D7EEEA; --ambar:#F59E0B; --creme:#FAF7F2; --creme2:#EEE8DA;
+          --borda:#E7E0D3; --texto:#1F2937; --suave:#5B6472; --erro:#B91C1C; --erro-cl:#FBE3E1; --ok-cl:#DCF3E3; --ok:#14622F; --aviso-cl:#FDF0D2; --aviso:#5C3A00; }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--creme); color:var(--texto); font-family:'Plus Jakarta Sans',system-ui,sans-serif; }
+  #app { max-width:480px; min-height:100vh; margin:0 auto; display:flex; flex-direction:column; }
+  main { flex:1; padding:0 20px 96px; display:flex; flex-direction:column; gap:14px; }
+  h1 { margin:0; font-size:28px; font-weight:800; letter-spacing:-.02em; }
+  h2 { margin:0; font-size:15px; font-weight:800; }
+  p { margin:0; line-height:1.45; }
+  .suave { color:var(--suave); font-size:14px; }
+  .pequeno { font-size:12px; color:var(--suave); }
+  header.topo { display:flex; align-items:center; justify-content:space-between; padding-top:20px; gap:10px; }
+  header.topo .marca { font-weight:800; font-size:15px; letter-spacing:-.01em; line-height:1.2; }
+  .voltar { display:inline-flex; align-items:center; min-height:44px; padding:0; border:0; background:none; font:inherit; font-size:14px; font-weight:700; color:var(--verde-esc); cursor:pointer; align-self:flex-start; }
+  .cartao { background:#fff; border:1px solid var(--borda); border-radius:18px; padding:14px; display:flex; flex-direction:column; gap:10px; }
+  .linha { display:flex; align-items:center; gap:12px; }
+  .linha .grande { flex:1; min-width:0; }
+  .btn { height:52px; border:0; border-radius:14px; background:var(--verde); color:#fff; font:inherit; font-size:16px; font-weight:700; cursor:pointer; padding:0 18px; width:100%; }
+  .btn.ambar { background:var(--ambar); color:var(--texto); }
+  .btn.ghost { background:#fff; color:var(--verde-esc); border:1.5px solid var(--verde); }
+  .btn.perigo { background:#fff; color:var(--erro); border:1.5px solid var(--erro); }
+  .btn.peq { height:40px; width:auto; font-size:13px; border-radius:12px; padding:0 12px; }
+  .btn:disabled { opacity:.55; cursor:default; }
+  label { display:flex; flex-direction:column; gap:6px; font-size:13px; font-weight:700; }
+  input { height:52px; border:1.5px solid #CFC5B1; border-radius:14px; padding:0 14px; font:inherit; font-size:16px; color:var(--texto); background:#fff; width:100%; }
+  input:focus-visible, button:focus-visible, a:focus-visible { outline:3px solid var(--ambar); outline-offset:2px; }
+  .codigo { text-align:center; font-size:28px; font-weight:800; letter-spacing:.35em; }
+  .nota { display:flex; gap:10px; background:var(--aviso-cl); color:var(--aviso); border-radius:14px; padding:10px 14px; font-size:13px; line-height:1.45; font-weight:500; }
+  .nota.verde { background:var(--verde-cl); color:#0B4F4A; }
+  .nota.escura { background:#1F2937; color:#E5E7EB; }
+  .nota.erro { background:var(--erro-cl); color:#8F1515; font-weight:600; }
+  .letra { width:40px; height:40px; border-radius:12px; flex:none; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:17px; background:var(--verde-cl); color:#0B4F4A; }
+  .letra.sel { background:var(--verde); color:#fff; }
+  .chip { font-size:12px; font-weight:700; padding:4px 10px; border-radius:999px; background:var(--creme2); }
+  .chip.verde { background:var(--verde); color:#fff; }
+  .chip.aviso { background:var(--aviso-cl); color:#6B4200; }
+  .grelha { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:8px; }
+  .escolha { height:52px; border-radius:14px; border:1.5px solid #CFC5B1; background:#fff; font:inherit; font-size:17px; font-weight:800; cursor:pointer; }
+  .escolha[aria-pressed=true] { background:var(--verde-cl); border-color:var(--verde); color:#0B4F4A; }
+  .item { text-decoration:none; color:inherit; background:#fff; border:1px solid var(--borda); border-radius:16px; padding:12px 14px; display:flex; align-items:center; gap:12px; cursor:pointer; width:100%; text-align:left; font:inherit; }
+  .item.nao-lido { border-color:var(--ambar); }
+  .mail { word-break:break-all; font-size:15px; font-weight:700; }
+  nav.barra { position:fixed; bottom:0; left:50%; transform:translateX(-50%); width:100%; max-width:480px; height:72px; background:#fff; border-top:1px solid var(--borda); display:flex; }
+  nav.barra button { flex:1; border:0; background:none; font:inherit; font-size:12px; font-weight:700; color:var(--suave); display:flex; flex-direction:column; align-items:center; justify-content:center; gap:3px; cursor:pointer; position:relative; }
+  nav.barra button[aria-current=page] { color:var(--verde-esc); }
+  nav.barra .badge { position:absolute; top:8px; left:calc(50% + 6px); min-width:18px; height:18px; padding:0 4px; border-radius:999px; background:var(--erro); color:#fff; font-size:11px; display:flex; align-items:center; justify-content:center; }
+  .overlay { position:fixed; inset:0; background:rgba(31,41,55,.45); display:flex; align-items:flex-end; justify-content:center; z-index:10; }
+  .folha { background:#fff; width:100%; max-width:480px; border-radius:22px 22px 0 0; padding:22px 20px 28px; display:flex; flex-direction:column; gap:14px; }
+  .folha h3 { margin:0; font-size:20px; font-weight:800; }
+  .toast { position:fixed; left:50%; bottom:90px; transform:translateX(-50%); background:#1F2937; color:#fff; padding:10px 16px; border-radius:12px; font-size:14px; font-weight:600; z-index:20; max-width:90%; }
+  .toast.erro { background:var(--erro); }
+  .centro { display:flex; flex-direction:column; align-items:center; text-align:center; gap:10px; padding:8px 0; }
 </style>
 </head>
 <body>
-<main>
-  <h1>Condomínio<br>Rua da Misericórdia 13/15/17</h1>
-  <p>A app está em construção.</p>
-  <span class="ok">Deploy a funcionar</span>
-</main>
+<div id="app" aria-live="polite"></div>
+<script>
+(function () {
+  'use strict';
+  var state = { token: null, me: null, route: 'boot', params: {}, tmp: {} };
+  var app = document.getElementById('app');
+
+  /* ---------- utilitários ---------- */
+  function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+  function call(fn) {
+    var args = Array.prototype.slice.call(arguments, 1);
+    return new Promise(function (resolve, reject) {
+      var r = google.script.run.withSuccessHandler(resolve).withFailureHandler(function (e) { reject(new Error(cleanErr(e))); });
+      r[fn].apply(r, args);
+    });
+  }
+  function cleanErr(e) { var m = (e && e.message) || String(e); return m.replace(/^Error:\s*/, ''); }
+  function store(k, v) { try { if (v === null) localStorage.removeItem(k); else localStorage.setItem(k, v); } catch (e) {} }
+  function load(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }
+  function fmtData(ms) { return ms ? new Date(ms).toLocaleDateString('pt-PT') : ''; }
+  function fmtQuando(ms) {
+    var d = Date.now() - ms, m = Math.round(d / 60000);
+    if (m < 1) return 'agora'; if (m < 60) return 'há ' + m + ' min';
+    var h = Math.round(m / 60); if (h < 24) return 'há ' + h + ' h';
+    var dd = Math.round(h / 24); return dd < 30 ? 'há ' + dd + (dd === 1 ? ' dia' : ' dias') : fmtData(ms);
+  }
+  function deviceName() {
+    var u = navigator.userAgent;
+    var b = /Edg\//.test(u) ? 'Edge' : /Chrome\//.test(u) ? 'Chrome' : /Firefox\//.test(u) ? 'Firefox' : /Safari\//.test(u) ? 'Safari' : 'Browser';
+    var o = /Android/.test(u) ? 'Android' : /iPhone|iPad/.test(u) ? 'iOS' : /Windows/.test(u) ? 'Windows' : /Mac/.test(u) ? 'Mac' : /Linux/.test(u) ? 'Linux' : '';
+    return b + (o ? ' · ' + o : '');
+  }
+  function toast(msg, erro) {
+    var t = document.createElement('div'); t.className = 'toast' + (erro ? ' erro' : ''); t.setAttribute('role', 'status'); t.textContent = msg;
+    document.body.appendChild(t); setTimeout(function () { t.remove(); }, erro ? 5000 : 2800);
+  }
+  function busy(btn, on) { if (btn) { btn.disabled = on; } }
+  function go(route, params) { state.route = route; state.params = params || {}; render(); window.scrollTo(0, 0); }
+
+  /** Janela de pergunta. fields: [{name,label,type,value,placeholder}] -> Promise(valores | null) */
+  function ask(title, text, fields, okLabel, perigo) {
+    return new Promise(function (resolve) {
+      var o = document.createElement('div'); o.className = 'overlay';
+      o.innerHTML = '<div class="folha" role="dialog" aria-modal="true" aria-label="' + esc(title) + '"><h3>' + esc(title) + '</h3>' +
+        (text ? '<p class="suave">' + esc(text) + '</p>' : '') +
+        fields.map(function (f) { return '<label>' + esc(f.label) + '<input name="' + esc(f.name) + '" type="' + (f.type || 'text') + '" value="' + esc(f.value || '') + '" placeholder="' + esc(f.placeholder || '') + '" autocomplete="off"></label>'; }).join('') +
+        '<div class="linha"><button class="btn ghost" data-x>Cancelar</button><button class="btn ' + (perigo ? 'perigo' : '') + '" data-ok>' + esc(okLabel || 'Confirmar') + '</button></div></div>';
+      document.body.appendChild(o);
+      var first = o.querySelector('input'); if (first) first.focus();
+      function close(v) { o.remove(); resolve(v); }
+      o.querySelector('[data-x]').onclick = function () { close(null); };
+      o.onclick = function (e) { if (e.target === o) close(null); };
+      o.querySelector('[data-ok]').onclick = function () {
+        var v = {}; Array.prototype.forEach.call(o.querySelectorAll('input'), function (i) { v[i.name] = i.value.trim(); }); close(v);
+      };
+    });
+  }
+
+  /** Executa uma ação do servidor com tratamento de erro; devolve true se correu bem. */
+  async function acao(btn, fn, okMsg) {
+    busy(btn, true);
+    try { var r = await fn(); if (okMsg) toast(okMsg); return r === undefined ? true : r; }
+    catch (e) {
+      if (/Sess[ãa]o expirada/.test(e.message)) { sair(true); }
+      toast(e.message, true); return false;
+    } finally { busy(btn, false); }
+  }
+
+  function sair(silencioso) {
+    store('token', null); state.token = null; state.me = null;
+    if (!silencioso) toast('Sessão terminada');
+    go('entrar');
+  }
+
+  /* ---------- estrutura ---------- */
+  var ICONES = {
+    inicio: '<path d="M4 11l8-7 8 7v9h-5v-6H9v6H4z"/>',
+    fracoes: '<rect x="5" y="3" width="14" height="18" rx="1"/><path d="M9 7h2M13 7h2M9 11h2M13 11h2M10 21v-4h4v4"/>',
+    avisos: '<path d="M6 17V11a6 6 0 0 1 12 0v6l1.5 2h-15L6 17z"/><path d="M10 21h4"/>',
+    pedidos: '<path d="M16 11a4 4 0 1 0-8 0"/><path d="M4 20c0-3.3 3.6-6 8-6s8 2.7 8 6"/><path d="M19 4v4M17 6h4"/>',
+    dispositivos: '<rect x="7" y="3" width="10" height="18" rx="2"/><path d="M11 18h2"/>',
+    sair: '<path d="M10 4H5v16h5M15 8l4 4-4 4M19 12H9"/>'
+  };
+  function svg(n) { return '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + ICONES[n] + '</svg>'; }
+
+  function barra(ativa) {
+    var m = state.me; if (!m) return '';
+    var tabs = m.isMaster
+      ? [['inicio', 'Início', 'inicio'], ['avisos', 'Avisos', 'avisos'], ['sair', 'Sair', 'sair']]
+      : [['inicio', 'Início', 'inicio'], ['fracoes', 'Frações', 'fracoes'], ['avisos', 'Avisos', 'avisos'], ['dispositivos', 'Dispositivos', 'dispositivos']];
+    return '<nav class="barra" aria-label="Navegação">' + tabs.map(function (t) {
+      var badge = t[0] === 'avisos' && m.avisosNaoLidos ? '<span class="badge">' + m.avisosNaoLidos + '</span>' : '';
+      return '<button data-nav="' + t[0] + '" ' + (ativa === t[0] ? 'aria-current="page"' : '') + '>' + svg(t[2]) + t[1] + badge + '</button>';
+    }).join('') + '</nav>';
+  }
+  function ligarBarra() {
+    Array.prototype.forEach.call(document.querySelectorAll('[data-nav]'), function (b) {
+      b.onclick = function () { var r = b.getAttribute('data-nav'); if (r === 'sair') acao(null, function () { return call('api_logout', state.token); }).then(function () { sair(); }); else go(r); };
+    });
+  }
+  function cabecalho(sub) {
+    var m = state.me;
+    return '<header class="topo"><div class="marca">Condomínio<br>Rua da Misericórdia 13/15/17</div>' +
+      (m ? '<span class="chip ' + (m.isMaster ? '' : 'verde') + '" style="padding:10px 14px;font-size:15px;' + (m.isMaster ? 'background:#1F2937;color:#fff' : '') + '">' + (m.isMaster ? 'Master' : esc(m.fracao)) + '</span>' : '') + '</header>' + (sub || '');
+  }
+  function vista(html, ativa) { app.innerHTML = html + barra(ativa); ligarBarra(); }
+
+  /* ---------- ecrãs ---------- */
+  function ecraEntrar() {
+    var passo = state.tmp.passo || 1, email = state.tmp.email || '';
+    if (passo === 1) {
+      app.innerHTML = '<main style="padding-top:56px"><h1>Condomínio<br>Rua da Misericórdia 13/15/17</h1><p class="suave">A gestão do prédio, ao alcance de todos os condóminos.</p>' +
+        '<form class="cartao" id="f" style="padding:20px;gap:16px"><h2 style="font-size:20px">Entrar</h2><label>Email da tua fração<input id="email" type="email" autocomplete="email" inputmode="email" placeholder="ana@exemplo.pt" value="' + esc(email) + '" required></label>' +
+        '<button class="btn" id="go">Enviar código</button><p class="pequeno">Sem passwords. Enviamos um código de 6 dígitos para o teu email. Funciona com qualquer email.</p>' +
+        '<div class="linha" style="justify-content:space-between;border-top:1px solid #EFE9DD;padding-top:6px"><button type="button" class="voltar" id="pedir">Ainda não tenho acesso</button></div></form>' +
+        '<div class="nota"><span>Todos os condóminos têm o mesmo acesso. Todas as alterações ficam registadas.</span></div></main>';
+      document.getElementById('pedir').onclick = function () { go('pedir'); };
+      document.getElementById('f').onsubmit = async function (ev) {
+        ev.preventDefault(); var v = document.getElementById('email').value.trim();
+        var ok = await acao(document.getElementById('go'), function () { return call('api_requestCode', v); });
+        if (ok) { state.tmp = { passo: 2, email: v }; ecraEntrar(); }
+      };
+    } else {
+      app.innerHTML = '<main style="padding-top:56px"><h1>Introduz o código</h1>' +
+        '<form class="cartao" id="f" style="padding:20px;gap:16px"><p class="suave">Se <strong style="color:var(--texto)">' + esc(email) + '</strong> estiver registado, enviámos um código de 6 dígitos. Vale 10 minutos.</p>' +
+        '<input id="code" class="codigo" inputmode="numeric" autocomplete="one-time-code" maxlength="6" aria-label="Código de 6 dígitos" placeholder="••••••" required>' +
+        '<button class="btn" id="go">Entrar</button><div class="linha" style="justify-content:space-between"><button type="button" class="voltar" id="outro">Usar outro email</button><button type="button" class="voltar" id="reenviar">Reenviar código</button></div></form></main>';
+      document.getElementById('code').focus();
+      document.getElementById('outro').onclick = function () { state.tmp = {}; ecraEntrar(); };
+      document.getElementById('reenviar').onclick = function (ev) { acao(ev.target, function () { return call('api_requestCode', email); }, 'Código reenviado'); };
+      document.getElementById('f').onsubmit = async function (ev) {
+        ev.preventDefault();
+        var r = await acao(document.getElementById('go'), function () { return call('api_verifyCode', email, document.getElementById('code').value, deviceName()); });
+        if (r && r.token) { state.token = r.token; store('token', r.token); state.tmp = {}; await arrancar(); }
+      };
+    }
+  }
+
+  function ecraPedir() {
+    var sel = state.tmp.sel || '', enviado = state.tmp.enviado;
+    var letras = 'ABCDEFGH'.split('');
+    if (enviado) {
+      app.innerHTML = '<main style="padding-top:40px"><div class="cartao centro"><h2 style="font-size:20px">Pedido enviado</h2><p class="suave">Avisámos a fração ' + esc(enviado) + '. Quando for aprovado, recebes um email e já podes entrar com um código.</p><button class="btn" id="v">Voltar a Entrar</button></div></main>';
+      document.getElementById('v').onclick = function () { state.tmp = {}; go('entrar'); }; return;
+    }
+    app.innerHTML = '<main><div style="padding-top:16px"><button class="voltar" id="v">‹ Entrar</button><h1>Pedir entrada</h1><p class="suave" style="margin-top:6px">Diz-nos o teu email e a tua fração. Quem já está nessa fração aprova o pedido.</p></div>' +
+      '<form class="cartao" id="f" style="padding:20px;gap:16px"><label>O teu email<input id="email" type="email" inputmode="email" placeholder="novo@exemplo.pt" required></label>' +
+      '<div><span style="font-size:13px;font-weight:700">A tua fração</span><div class="grelha" style="margin-top:8px">' + letras.map(function (l) { return '<button type="button" class="escolha" data-l="' + l + '" aria-pressed="' + (l === sel) + '">' + l + '</button>'; }).join('') + '</div></div>' +
+      '<button class="btn" id="go" ' + (sel ? '' : 'disabled') + '>Enviar pedido</button></form>' +
+      '<div class="nota"><span>Se a tua fração já não tem nenhum email ativo (por exemplo, depois de uma venda), o pedido segue para o Admin Master.</span></div></main>';
+    document.getElementById('v').onclick = function () { state.tmp = {}; go('entrar'); };
+    Array.prototype.forEach.call(document.querySelectorAll('[data-l]'), function (b) { b.onclick = function () { state.tmp.sel = b.getAttribute('data-l'); state.tmp.emailTmp = document.getElementById('email').value; ecraPedir(); document.getElementById('email').value = state.tmp.emailTmp || ''; }; });
+    document.getElementById('f').onsubmit = async function (ev) {
+      ev.preventDefault();
+      var ok = await acao(document.getElementById('go'), function () { return call('api_requestEntry', document.getElementById('email').value, sel); });
+      if (ok) { state.tmp.enviado = sel; ecraPedir(); }
+    };
+  }
+
+  function ecraQuemEs() {
+    var sel = state.tmp.sel || '';
+    var letras = 'ABCDEFGH'.split('');
+    app.innerHTML = '<main style="padding-top:16px"><div class="nota escura"><span><strong>Admin Master · conta do condomínio</strong><br>Chave de emergência, partilhada por todos os moradores.</span></div>' +
+      '<h1 style="margin-top:8px">Quem és?</h1><p class="suave">Como esta conta é partilhada, diz-nos quem és. Fica no registo de tudo o que fizeres e todos veem o aviso.</p>' +
+      '<form class="cartao" id="f" style="padding:20px;gap:16px"><div><span style="font-size:13px;font-weight:700">A tua fração</span><div class="grelha" style="margin-top:8px">' + letras.map(function (l) { return '<button type="button" class="escolha" data-l="' + l + '" aria-pressed="' + (l === sel) + '">' + l + '</button>'; }).join('') + '</div></div>' +
+      '<label>O teu nome<input id="nome" placeholder="Marta" value="' + esc(state.tmp.nome || '') + '" required></label><button class="btn" id="go" ' + (sel ? '' : 'disabled') + '>Continuar</button></form>' +
+      '<p class="pequeno">Não verificamos o nome, mas fica sempre registado.</p><button class="voltar" id="sair">Sair</button></main>';
+    Array.prototype.forEach.call(document.querySelectorAll('[data-l]'), function (b) { b.onclick = function () { state.tmp.sel = b.getAttribute('data-l'); state.tmp.nome = document.getElementById('nome').value; ecraQuemEs(); }; });
+    document.getElementById('sair').onclick = function () { call('api_logout', state.token).then(function () { sair(); }); };
+    document.getElementById('f').onsubmit = async function (ev) {
+      ev.preventDefault();
+      var ok = await acao(document.getElementById('go'), function () { return call('api_masterWho', state.token, sel, document.getElementById('nome').value); });
+      if (ok) { state.tmp = {}; await arrancar(); }
+    };
+  }
+
+  async function ecraInicio() {
+    var m = state.me;
+    if (m.isMaster) {
+      vista('<main>' + cabecalho() + '<div class="nota escura"><span><strong>Admin Master · ' + esc(m.quem) + '</strong><br>Só para casos graves. Cada ação precisa de motivo e todos são avisados.</span></div>' +
+        '<h1 style="font-size:26px">O que precisas de fazer?</h1>' +
+        '<button class="item" data-go="pedidos">' + '<div class="letra">P</div><div class="grande"><strong>Pedidos de entrada</strong><div class="pequeno">' + (m.pedidosPendentes ? m.pedidosPendentes + ' em impasse à espera de decisão' : 'Nenhum em impasse') + '</div></div></button>' +
+        '<button class="item" data-go="fracoes"><div class="letra">@</div><div class="grande"><strong>Emails das frações</strong><div class="pequeno">Corrigir emails quando ninguém consegue (venda, perda de acesso)</div></div></button>' +
+        '<button class="item" disabled style="opacity:.6"><div class="letra">A</div><div class="grande"><strong>Administração</strong><div class="pequeno">Chega na próxima fase (administradores e convocatórias)</div></div></button>' +
+        '<div class="nota"><span>Daqui não se registam pagamentos, recibos, obras, problemas nem convocatórias. Para isso, entra com o email da tua fração.</span></div></main>', 'inicio');
+    } else {
+      vista('<main>' + cabecalho() + '<div><h1>Olá</h1><p class="suave" style="margin-top:4px">Fração ' + esc(m.fracao) + (m.fracaoInfo ? ' · ' + esc(m.fracaoInfo.nome) : '') + '</p></div>' +
+        '<div class="nota verde"><span>Todos veem tudo. Cada alteração fica registada com o autor.</span></div>' +
+        '<button class="item" data-go="fracao" data-l="' + esc(m.fracao) + '"><div class="letra sel">' + esc(m.fracao) + '</div><div class="grande"><strong>A minha fração</strong><div class="pequeno">Emails e histórico</div></div></button>' +
+        '<button class="item' + (m.pedidosPendentes ? ' nao-lido' : '') + '" data-go="pedidos"><div class="letra">P</div><div class="grande"><strong>Pedidos de entrada</strong><div class="pequeno">' + (m.pedidosPendentes ? m.pedidosPendentes + ' à espera da tua decisão' : 'Nenhum pedido pendente') + '</div></div></button>' +
+        '<button class="item" data-go="avisos"><div class="letra">!</div><div class="grande"><strong>Avisos</strong><div class="pequeno">' + (m.avisosNaoLidos ? m.avisosNaoLidos + ' por ler' : 'Tudo lido') + '</div></div></button>' +
+        '<div class="nota"><span>Pagamentos, recibos, obras e problemas chegam nas próximas fases.</span></div></main>', 'inicio');
+    }
+    Array.prototype.forEach.call(document.querySelectorAll('[data-go]'), function (b) { b.onclick = function () { go(b.getAttribute('data-go'), b.getAttribute('data-l') ? { letra: b.getAttribute('data-l') } : {}); }; });
+  }
+
+  async function ecraFracoes() {
+    vista('<main>' + cabecalho('<h1>Frações</h1>') + '<p class="suave">A carregar…</p></main>', 'fracoes');
+    try {
+      var lista = await call('api_fracoes', state.token);
+      vista('<main>' + cabecalho('') + '<div><h1>Frações</h1><p class="suave" style="margin-top:4px">' + (state.me.isMaster ? 'Escolhe a fração para corrigir os emails.' : 'Cada fração só altera os seus próprios emails.') + '</p></div>' +
+        lista.map(function (f) { return '<button class="item" data-l="' + f.letra + '"><div class="letra ' + (f.minha ? 'sel' : '') + '">' + f.letra + '</div><div class="grande"><strong>' + esc(f.nome) + '</strong><div class="pequeno">' + (f.tipo === 'loja' ? 'Loja' : 'Habitação') + ' · ' + f.nEmails + ' de 2 emails</div></div>' + (f.minha ? '<span class="chip verde">A tua</span>' : '') + '</button>'; }).join('') + '</main>', 'fracoes');
+      Array.prototype.forEach.call(document.querySelectorAll('[data-l]'), function (b) { b.onclick = function () { go('fracao', { letra: b.getAttribute('data-l') }); }; });
+    } catch (e) { toast(e.message, true); if (/expirada/.test(e.message)) sair(true); }
+  }
+
+  async function ecraFracao() {
+    var letra = state.params.letra;
+    try {
+      var d = await call('api_fracao', state.token, letra), m = state.me;
+      vista('<main>' + cabecalho('') + '<div><button class="voltar" id="v">‹ Frações</button><div class="linha"><div class="letra sel" style="width:56px;height:56px;font-size:26px;border-radius:16px">' + esc(d.fracao.letra) + '</div><div><h1 style="font-size:24px">Fração ' + esc(d.fracao.letra) + ' · ' + esc(d.fracao.nome) + '</h1><p class="pequeno">' + (d.fracao.tipo === 'loja' ? 'Loja' : 'Habitação') + '</p></div></div></div>' +
+        '<section class="cartao"><div class="linha" style="justify-content:space-between"><h2>Emails ativos</h2><span class="pequeno">' + d.ativos.length + ' de 2</span></div>' +
+        d.ativos.map(function (e) { return '<div class="linha" style="border-top:1px solid #EFE9DD;padding-top:10px"><div class="grande"><div class="mail">' + esc(e.email) + '</div><div class="pequeno">Desde ' + fmtData(e.desde) + '</div></div>' + (d.podeEditar ? '<button class="btn ghost peq" data-trocar="' + esc(e.email) + '">Alterar</button>' + (d.ativos.length > 1 ? '<button class="btn perigo peq" data-rem="' + esc(e.email) + '">Remover</button>' : '') : '') + '</div>'; }).join('') +
+        (d.podeEditar && d.podeAdicionar ? '<button class="btn ghost" id="add">Adicionar email</button>' : '') + '</section>' +
+        '<div class="nota">' + (d.podeEditar ? (m.isMaster ? 'Como Admin Master tens de indicar um motivo. Todos são avisados.' : 'Só a tua fração pode alterar estes emails. Ao alterar, todos veem um aviso e fica registado quem o fez.') : 'Só a própria fração pode alterar os seus emails. Podes ver, mas não editar.') + '</div>' +
+        '<section class="cartao"><h2>Histórico de emails</h2>' + d.historico.map(function (h) { return '<div class="linha" style="align-items:flex-start;padding-top:6px"><span style="width:10px;height:10px;border-radius:50%;margin-top:6px;flex:none;background:' + (h.ate ? '#B8AD96' : 'var(--verde)') + '"></span><div><div style="font-size:14px;font-weight:600;word-break:break-all">' + esc(h.email) + '</div><div class="pequeno">' + fmtData(h.desde) + (h.ate ? ' a ' + fmtData(h.ate) : ' até hoje') + ' · alterado por ' + esc(h.alteradoPor) + '</div></div></div>'; }).join('') + '</section></main>', 'fracoes');
+      document.getElementById('v').onclick = function () { go('fracoes'); };
+      var motivo = function () { return m.isMaster ? [{ name: 'motivo', label: 'Motivo (obrigatório)', placeholder: 'Ex.: fração vendida, sem acesso' }] : []; };
+      var add = document.getElementById('add');
+      if (add) add.onclick = async function () {
+        var v = await ask('Adicionar email', 'Este email passa a poder entrar na app como fração ' + letra + '.', [{ name: 'email', label: 'Email', type: 'email', placeholder: 'novo@exemplo.pt' }].concat(motivo()), 'Adicionar');
+        if (v && await acao(add, function () { return call('api_addEmail', state.token, letra, v.email, v.motivo || ''); }, 'Email adicionado')) ecraFracao();
+      };
+      Array.prototype.forEach.call(document.querySelectorAll('[data-trocar]'), function (b) { b.onclick = async function () {
+        var antigo = b.getAttribute('data-trocar');
+        var v = await ask('Alterar email', antigo + ' deixa de ter acesso. O histórico mantém o email antigo.', [{ name: 'novo', label: 'Novo email', type: 'email' }].concat(motivo()), 'Alterar');
+        if (v && await acao(b, function () { return call('api_replaceEmail', state.token, letra, antigo, v.novo, v.motivo || ''); }, 'Email alterado')) { if (antigo === m.email) sair(true); else ecraFracao(); }
+      }; });
+      Array.prototype.forEach.call(document.querySelectorAll('[data-rem]'), function (b) { b.onclick = async function () {
+        var email = b.getAttribute('data-rem');
+        var v = await ask('Remover email', email + ' deixa de ter acesso à app.', motivo(), 'Remover', true);
+        if (v && await acao(b, function () { return call('api_removeEmail', state.token, letra, email, v.motivo || ''); }, 'Email removido')) { if (email === m.email) sair(true); else ecraFracao(); }
+      }; });
+    } catch (e) { toast(e.message, true); if (/expirada/.test(e.message)) sair(true); else go('fracoes'); }
+  }
+
+  async function ecraPedidos() {
+    try {
+      var lista = await call('api_pendingRequests', state.token), m = state.me;
+      vista('<main>' + cabecalho('') + '<div><h1>Pedidos de entrada</h1><p class="suave" style="margin-top:4px">' + (m.isMaster ? 'Só vês pedidos em impasse. O que decides fica no registo e todos são avisados.' : 'Pedidos para entrar na tua fração (' + esc(m.fracao) + '). Só quem já está nela decide.') + '</p></div>' +
+        (lista.length ? lista.map(function (p) { return '<div class="cartao"><div class="linha"><div class="letra">' + esc(p.fracao) + '</div><div class="grande"><div class="mail">' + esc(p.email) + '</div><div class="pequeno">Fração ' + esc(p.fracao) + ' · ' + fmtQuando(p.data) + '</div></div></div>' + (p.motivoImpasse ? '<span class="chip aviso" style="align-self:flex-start">' + esc(p.motivoImpasse) + '</span>' : '') + '<div class="linha"><button class="btn perigo" data-no="' + p.id + '">Recusar</button><button class="btn" data-ok="' + p.id + '">Aprovar</button></div></div>'; }).join('') : '<div class="cartao centro"><p class="suave">Não há pedidos pendentes.</p></div>') +
+        '<div class="nota"><span>' + (m.isMaster ? 'Aprovar ou recusar não altera mais nada. Para mudar emails de uma fração, usa Emails das frações.' : 'Se ninguém responder em 7 dias, o pedido passa para o Admin Master.') + '</span></div></main>', 'pedidos');
+      var decidir = function (id, aprovar, btn) { return async function () {
+        var v = m.isMaster ? await ask(aprovar ? 'Aprovar pedido' : 'Recusar pedido', '', [{ name: 'motivo', label: 'Motivo (obrigatório)' }], aprovar ? 'Aprovar' : 'Recusar', !aprovar) : {};
+        if (v && await acao(btn, function () { return call('api_decideRequest', state.token, id, aprovar, v.motivo || ''); }, aprovar ? 'Pedido aprovado' : 'Pedido recusado')) { state.me = await call('api_me', state.token); ecraPedidos(); }
+      }; };
+      Array.prototype.forEach.call(document.querySelectorAll('[data-ok]'), function (b) { b.onclick = decidir(b.getAttribute('data-ok'), true, b); });
+      Array.prototype.forEach.call(document.querySelectorAll('[data-no]'), function (b) { b.onclick = decidir(b.getAttribute('data-no'), false, b); });
+    } catch (e) { toast(e.message, true); if (/expirada/.test(e.message)) sair(true); }
+  }
+
+  async function ecraAvisos() {
+    try {
+      var lista = await call('api_avisos', state.token), m = state.me;
+      var temNovos = lista.some(function (a) { return !a.lido; });
+      vista('<main>' + cabecalho('') + '<div class="linha" style="justify-content:space-between"><h1>Avisos</h1>' + (temNovos ? '<button class="voltar" id="lidos">Marcar tudo como lido</button>' : '') + '</div>' +
+        (lista.length ? lista.map(function (a) { return '<div class="item' + (a.lido ? '' : ' nao-lido') + '" style="cursor:default;align-items:flex-start"><div class="grande"><div style="font-size:14px;font-weight:' + (a.lido ? 500 : 700) + ';line-height:1.35">' + esc(a.texto) + '</div><div class="pequeno" style="margin-top:2px">' + fmtQuando(a.data) + '</div></div>' + (a.lido ? '' : '<span style="width:9px;height:9px;border-radius:50%;background:var(--ambar);margin-top:6px;flex:none"></span>') + '</div>'; }).join('') : '<div class="cartao centro"><p class="suave">Sem avisos por agora.</p></div>') +
+        '<p class="pequeno">Os avisos aparecem na app e não enchem o email. Só quem é diretamente afetado recebe também um email.</p></main>', 'avisos');
+      var b = document.getElementById('lidos');
+      if (b) b.onclick = async function () { if (await acao(b, function () { return call('api_markAvisosRead', state.token); })) { state.me = await call('api_me', state.token); ecraAvisos(); } };
+    } catch (e) { toast(e.message, true); if (/expirada/.test(e.message)) sair(true); }
+  }
+
+  async function ecraDispositivos() {
+    try {
+      var lista = await call('api_devices', state.token), m = state.me;
+      vista('<main>' + cabecalho('') + '<div><h1>Dispositivos ligados</h1><p class="suave" style="margin-top:4px">Onde tens sessão iniciada com ' + esc(m.email) + '. Se não reconheces algum, termina a sessão.</p></div>' +
+        lista.map(function (d) { return '<div class="item" style="cursor:default;' + (d.revogado ? 'opacity:.55' : '') + '"><div class="grande"><strong>' + esc(d.nome) + '</strong><div class="pequeno">' + (d.este ? 'Ativo agora' : 'Último uso ' + fmtQuando(d.ultimoUso)) + '</div></div>' + (d.este ? '<span class="chip verde">Este</span>' : d.revogado ? '<span class="pequeno">Terminada</span>' : '<button class="btn perigo peq" data-end="' + d.id + '">Terminar</button>') + '</div>'; }).join('') +
+        '<p class="pequeno">A sessão dura 30 dias em cada dispositivo. Quando um dispositivo novo entra, a tua fração recebe um aviso.</p></main>', 'dispositivos');
+      Array.prototype.forEach.call(document.querySelectorAll('[data-end]'), function (b) { b.onclick = async function () { if (await acao(b, function () { return call('api_endDevice', state.token, b.getAttribute('data-end')); }, 'Sessão terminada')) ecraDispositivos(); }; });
+    } catch (e) { toast(e.message, true); if (/expirada/.test(e.message)) sair(true); }
+  }
+
+  /* ---------- arranque ---------- */
+  function render() {
+    var r = state.route;
+    if (r === 'entrar') return ecraEntrar();
+    if (r === 'pedir') return ecraPedir();
+    if (r === 'quemes') return ecraQuemEs();
+    if (r === 'inicio') return ecraInicio();
+    if (r === 'fracoes') return ecraFracoes();
+    if (r === 'fracao') return ecraFracao();
+    if (r === 'pedidos') return ecraPedidos();
+    if (r === 'avisos') return ecraAvisos();
+    if (r === 'dispositivos') return ecraDispositivos();
+    app.innerHTML = '<main style="padding-top:80px"><p class="suave">A carregar…</p></main>';
+  }
+
+  async function arrancar() {
+    state.token = state.token || load('token');
+    if (!state.token) { state.tmp = {}; return go('entrar'); }
+    try {
+      state.me = await call('api_me', state.token);
+      state.tmp = {};
+      go(state.me.needsWho ? 'quemes' : (state.route === 'boot' || state.route === 'entrar' || state.route === 'quemes' ? 'inicio' : state.route), state.params);
+    } catch (e) { store('token', null); state.token = null; go('entrar'); }
+  }
+
+  render();
+  arrancar();
+})();
+</script>
 </body>
 </html>
