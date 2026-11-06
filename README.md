@@ -14,6 +14,7 @@ src/                  código que vai para o Apps Script
   Pedidos.gs          pedidos de entrada
   Avisos.gs           avisos na app e registo de auditoria
   index.html          a app (ecrãs)
+  manual.html         o manual da app (texto; abre em "?" e sem login)
   appsscript.json     manifesto (fuso horário, permissões, web app)
 tests/                testes (npm install && npm test)
 .github/workflows/    deploy automático (clasp)
@@ -59,3 +60,10 @@ O estado de cada deploy vê-se no separador **Actions** do GitHub.
 
 ## Migrar para a conta do condomínio
 Repetir os passos 1 a 8 na conta do condomínio e trocar os 3 secrets (`CLASPRC_JSON`, `SCRIPT_ID`, `DEPLOYMENT_ID`).
+
+
+## Manual (regra de manutenção)
+
+O manual vive em `src/manual.html` e descreve tudo o que está decidido e desenhado. Cada secção tem `estado`: `ativo` (já no código) ou `breve` (ainda por programar; a app mostra a etiqueta "Em breve na app").
+Sempre que algo é decidido, entra no código ou muda (permissões, prazos, ecrãs), atualiza o manual **no mesmo commit**, passa `breve` a `ativo` quando a funcionalidade chegar e sobe `versao` e `atualizado`.
+Os testes comparam os números do manual (sessões, impasse, máximo de emails, código) com o código; se divergirem, falham.

@@ -59,10 +59,25 @@
   .toast { position:fixed; left:50%; bottom:90px; transform:translateX(-50%); background:#1F2937; color:#fff; padding:10px 16px; border-radius:12px; font-size:14px; font-weight:600; z-index:20; max-width:90%; }
   .toast.erro { background:var(--erro); }
   .centro { display:flex; flex-direction:column; align-items:center; text-align:center; gap:10px; padding:8px 0; }
+  .tabela { display:flex; flex-direction:column; border:1px solid var(--borda); border-radius:12px; overflow:hidden; font-size:12.5px; }
+  .tabela .tr { display:grid; grid-template-columns:1.5fr 1fr 1fr 1fr; gap:8px; padding:8px 10px; border-top:1px solid var(--borda); align-items:center; }
+  .tabela .tr:first-child { border-top:0; } .tabela .th { background:var(--creme2); font-weight:800; }
+  .manual p, .manual ul, .manual ol { margin:0 0 8px; font-size:14px; line-height:1.5; } .manual ul, .manual ol { padding-left:20px; }
+  .manual li { margin-bottom:4px; }
+  .indice { display:flex; flex-wrap:wrap; gap:8px; }
+  .indice button { border:1.5px solid var(--borda); background:#fff; border-radius:999px; padding:8px 12px; font:inherit; font-size:13px; font-weight:700; color:var(--verde-esc); cursor:pointer; }
+  .btn-ico { border:1.5px solid var(--borda); background:#fff; width:40px; height:40px; border-radius:12px; font:inherit; font-weight:800; color:var(--verde-esc); cursor:pointer; }
+  @media print {
+    nav.barra, .nao-imprimir, .toast, .overlay { display:none !important; }
+    body { background:#fff; } #app { max-width:none; } main { padding:0; }
+    .cartao { break-inside:avoid; border-color:#999; } .tabela .tr { break-inside:avoid; }
+    a { color:inherit; }
+  }
 </style>
 </head>
 <body>
 <div id="app" aria-live="polite"></div>
+<?!= include_('manual') ?>
 <script>
 (function () {
   'use strict';
@@ -158,6 +173,7 @@
     }).join('') + '</nav>';
   }
   function ligarBarra() {
+    Array.prototype.forEach.call(document.querySelectorAll('[data-manual]'), function (b) { b.onclick = function () { go('manual'); }; });
     Array.prototype.forEach.call(document.querySelectorAll('[data-nav]'), function (b) {
       b.onclick = function () { var r = b.getAttribute('data-nav'); if (r === 'sair') acao(null, function () { return call('api_logout', state.token); }).then(function () { sair(); }); else go(r); };
     });
@@ -165,7 +181,7 @@
   function cabecalho(sub) {
     var m = state.me;
     return '<header class="topo"><div class="marca">Condomínio<br>Rua da Misericórdia 13/15/17</div>' +
-      (m ? '<span class="chip ' + (m.isMaster ? '' : 'verde') + '" style="padding:10px 14px;font-size:15px;' + (m.isMaster ? 'background:#1F2937;color:#fff' : '') + '">' + (m.isMaster ? 'Master' : esc(m.fracao)) + '</span>' : '') + '</header>' + (sub || '');
+      '<span style="display:flex;align-items:center;gap:8px"><button class="btn-ico" data-manual aria-label="Manual da app" title="Manual">?</button>' + (m ? '<span class="chip ' + (m.isMaster ? '' : 'verde') + '" style="padding:10px 14px;font-size:15px;' + (m.isMaster ? 'background:#1F2937;color:#fff' : '') + '">' + (m.isMaster ? 'Master' : esc(m.fracao)) + '</span>' : '') + '</span></header>' + (sub || '');
   }
   function vista(html, ativa) { app.innerHTML = html + barra(ativa); ligarBarra(); }
 
@@ -176,9 +192,10 @@
       app.innerHTML = '<main style="padding-top:56px"><h1>Condomínio<br>Rua da Misericórdia 13/15/17</h1><p class="suave">A gestão do prédio, ao alcance de todos os condóminos.</p>' +
         '<form class="cartao" id="f" style="padding:20px;gap:16px"><h2 style="font-size:20px">Entrar</h2><label>Email da tua fração<input id="email" type="email" autocomplete="email" inputmode="email" placeholder="ana@exemplo.pt" value="' + esc(email) + '" required></label>' +
         '<button class="btn" id="go">Enviar código</button><p class="pequeno">Sem passwords. Enviamos um código de 6 dígitos para o teu email. Funciona com qualquer email.</p>' +
-        '<div class="linha" style="justify-content:space-between;border-top:1px solid #EFE9DD;padding-top:6px"><button type="button" class="voltar" id="pedir">Ainda não tenho acesso</button></div></form>' +
+        '<div class="linha" style="justify-content:space-between;border-top:1px solid #EFE9DD;padding-top:6px"><button type="button" class="voltar" id="pedir">Ainda não tenho acesso</button><button type="button" class="voltar" id="manual">Como funciona</button></div></form>' +
         '<div class="nota"><span>Todos os condóminos têm o mesmo acesso. Todas as alterações ficam registadas.</span></div></main>';
       document.getElementById('pedir').onclick = function () { go('pedir'); };
+      document.getElementById('manual').onclick = function () { go('manual'); };
       document.getElementById('f').onsubmit = async function (ev) {
         ev.preventDefault(); var v = document.getElementById('email').value.trim();
         var ok = await acao(document.getElementById('go'), function () { return call('api_requestCode', v); });
@@ -330,14 +347,38 @@
       var lista = await call('api_devices', state.token), m = state.me;
       vista('<main>' + cabecalho('') + '<div><h1>Dispositivos ligados</h1><p class="suave" style="margin-top:4px">Onde tens sessão iniciada com ' + esc(m.email) + '. Se não reconheces algum, termina a sessão.</p></div>' +
         lista.map(function (d) { return '<div class="item" style="cursor:default;' + (d.revogado ? 'opacity:.55' : '') + '"><div class="grande"><strong>' + esc(d.nome) + '</strong><div class="pequeno">' + (d.este ? 'Ativo agora' : 'Último uso ' + fmtQuando(d.ultimoUso)) + '</div></div>' + (d.este ? '<span class="chip verde">Este</span>' : d.revogado ? '<span class="pequeno">Terminada</span>' : '<button class="btn perigo peq" data-end="' + d.id + '">Terminar</button>') + '</div>'; }).join('') +
-        '<p class="pequeno">A sessão dura 6 meses em cada dispositivo (renova sempre que a usas). Quando um dispositivo novo entra, a tua fração recebe um aviso.</p></main>', 'dispositivos');
+        '<p class="pequeno">A sessão dura 6 meses em cada dispositivo (30 dias para o Admin Master) e renova sempre que a usas. Quando um dispositivo novo entra, a tua fração recebe um aviso.</p></main>', 'dispositivos');
       Array.prototype.forEach.call(document.querySelectorAll('[data-end]'), function (b) { b.onclick = async function () { if (await acao(b, function () { return call('api_endDevice', state.token, b.getAttribute('data-end')); }, 'Sessão terminada')) ecraDispositivos(); }; });
     } catch (e) { toast(e.message, true); if (/expirada/.test(e.message)) sair(true); }
   }
 
   /* ---------- arranque ---------- */
+  function ecraManual() {
+    var M = window.MANUAL, logado = !!state.me;
+    var cab = logado ? cabecalho() : '<header class="topo"><div class="marca">Condomínio<br>Rua da Misericórdia 13/15/17</div></header>';
+    var html = '<main class="manual">' + cab + '<button class="voltar nao-imprimir" id="v">‹ Voltar</button>' +
+      '<div><h1 style="font-size:26px">Manual da app</h1><p class="pequeno" style="margin-top:4px">Versão ' + M.versao + ' · atualizado em ' + esc(new Date(M.atualizado + 'T12:00:00').toLocaleDateString('pt-PT')) + ' · descreve o que a app faz hoje</p></div>' +
+      '<div class="nota verde nao-imprimir"><span>Este manual explica tudo, incluindo o que só o Admin Master faz, para que todos saibam o que cada um pode ou não pode fazer.</span></div>' +
+      '<input id="q" class="nao-imprimir" type="search" placeholder="Pesquisar no manual…" aria-label="Pesquisar no manual">' +
+      '<div class="indice nao-imprimir">' + M.secoes.map(function (x) { return '<button type="button" data-s="' + x.id + '">' + esc(x.titulo) + '</button>'; }).join('') + '</div>' +
+      '<button class="btn ghost nao-imprimir" id="imp">Imprimir / guardar em PDF</button>' +
+      M.secoes.map(function (x) { return '<section class="cartao" id="s-' + x.id + '" data-t="' + esc((x.titulo + ' ' + x.html.replace(/<[^>]+>/g, ' ')).toLowerCase()) + '"><h2 style="font-size:17px">' + esc(x.titulo) + '</h2><span style="display:flex;gap:6px;flex-wrap:wrap"><span class="chip">' + esc(x.quem) + '</span>' + (x.estado === 'breve' ? '<span class="chip aviso">Em breve na app</span>' : '') + '</span>' + x.html + '</section>'; }).join('') +
+      '<p class="suave centro" id="nada" hidden>Nada encontrado.</p></main>';
+    if (logado) vista(html, 'manual'); else app.innerHTML = html;
+    if (logado) ligarBarra();
+    document.getElementById('v').onclick = function () { go(logado ? 'inicio' : 'entrar'); };
+    document.getElementById('imp').onclick = function () { window.print(); };
+    document.getElementById('q').oninput = function () {
+      var q = this.value.trim().toLowerCase(), n = 0;
+      Array.prototype.forEach.call(document.querySelectorAll('[data-t]'), function (e) { var v = !q || e.getAttribute('data-t').indexOf(q) >= 0; e.hidden = !v; if (v) n++; });
+      document.getElementById('nada').hidden = n > 0;
+    };
+    Array.prototype.forEach.call(document.querySelectorAll('[data-s]'), function (b) { b.onclick = function () { var e = document.getElementById('s-' + b.getAttribute('data-s')); e.hidden = false; e.scrollIntoView({ behavior: 'smooth', block: 'start' }); }; });
+  }
+
   function render() {
     var r = state.route;
+    if (r === 'manual') return ecraManual();
     if (r === 'entrar') return ecraEntrar();
     if (r === 'pedir') return ecraPedir();
     if (r === 'quemes') return ecraQuemEs();

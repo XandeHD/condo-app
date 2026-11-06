@@ -5,7 +5,8 @@ const { ctx, run, mails } = require('./harness');
 const vm = require('vm');
 
 run('setup()');
-const html = fs.readFileSync(path.join(__dirname, '..', 'src', 'index.html'), 'utf8').replace(/<link[^>]+googleapis[^>]*>/, '');
+const manualHtml = fs.readFileSync(path.join(__dirname, '..', 'src', 'manual.html'), 'utf8');
+const html = fs.readFileSync(path.join(__dirname, '..', 'src', 'index.html'), 'utf8').replace(/<link[^>]+googleapis[^>]*>/, '').replace("<?!= include_('manual') ?>", () => manualHtml);
 const dom = new JSDOM(html, { runScripts: 'dangerously', url: 'https://x.test/', pretendToBeVisual: true, beforeParse(win) {
   win.scrollTo = () => {};
   const mk = (ok, ko) => new Proxy({}, {
@@ -33,6 +34,19 @@ const fill = (sel, v) => { const e = d.querySelector(sel); e.value = v; };
 (async () => {
   await wait(80);
   ok(/Entrar/.test(text()) && d.querySelector('#email'), 'abre no ecrã de entrada');
+
+  // Manual público (sem login) e completo
+  await click('#manual');
+  ok(/Manual da app/.test(text()) && !d.querySelector('nav.barra'), 'manual abre sem login');
+  ok(/Admin Master \(chave de emergência\)/.test(text()) && /Quem pode o quê/.test(text()), 'manual sem login mostra a parte do Master e quem pode o quê');
+  ok(/30 dias/.test(text()) && /6 meses/.test(text()), 'manual indica as sessões de 6 meses e 30 dias');
+  fill('#q', 'impasse'); d.querySelector('#q').dispatchEvent(new w.Event('input', { bubbles: true }));
+  ok(d.querySelectorAll('[data-t]:not([hidden])').length >= 2 && d.querySelector('#s-dispositivos').hidden, 'pesquisa filtra secções');
+  ok(/Administradores/.test(text()) && /2 vagas/.test(text()) && /Convocatórias/.test(text()) && /Recibos/.test(text()), 'manual documenta administradores, convocatórias e recibos');
+  ok(d.querySelectorAll('.chip.aviso').length >= 4, 'secções ainda não programadas levam a etiqueta "Em breve na app"');
+  ok(d.querySelector('#imp'), 'botão de imprimir existe');
+  await click('#v');
+  ok(d.querySelector('#email'), 'voltar do manual regressa à entrada');
 
   // Master entra
   fill('#email', 'dono@gmail.com'); await submit('#f');

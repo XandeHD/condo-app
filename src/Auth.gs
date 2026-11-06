@@ -34,10 +34,11 @@ function requireSession_(token) {
   })[0];
   if (!d) throw new Error('Sessão expirada. Entra outra vez.');
   const idle = Date.now() - Number(d.ultimo_uso);
-  if (idle > SESSION_DAYS * DAY_MS) throw new Error('Sessão expirada. Entra outra vez.');
-  if (idle > 60 * MIN_MS) update_('Dispositivos', d._row, { ultimo_uso: Date.now() });
   const email = d.email;
   const master = isMaster_(email);
+  const dias = master ? SESSION_DAYS_MASTER : SESSION_DAYS;
+  if (idle > dias * DAY_MS) throw new Error('Sessão expirada. Entra outra vez.');
+  if (idle > 60 * MIN_MS) update_('Dispositivos', d._row, { ultimo_uso: Date.now() });
   return {
     email: email,
     fracao: master ? '' : fracaoDe_(email),

@@ -1,0 +1,149 @@
+<script>
+/* MANUAL DA APP — descreve tudo o que está decidido e desenhado.
+   Cada secção tem estado: 'ativo' (já no código) ou 'breve' (decidido e desenhado, ainda por programar).
+   Regra do projeto: sempre que algo é decidido, entra no código ou muda, este ficheiro é atualizado
+   no mesmo commit (e 'breve' passa a 'ativo') e a versão/data sobem. Vale para todos: qualquer pessoa lê tudo,
+   para que ninguém fique sem perceber o que os outros podem fazer. */
+window.MANUAL = {
+  versao: 2,
+  atualizado: '2026-11-06',
+  secoes: [
+    { id: 'basico', titulo: 'O que é esta app', quem: 'Todos', estado: 'ativo', html:
+      '<p>É a app do <strong>Condomínio Rua da Misericórdia 13/15/17</strong>. É gratuita e funciona no telemóvel e no computador, sem instalar nada.</p>' +
+      '<p>O prédio tem <strong>8 frações (A a H)</strong>. Cada fração tem <strong>até 2 emails</strong>, e é por esses emails que as pessoas entram.</p>' +
+      '<p>Três ideias que valem para tudo:</p>' +
+      '<ul><li><strong>Todos veem tudo.</strong> Nenhum condómino manda em outro.</li>' +
+      '<li><strong>Nada se apaga.</strong> Cada alteração fica registada com quem fez, quando, o que mudou e, quando é pedido, o motivo.</li>' +
+      '<li><strong>Cada fração só mexe nos seus próprios emails.</strong></li></ul>' },
+
+    { id: 'quem', titulo: 'Quem pode o quê', quem: 'Todos', estado: 'ativo', html:
+      '<p>Há três tipos de acesso. Todos os condóminos têm o mesmo acesso de base; <strong>Administrador</strong> é um cargo que qualquer condómino pode assumir (ver abaixo); <strong>Master</strong> é uma chave de emergência.</p>' +
+      '<div class="tabela"><div class="tr th"><span></span><span>Condómino</span><span>Administrador</span><span>Master</span></div>' +
+      '<div class="tr"><span>Ver frações, emails, histórico e avisos</span><span>Sim</span><span>Sim</span><span>Sim</span></div>' +
+      '<div class="tr"><span>Mudar emails da <strong>própria</strong> fração</span><span>Sim</span><span>Sim</span><span>Só em impasse, com motivo</span></div>' +
+      '<div class="tr"><span>Mudar emails de <strong>outra</strong> fração</span><span>Não</span><span>Não</span><span>Só em impasse, com motivo</span></div>' +
+      '<div class="tr"><span>Decidir pedidos de entrada da própria fração</span><span>Sim</span><span>Sim</span><span>Não</span></div>' +
+      '<div class="tr"><span>Decidir pedidos em impasse</span><span>Não</span><span>Não</span><span>Sim, com motivo</span></div>' +
+      '<div class="tr"><span>Nomear-se administrador</span><span>Sim, se houver vaga</span><span>—</span><span>Não</span></div>' +
+      '<div class="tr"><span>Sair do cargo de administrador</span><span>—</span><span>Sim</span><span>—</span></div>' +
+      '<div class="tr"><span>Remover um administrador</span><span>Não</span><span>Sim, o outro</span><span>Sim, com motivo</span></div>' +
+      '<div class="tr"><span>Enviar convocatória <em>(em breve)</em></span><span>Não</span><span>Sim</span><span>Não</span></div>' +
+      '<div class="tr"><span>Emitir e anular recibos <em>(em breve)</em></span><span>Não</span><span>Sim</span><span>Não</span></div>' +
+      '<div class="tr"><span>Ver “Todos os recibos” <em>(em breve)</em></span><span>Não</span><span>Sim</span><span>Não</span></div>' +
+      '<div class="tr"><span>Ver os recibos da própria fração <em>(em breve)</em></span><span>Sim</span><span>Sim</span><span>Não</span></div>' +
+      '<div class="tr"><span>Registar pagamentos, obras e problemas <em>(em breve)</em></span><span>Sim</span><span>Sim</span><span>Não</span></div></div>' +
+      '<p class="pequeno">Impasse = a fração não tem nenhum email ativo, ou o pedido está sem resposta há mais de 7 dias. Linhas com “em breve” já estão decididas e desenhadas, mas ainda não estão na app.</p>' +
+      '<p>Ser administrador <strong>só dá os poderes da tabela</strong>. Todo o resto é igual para todos. E o Master não é um super-utilizador: só vê Administração, Pedidos de entrada e Emails das frações.</p>' },
+
+    { id: 'entrar', titulo: 'Entrar na app', quem: 'Todos', estado: 'ativo', html:
+      '<ol><li>Escreve o <strong>email da tua fração</strong> (qualquer email serve, não tem de ser Gmail).</li>' +
+      '<li>Recebes um <strong>código de 6 dígitos</strong> por email.</li>' +
+      '<li>Escreve o código e já estás dentro.</li></ol>' +
+      '<p>O código vale <strong>10 minutos</strong>, só pode ser usado <strong>uma vez</strong> e tem <strong>5 tentativas</strong>. Se falhares, pede outro. Pedir códigos em excesso bloqueia temporariamente.</p>' +
+      '<p>O código só é pedido <strong>na primeira vez em cada dispositivo</strong>. Depois a sessão fica guardada (ver “Dispositivos e sessões”).</p>' +
+      '<p>Se o email não estiver associado a nenhuma fração, não entras. Usa “Ainda não tenho acesso”.</p>' },
+
+    { id: 'pedir', titulo: 'Ainda não tenho acesso', quem: 'Qualquer pessoa, sem login', estado: 'ativo', html:
+      '<p>Na página de entrada toca em <strong>“Ainda não tenho acesso”</strong>, escreve o teu email e escolhe a tua fração.</p>' +
+      '<ul><li>O pedido fica <strong>pendente</strong>. Enquanto não for aprovado não vês nada da app.</li>' +
+      '<li>Quem já tem email na tua fração recebe um email e um aviso, e decide.</li>' +
+      '<li>Quando for aprovado, recebes um email e já podes entrar com o código.</li>' +
+      '<li>Se for recusado, também recebes um email.</li></ul>' +
+      '<p>Só podes ter um pedido pendente de cada vez. Um email só pode estar numa fração.</p>' },
+
+    { id: 'fracoes', titulo: 'Frações e emails', quem: 'Todos veem · cada fração altera a sua', estado: 'ativo', html:
+      '<p>Em <strong>Frações</strong> vês as 8 frações e quantos emails cada uma tem. Ao abrir uma, vês os emails ativos e o <strong>histórico</strong> (quem esteve, desde quando e quem alterou).</p>' +
+      '<p><strong>Na tua fração</strong> aparecem os botões <strong>Adicionar</strong>, <strong>Alterar</strong> e <strong>Remover</strong>. Em <strong>todas as outras</strong> só podes ver. Isto é uma regra da app, não depende de boa vontade.</p>' +
+      '<ul><li>Cada fração tem <strong>no máximo 2 emails</strong>. Para entrar um terceiro, remove ou troca um antes.</li>' +
+      '<li>Uma fração <strong>nunca fica sem emails</strong>. Para mudar o único email, usa “Alterar”, não “Remover”.</li>' +
+      '<li>Um email só pode estar <strong>numa fração de cada vez</strong>.</li>' +
+      '<li>Quando um email é trocado ou removido, <strong>perde logo o acesso</strong> e as suas sessões terminam. Recebe um email a avisar.</li>' +
+      '<li>O email antigo <strong>não desaparece</strong>: fica no histórico com a data em que saiu.</li></ul>' +
+      '<p>Quem já está na fração pode adicionar o 2.º email diretamente ou aprovar um pedido de entrada. As duas formas ficam registadas.</p>' },
+
+    { id: 'pedidos', titulo: 'Pedidos de entrada (quem decide)', quem: 'Cada fração decide os seus', estado: 'ativo', html:
+      '<p>Em <strong>Pedidos de entrada</strong> aparecem os pedidos para <strong>a tua fração</strong>. Cada um tem <strong>Aprovar</strong> e <strong>Recusar</strong>.</p>' +
+      '<ul><li>Quem já tem email ativo na fração decide. <strong>Outras frações não veem nem decidem.</strong></li>' +
+      '<li>Aprovar só funciona se a fração tiver menos de 2 emails.</li>' +
+      '<li>A decisão fica no registo, gera um aviso para todos e um email para a pessoa do pedido.</li></ul>' +
+      '<p><strong>E se ninguém da fração puder decidir?</strong> Isso é um <em>impasse</em>: o pedido passa a ser visível para o Admin Master (ver abaixo).</p>' },
+
+    { id: 'avisos', titulo: 'Avisos', quem: 'Todos', estado: 'ativo', html:
+      '<p>Em vez de encher o email, a app tem uma área de <strong>Avisos</strong> (o sino, com o número de novidades).</p>' +
+      '<ul><li>Aparece aqui, para todos, tudo o que muda no condomínio: emails de frações, pedidos e decisões, e qualquer ação do Admin Master.</li>' +
+      '<li>Um aviso de <strong>dispositivo novo</strong> aparece só para a fração em causa.</li>' +
+      '<li>Os avisos por ler ficam destacados. “Marcar como lidos” limpa o número.</li></ul>' +
+      '<p>Só recebes <strong>email</strong> quando és diretamente afetado: o código de entrada, um pedido da tua fração, o teu pedido aprovado ou recusado, ou o teu email adicionado, trocado ou removido.</p>' },
+
+    { id: 'administradores', titulo: 'Administradores', quem: 'Todos devem ler', estado: 'breve', html:
+      '<p>O prédio tem <strong>2 vagas de administrador</strong>. Qualquer condómino pode assumir uma, desde que haja vaga.</p>' +
+      '<ul><li>Cada administrador é <strong>um email</strong>, e os 2 têm de ser de <strong>frações diferentes</strong>. A app não deixa nomear o 2.º se for da mesma fração do 1.º.</li>' +
+      '<li>Com as 2 vagas ocupadas, <strong>mais ninguém</strong> se pode nomear.</li>' +
+      '<li><strong>Sair:</strong> um administrador pode sair quando quiser e liberta a vaga.</li>' +
+      '<li><strong>Remover:</strong> cada administrador pode remover o <strong>outro</strong> (com confirmação). Ninguém se remove a si próprio por aqui: usa “Sair”.</li>' +
+      '<li>Se o email de um administrador sai da fração, a vaga fica livre sozinha.</li>' +
+      '<li>Se os dois administradores não se removem e há um problema grave, o <strong>Admin Master</strong> pode remover um, com motivo.</li>' +
+      '<li>Toda a nomeação, saída ou remoção fica no registo e gera um aviso para todos. Quem é removido recebe também um email.</li></ul>' +
+      '<p><strong>O que dá ser administrador:</strong> enviar convocatórias, emitir recibos, ver todos os recibos e remover o outro administrador. Nada mais: não dá mais voto, nem mais acesso a emails de outras frações.</p>' },
+
+    { id: 'convocatoria', titulo: 'Convocatórias', quem: 'Só administradores enviam · todos recebem', estado: 'breve', html:
+      '<p>Só um <strong>administrador</strong> pode enviar uma convocatória.</p>' +
+      '<ol><li>Carrega o documento (PDF), escreve o assunto e, se quiser, a data, hora e local.</li>' +
+      '<li>A app mostra a <strong>lista de destinatários</strong>: todos os emails ativos de todas as frações. Confirma-se antes de enviar.</li>' +
+      '<li>A app envia o email com o PDF. Se responderes, a resposta vai para o administrador que enviou.</li></ol>' +
+      '<p>Fica registado quem enviou, quando, o documento, o assunto e <strong>exatamente quais os emails</strong> que receberam.</p>' +
+      '<p class="pequeno">Nota: o email só vale como convocatória para quem o aceitou em ata, e convém que cada condómino confirme a receção. Não substitui aconselhamento jurídico.</p>' },
+
+    { id: 'pagamentos', titulo: 'Quotas e pagamentos', quem: 'Todos', estado: 'breve', html:
+      '<p>As quotas são <strong>mensais</strong>, com valor definido <strong>por fração e por ano</strong> (por exemplo, as lojas do R/C pagam menos por não usarem o elevador). Qualquer alteração de valor fica registada com o motivo.</p>' +
+      '<ul><li>Qualquer condómino pode <strong>registar um pagamento</strong>: fração, data, valor, método e meses. É obrigatório anexar o <strong>comprovativo</strong>.</li>' +
+      '<li>Um pagamento nunca se apaga: só se <strong>anula, com motivo</strong>.</li>' +
+      '<li>Cada pagamento guarda quem o registou e os emails que a fração tinha nessa altura.</li></ul>' },
+
+    { id: 'recibos', titulo: 'Recibos', quem: 'Só administradores emitem · cada fração vê os seus', estado: 'breve', html:
+      '<p>Os recibos substituem o caderno de recibos em papel. <strong>Só os administradores os emitem.</strong></p>' +
+      '<ul><li>É um <strong>recibo de quitação</strong>, não uma fatura. Em PDF, com número sequencial sem falhas, data, fração, valor, período, forma de pagamento, quem emitiu e um código de verificação.</li>' +
+      '<li>Um recibo <strong>nunca se apaga</strong>: anula-se com motivo e emite-se outro.</li></ul>' +
+      '<p><strong>Como condómino</strong>, em “Os meus recibos” vês os recibos <strong>da tua fração, mês a mês</strong>, e descarregas o PDF. Só vês um recibo se o <strong>teu email já estava na fração quando foi emitido</strong>. Se mudares de email, os recibos antigos não aparecem ao email novo, mas continuam no histórico total.</p>' +
+      '<p><strong>Como administrador</strong>, em “Todos os recibos” vês os de todas as frações, filtras por mês e fração, descarregas, <strong>verificas</strong> o código e anulas com motivo. Podes <strong>enviar</strong> um recibo por email, mas só para emails que estão <strong>ativos na fração agora</strong>. Se o email do recibo já saiu, o botão fica bloqueado.</p>' +
+      '<p>Cada descarga, envio e verificação fica no registo.</p>' },
+
+    { id: 'dispositivos', titulo: 'Dispositivos e sessões', quem: 'Todos', estado: 'ativo', html:
+      '<p>Cada telemóvel ou computador onde entraste é um <strong>dispositivo</strong>. Em <strong>Dispositivos</strong> vês a lista, com o último uso, e podes <strong>Terminar</strong> qualquer sessão que não seja a atual.</p>' +
+      '<ul><li>A sessão dura <strong>6 meses sem usar</strong> e renova sempre que usas a app.</li>' +
+      '<li>No <strong>Admin Master</strong> a sessão dura só <strong>30 dias</strong>, porque as credenciais são partilhadas.</li>' +
+      '<li>Quando um dispositivo novo entra, a tua fração recebe um aviso. Se não foste tu, termina a sessão e troca o email.</li>' +
+      '<li>“Sair” termina a sessão deste dispositivo.</li></ul>' },
+
+    { id: 'master', titulo: 'Admin Master (chave de emergência)', quem: 'Todos devem ler', estado: 'ativo', html:
+      '<p>O Admin Master é um <strong>email do condomínio cujas credenciais todos os moradores têm</strong>. Serve só para <strong>casos graves em que ninguém consegue resolver</strong>: por exemplo, uma fração vendida cujos emails já ninguém controla.</p>' +
+      '<p><strong>O que vê:</strong> apenas Pedidos de entrada (só os que estão em impasse), Emails das frações e Administração.</p>' +
+      '<p><strong>O que pode fazer:</strong></p>' +
+      '<ul><li>Aprovar ou recusar um pedido de entrada <strong>em impasse</strong>.</li>' +
+      '<li>Adicionar, alterar ou remover emails de qualquer fração.</li>' +
+      '<li>Remover administradores quando eles não se removem entre si <em>(em breve)</em>.</li></ul>' +
+      '<p><strong>O que não pode:</strong> registar pagamentos, emitir recibos, registar obras ou problemas, enviar convocatórias, carregar documentos.</p>' +
+      '<p><strong>Impasse</strong> quer dizer: a fração não tem nenhum email ativo, ou o pedido está sem resposta há <strong>mais de 7 dias</strong>. Antes disso, só a própria fração decide.</p>' +
+      '<p><strong>Regras de transparência — valem sempre:</strong></p>' +
+      '<ul><li>Ao entrar, a app pergunta <strong>“Quem és?”</strong> (fração e nome). Fica gravado em tudo o que fizeres.</li>' +
+      '<li>Cada ação exige um <strong>motivo escrito</strong>.</li>' +
+      '<li>Cada ação gera um <strong>aviso para todos</strong>, e um email só à pessoa diretamente afetada.</li>' +
+      '<li>Uma fração nunca fica sem emails, nem com mais de 2.</li>' +
+      '<li>Se mudares emails <em>da tua própria fração</em>, usa a tua conta normal, não o Master.</li></ul>' +
+      '<p class="pequeno">Aviso honesto: como todos têm a chave, a app não consegue provar quem és. O “Quem és?” e o registo servem para deixar rasto e dissuadir abusos.</p>' },
+
+    { id: 'registo', titulo: 'O que fica registado', quem: 'Todos', estado: 'ativo', html:
+      '<p>A app guarda um <strong>registo permanente</strong> de tudo o que muda: data e hora, quem fez (email, ou fração e nome no caso do Master), o que era antes, o que ficou, e o motivo quando existe.</p>' +
+      '<p>Nada é apagado. Se um email sai, fica com data de fim; se um pedido é recusado, fica como recusado. É isto que permite a qualquer condómino confiar que ninguém alterou nada em segredo.</p>' },
+
+    { id: 'faq', titulo: 'Perguntas frequentes', quem: 'Todos', estado: 'ativo', html:
+      '<p><strong>Não recebo o código.</strong> Vê o spam, espera um minuto e usa “Reenviar código”. Confirma que o email está mesmo associado a uma fração. Se não estiver, faz um pedido de entrada.</p>' +
+      '<p><strong>Mudei de email.</strong> Na tua fração, toca em “Alterar” no email antigo e escreve o novo. O antigo perde o acesso e passas a entrar com o novo.</p>' +
+      '<p><strong>Vendemos ou arrendámos a fração.</strong> Quem sai deve ser trocado por quem entra em “Alterar”. O histórico mantém os emails de cada altura.</p>' +
+      '<p><strong>Perdi ou troquei de telemóvel.</strong> Entra noutro dispositivo com o código e, em Dispositivos, termina a sessão do antigo.</p>' +
+      '<p><strong>Ninguém da minha fração tem acesso.</strong> Faz um pedido de entrada. Como a fração não tem emails ativos, passa logo a impasse e o Admin Master decide.</p>' +
+      '<p><strong>Quero juntar um 3.º email.</strong> Não é possível: o máximo é 2. Troca ou remove um antes.</p>' +
+      '<p><strong>Quem viu ou alterou isto?</strong> Em cada fração, o histórico mostra quem alterou. Os avisos mostram o resto.</p>' }
+  ]
+};
+</script>

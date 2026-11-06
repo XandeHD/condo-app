@@ -6,6 +6,7 @@
 const CODE_MIN = 10;          // validade do código de login (minutos)
 const CODE_MAX_TRIES = 5;     // tentativas por código
 const SESSION_DAYS = 180;     // sessão por dispositivo (6 meses sem usar)
+const SESSION_DAYS_MASTER = 30; // Admin Master: chave partilhada, sessão mais curta
 const IMPASSE_DAYS = 7;       // pedido sem resposta passa a impasse (master)
 const MAX_EMAILS = 2;         // emails ativos por fração
 const MIN_MS = 60 * 1000;

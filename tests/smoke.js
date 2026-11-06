@@ -96,5 +96,22 @@ const devs = run(`api_devices('${ta2}')`);
 const outro = devs.find(d => !d.este && !d.revogado);
 run(`api_endDevice('${ta2}','${outro.id}')`);
 ok(run(`api_devices('${ta2}')`).find(d => d.id === outro.id).revogado, 'terminar sessão noutro dispositivo');
+// ---- Manual: cobre todas as áreas e não ficou desatualizado em relação à configuração ----
+{
+  const fs = require('fs'), path = require('path');
+  const man = fs.readFileSync(path.join(__dirname, '..', 'src', 'manual.html'), 'utf8');
+  const chk = (c, m) => { if (!c) { console.log('FALHOU:', m); fails++; } else console.log('ok  ', m); };
+  const sess = fs.readFileSync(path.join(__dirname, '..', 'src', 'Utils.gs'), 'utf8');
+  const dias = (n) => Number(new RegExp('const ' + n + '\\s*=\\s*(\\d+)').exec(sess)[1]);
+  const estados = (man.match(/estado: '(\w+)'/g) || []).map(x => /'(\w+)'/.exec(x)[1]);
+  chk(estados.length >= 12 && estados.every(e => e === 'ativo' || e === 'breve'), 'manual: todas as secções têm estado ativo|breve');
+  chk(/Quem pode o quê/.test(man) && /Administrador<\/span>/.test(man), 'manual: tabela inclui a coluna Administrador');
+  chk(dias('SESSION_DAYS') === 180 && /6 meses/.test(man), 'manual: sessão de 6 meses = código');
+  chk(dias('SESSION_DAYS_MASTER') === 30 && /30 dias/.test(man), 'manual: sessão do master = código');
+  chk(dias('IMPASSE_DAYS') === 7 && /7 dias/.test(man), 'manual: impasse de 7 dias = código');
+  chk(dias('MAX_EMAILS') === 2 && /no máximo 2 emails/.test(man), 'manual: máximo de emails = código');
+  chk(dias('CODE_MIN') === 10 && /10 minutos/.test(man) && dias('CODE_MAX_TRIES') === 5, 'manual: validade e tentativas do código');
+}
+
 console.log(fails ? `\n${fails} falhas` : '\nTudo ok');
 process.exit(fails ? 1 : 0);
