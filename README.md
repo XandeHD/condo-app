@@ -34,8 +34,14 @@ tests/                testes (npm install && npm test)
    - `CLASPRC_JSON`: o conteúdo completo de `~/.clasprc.json`
    - `SCRIPT_ID`: o Script ID do passo 1
 5. **Primeiro envio.** Faz push para `main` (ou **Actions → Deploy → Run workflow**).
-6. **Criar as folhas.** No editor do Apps Script, escolhe a função `setup`, clica em **Executar** e aprova as permissões.
-   O email de quem corre o `setup` fica como **Admin Master** (altera-se na folha `Config`, chave `email_master`).
+6. **Ligar o `Code.gs` e depois correr o `setup`** (por esta ordem, no editor do Apps Script):
+   1. Abre o ficheiro **`Code.gs`**, escolhe a função **`doGet`** no seletor (ao lado de "Depuração") e clica em **Executar**.
+      Serve para ligar o código e dar as permissões todas de uma vez: **Rever autorizações** → a tua conta → **Avançadas** → **Aceder a … (não seguro)** → **Permitir**. É normal a Google avisar que a app não foi verificada (a app é tua).
+   2. Abre o ficheiro **`Setup.gs`**, escolhe a função **`setup`** e clica em **Executar**.
+      Cria a Sheet "Condomínio Rua da Misericórdia 13/15/17 – Dados" no teu Drive, com todas as folhas e as 8 frações. No fim, o registo de execução diz "Setup concluído" e mostra o link da Sheet.
+      O email de quem corre o `setup` fica como **Admin Master** (altera-se na folha `Config`, chave `email_master`).
+   - **Só estas duas funções se correm à mão.** As funções `api_...` são chamadas pelo ecrã da app: se as correres no editor, dão erros como "Email inválido" ou "Sessão expirada", e é normal.
+   - Se o `setup` falhar com "permissões insuficientes", repete o passo 1 (o `doGet`) e autoriza outra vez; depois volta ao `setup`.
 7. **Publicar a web app.** **Implementar → Nova implementação → Aplicação Web** (executar como: eu; acesso: qualquer pessoa). Copia o *ID da implementação*.
 8. **Secret final:** `DEPLOYMENT_ID` = o ID da implementação. A partir daqui, cada push atualiza a app **no mesmo link**.
 
