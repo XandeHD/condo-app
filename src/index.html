@@ -329,13 +329,18 @@
 
   /* ---------- cache de ecrãs (mostra logo o que já viu e atualiza por trás) ---------- */
   var cache = {};
-  function limparCache() { cache = {}; }
+  var geracao = 0;
+  function limparCache() { cache = {}; geracao++; }
   async function carregar(chave, fn, args, desenhar) {
     var snap = state.route + JSON.stringify(state.params);
-    var c = cache[chave];
+    var c = cache[chave], g = geracao;
     if (c) desenhar(c.v);
     try {
       var v = await call.apply(null, [fn, state.token].concat(args || []));
+      if (g !== geracao) {   // houve uma escrita enquanto esperávamos: a resposta pode ser anterior a ela
+        if (snap === state.route + JSON.stringify(state.params)) return carregar(chave, fn, args, desenhar);
+        return;
+      }
       var igual = c && JSON.stringify(c.v) === JSON.stringify(v);
       cache[chave] = { v: v };
       if (!igual && snap === state.route + JSON.stringify(state.params)) desenhar(v);

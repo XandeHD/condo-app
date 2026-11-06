@@ -35,9 +35,20 @@ function limparTudo_() {
 }
 
 /** Esquece o que está em memória/cache de uma folha (chamado em cada escrita). */
+// A chave da cache leva uma "versão" que muda a cada escrita. Assim, uma leitura que começou
+// antes da escrita e acaba depois não consegue pôr dados velhos na cache que os outros vão ler.
+function versao_(nome) {
+  try {
+    const c = CacheService.getScriptCache(), k = 'V:' + nome;
+    let v = c.get(k);
+    if (!v) { v = String(Date.now()) + Math.floor(Math.random() * 1000); c.put(k, v, 21600); }
+    return v;
+  } catch (e) { return '0'; }
+}
+
 function invalidar_(nome) {
   delete MEMO_[nome];
-  try { CacheService.getScriptCache().remove('T:' + nome); } catch (e) { /* cache é só um acelerador */ }
+  try { CacheService.getScriptCache().put('V:' + nome, String(Date.now()) + Math.floor(Math.random() * 1000), 21600); } catch (e) { /* cache é só um acelerador */ }
 }
 
 function lerFolha_(nome) {
@@ -56,13 +67,14 @@ function lerFolha_(nome) {
 function table_(nome) {
   if (MEMO_[nome]) return MEMO_[nome].slice();
   let rows = null;
+  const chave = 'T:' + nome + ':' + (SEM_CACHE_[nome] ? '' : versao_(nome));
   if (!SEM_CACHE_[nome]) {
-    try { const c = CacheService.getScriptCache().get('T:' + nome); if (c) rows = JSON.parse(c); } catch (e) { rows = null; }
+    try { const c = CacheService.getScriptCache().get(chave); if (c) rows = JSON.parse(c); } catch (e) { rows = null; }
   }
   if (!rows) {
     rows = lerFolha_(nome);
     if (!SEM_CACHE_[nome]) {
-      try { CacheService.getScriptCache().put('T:' + nome, JSON.stringify(rows), CACHE_TTL_); } catch (e) { /* demasiado grande: segue sem cache */ }
+      try { CacheService.getScriptCache().put(chave, JSON.stringify(rows), CACHE_TTL_); } catch (e) { /* demasiado grande: segue sem cache */ }
     }
   }
   MEMO_[nome] = rows;
