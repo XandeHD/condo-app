@@ -91,12 +91,20 @@ function datasLegiveis_(ss) {
       const c = SCHEMA[nome].indexOf(col) + 1, n = sh.getMaxRows() - 1;
       if (c < 1 || n < 1) return;
       const rng = sh.getRange(2, c, n, 1);
-      rng.setNumberFormat(FORMATO_DATA_);
-      const vals = rng.getValues();
+      // Uma célula com formato de data devolve Date (e os milissegundos gigantes viram uma data inválida).
+      // Por isso lê-se duas vezes: com o formato atual (datas já boas) e com formato simples (números em bruto).
+      const atual = rng.getValues();
+      rng.setNumberFormat('0');
+      const bruto = rng.getValues();
       let mudou = false;
-      vals.forEach(function (r) { if (typeof r[0] === 'number' && r[0] > 1e11) { r[0] = new Date(r[0]); mudou = true; } });
-      vals.forEach(function (r) { if (r[0] instanceof Date) total++; });
-      if (mudou) rng.setValues(vals);
+      const final = atual.map(function (r, i) {
+        const x = bruto[i][0];
+        if (typeof x === 'number' && x > 1e11) { mudou = true; return [new Date(x)]; }
+        return [r[0]];
+      });
+      rng.setValues(final);
+      rng.setNumberFormat(FORMATO_DATA_);
+      final.forEach(function (r) { if (r[0] instanceof Date) total++; });
     });
     sh.autoResizeColumns(1, SCHEMA[nome].length);
   });
