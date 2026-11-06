@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="pt-PT">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Condomínio Rua da Misericórdia 13/15/17</title>
+<style>
+  body { margin:0; min-height:100vh; display:flex; align-items:center; justify-content:center; background:#FAF7F2; color:#1F2937; font-family:system-ui,'Plus Jakarta Sans',sans-serif; }
+  main { max-width:420px; padding:24px; text-align:center; }
+  h1 { font-size:24px; margin:0 0 8px; letter-spacing:-.02em; }
+  p { color:#5B6472; line-height:1.5; margin:0 0 16px; }
+  a.btn { display:inline-block; background:#0F766E; color:#fff; text-decoration:none; font-weight:700; padding:14px 22px; border-radius:14px; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Condomínio<br>Rua da Misericórdia 13/15/17</h1>
+  <p id="msg">A abrir a app…</p>
+  <a class="btn" id="link" href="#" hidden>Abrir a app</a>
+</main>
+<script>
+  // Endereço da web app (Apps Script → Implementar → Gerir implementações → URL da aplicação Web).
+  // Deixa vazio enquanto a app não estiver publicada.
+  var APP_URL = '';
+
+  var msg = document.getElementById('msg'), link = document.getElementById('link');
+  if (APP_URL) {
+    link.href = APP_URL; link.hidden = false;
+    msg.textContent = 'A abrir a app… Se não abrir sozinha, toca no botão.';
+    // preserva ?parametros, se existirem
+    location.replace(APP_URL + (location.search || ''));
+  } else {
+    msg.textContent = 'A app está em preparação. Volta a tentar em breve.';
+  }
+</script>
+<noscript><p style="text-align:center">Ativa o JavaScript ou pede o link direto ao administrador.</p></noscript>
+</body>
+</html>

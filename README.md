@@ -73,3 +73,13 @@ Repetir os passos 1 a 8 na conta do condomínio e trocar os 3 secrets (`CLASPRC_
 O manual vive em `src/manual.html` e descreve tudo o que está decidido e desenhado. Cada secção tem `estado`: `ativo` (já no código) ou `breve` (ainda por programar; a app mostra a etiqueta "Em breve na app").
 Sempre que algo é decidido, entra no código ou muda (permissões, prazos, ecrãs), atualiza o manual **no mesmo commit**, passa `breve` a `ativo` quando a funcionalidade chegar e sobe `versao` e `atualizado`.
 Os testes comparam os números do manual (sessões, impasse, máximo de emails, código) com o código; se divergirem, falham.
+
+## Endereço curto (GitHub Pages)
+
+A web app do Apps Script tem um URL comprido e fixo. Para partilhar um link curto, a pasta `docs/` tem uma página que reencaminha para a app:
+`https://xandehd.github.io/condo-app/`
+
+1. No GitHub: **Settings → Pages → Build and deployment → Source: Deploy from a branch → Branch `main`, pasta `/docs` → Save**.
+2. Em `docs/index.html`, preenche `APP_URL` com o URL da web app (termina em `/exec`) e faz push.
+
+Se a web app mudar de endereço, só se altera `APP_URL`; o link partilhado com os moradores mantém-se.
