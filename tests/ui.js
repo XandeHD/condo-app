@@ -84,7 +84,9 @@ const fill = (sel, v) => { const e = d.querySelector(sel); e.value = v; };
 
   // Pedido de entrada pelo ecrã público
   await click('[data-nav="inicio"]'); await wait(80);
-  await click('[data-go="dispositivos"]'); await wait(80);
+  ok(d.querySelector('#menuPop').hidden && !/Boa (tarde|noite)|Bom dia/.test(text()), 'sem saudação e menu fechado');
+  await click('#btnMenu'); ok(!d.querySelector('#menuPop').hidden && /Manual/.test(d.querySelector('#menuPop').textContent), 'botão de menu abre Dispositivos/Manual/Terminar sessão');
+  await click('#menuPop [data-go="dispositivos"]'); await wait(80);
   ok(/Dispositivos ligados/.test(text()) && /Ativo agora/.test(text()), 'lista de dispositivos');
   // Pagamentos, quotas, recibos, administração, obras, resumo
   await click('[data-nav="pagamentos"]'); await wait(120);
